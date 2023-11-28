@@ -1,0 +1,28 @@
+{
+  "name": "nailsmariale",
+  "version": "1.0.0",
+  "description": "NAILS API-REST",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github.com/omarerodriguez.git"
+  },
+  "author": "Omar Rodriguez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/github.com/omarerodriguez/issues"
+  },
+  "homepage": "https://github.com/github.com/omarerodriguez#readme",
+  "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "fastify": "^4.24.3",
+    "mongodb": "^6.3.0",
+    "prisma": "^5.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
