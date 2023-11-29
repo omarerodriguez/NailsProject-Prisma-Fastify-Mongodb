@@ -1,5 +1,6 @@
 
 const ProductsController = require('../controllers/user.controller');
+const {userValidation} = require('../utils/middleware/UserValidation');
 const routes =[
     {
         url: '/users',
@@ -15,6 +16,7 @@ const routes =[
     {
         url: '/users',
         method: 'POST',
+        schema:{userValidation},
         handler: ProductsController.createUser,
     },
     {

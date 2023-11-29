@@ -4,7 +4,7 @@ const getFormatDate = ()=>{
   const fechaActual = new Date();
   const formatoFechaHora = fechaActual.toLocaleString(('es-CO', timeZone));
   const fechaFormateadaConEspacios = formatoFechaHora.replace(',','');
-return fechaFormateadaConEspacios;
+  return fechaFormateadaConEspacios;
 }
 
 

@@ -1,5 +1,6 @@
 const prisma = require('../../prisma/prismaConfig');
 const {getFormatDate} = require('../utils/functions/fecha');
+const { userValidation } = require('../utils/middleware/UserValidation');
 
 const getUsers= async(req,reply)=>{
     try {
