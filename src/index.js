@@ -1,6 +1,6 @@
 const fastify = require('fastify')({logger:true});
 
-const userRoutes = require('./routes/user.route');
+const userRoutes = require('./adapters/http/user-route');
 
 fastify.get('/',(req,reply)=>{
     reply.send({hello: 'world'})
