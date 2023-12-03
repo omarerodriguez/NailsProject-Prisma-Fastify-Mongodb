@@ -5,7 +5,7 @@ module.exports = class UserPrismaRepository {
 
     async findAllUsers() {
         try {
-            const users = await this.prismaClien.user.findMany();
+            const users = await this.prismaClient.user.findMany({});
             if (users.length === 0 || !users) return [null, "There are not users fetched"];
             return [users, null];
         } catch (error) {
@@ -18,7 +18,7 @@ module.exports = class UserPrismaRepository {
 
     async finUserById(userId) {
         try {
-            const user = await this.prismaClien.user.findFirst({ where: { id: userId } });
+            const user = await this.prismaClient.user.findFirst({ where: { id: userId } });
             if (!user) return [null, "user not found"];
             return [user, null];
         } catch (error) {
@@ -38,39 +38,23 @@ module.exports = class UserPrismaRepository {
         }
     }
 
-    // const getUser = async(req,reply)=>{
-    //     const {id} = req.params;
-    //     try {
-    //         const user = await prisma.user.findFirst({where:{id}})
-    //         reply.status(200).send(user);
-    //     } catch (error) {
-    //         reply.status(500).send({message:error.message})
-    //     };
-    // }
+     async updateUser(userId,userPayload){
+        try {
+            const user = await this.prismaClient.user.update({where:{id:userId},data:userPayload});
+            return [user,null];
+        } catch (error) {
+            throw new Error(`There was a error in user-prisma-repository.updateuser ${error.message}`)
+        };
+    }
 
-    // const createUser = async(req,reply)=>{
-    //     try {
-    //         const newUserBody = {...req.body}
-    //         const createdAt = getFormatDate();
-    //         newUserBody.created_at = createdAt;
-    //         const newUser = await prisma.user.create({data:newUserBody})
-    //         reply.status(201).send({data:newUser});
-    //     } catch (error) {
-    //         reply.status(400).send({message:error.message});
-    //     }
-    // };
 
-    // const updateUser = async(req,reply)=>{
-    //     try {
-    //         const user = await prisma.user.update({
-    //             where:{
-    //                 id: req.params.id
-    //             },
-    //             data:req.body
-    //     });
-    //         reply.status(201).send(user);
-    //     } catch (error) {
-    //         reply.status(400).send({message:error.message});
-    //     }
-    // };
+    async deleteUser(userId){
+        try {
+            const user = await this.prismaClient.user.delete({where:{id:userId}});
+            return [user,null];
+        } catch (error) {
+            throw new Error(`There was a error in user-prisma-repository.deleteuser ${error.message}`)
+        };
+    }
+    
 };

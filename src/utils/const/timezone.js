@@ -1,12 +1,12 @@
 const opcionesFormato = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false, // Utilizar formato de 24 horas
-    timeZone: 'America/Bogota', // uso horario de Bogotá, Colombia
-  };
+  year: "2-digit",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: false,
+  timeZone: 'America/Bogota'
+};
 
-  module.export = {opcionesFormato}
+module.export = { opcionesFormato }
