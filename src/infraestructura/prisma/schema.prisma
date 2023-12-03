@@ -15,7 +15,7 @@ model user {
   nombre String
   apellido String
   edad Int? 
-  celular String
+  celular String @unique
   barrio String?
   sexo String?
   correo String @unique
