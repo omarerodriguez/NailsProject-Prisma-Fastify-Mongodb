@@ -45,6 +45,28 @@ module.exports = class Userhandler {
             });
         }
     };
+
+    findUserByEmail = async (req, res) => {
+        try {
+            const {correo} = req.query;
+            const [user, status, err] = await this.usecases.findUserByEmail(correo);
+            if (err)
+                return res.status(status).send({
+                    message: "fail",
+                    errors: err,
+                });
+            return res.status(status).send({
+                message: "success",
+                data: user,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "There war internal server error",
+                errors: error,
+            });
+        }
+    };
     
     createNewUser = async (req, res) => {
         try {
@@ -74,6 +96,13 @@ module.exports = class Userhandler {
         }
     };
 
+    loginUser = async (req,res)=>{
+        try {
+            const user = await this.usecases.fin
+        } catch (error) {
+            
+        }
+    }
     updateUser = async (req, res) => {
         try {
             console.log(req.body);

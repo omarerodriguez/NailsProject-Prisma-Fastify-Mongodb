@@ -5,10 +5,16 @@ module.exports = class UserUseCases {
     }
     
     findUserById = async (userId) => {
-        const [findUser, err] = await this.prismaRepository.finUserById(userId);
+        const [findUser, err] = await this.prismaRepository.findUserById(userId);
         if (err) return [null, 404, err];
 
         return [findUser, 200, null];
+    };
+
+    findUserByEmail = async(email)=>{
+        const [findUser,err] = await this.prismaRepository.findUserByEmail(email);
+        if(err)return [null,404,err];
+        return [findUser,200,null];
     };
 
     findAllUsers =async () => {
@@ -32,7 +38,7 @@ module.exports = class UserUseCases {
             celular: newUser.celular,
             correo: newUser.correo,
         };
-        console.log(newUser);
+       
         return [userReponse, 201, null];
     };
 

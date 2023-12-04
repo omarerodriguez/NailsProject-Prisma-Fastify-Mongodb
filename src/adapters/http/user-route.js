@@ -12,6 +12,11 @@ const routes = [
         handler: userHandler.findUserById,
     },
     {
+        url: '/users/',
+        method: 'GET',
+        handler: userHandler.findUserByEmail,
+    },
+    {
         url: '/users',
         method: 'POST',
         handler: userHandler.createNewUser,

@@ -16,7 +16,7 @@ module.exports = class UserPrismaRepository {
         }
     }
 
-    async finUserById(userId) {
+    async findUserById(userId) {
         try {
             const user = await this.prismaClient.user.findFirst({ where: { id: userId } });
             if (!user) return [null, "user not found"];
@@ -24,8 +24,20 @@ module.exports = class UserPrismaRepository {
         } catch (error) {
             throw new Error(
                 "There war a error in user-prisma-repository.finUserById err:",
-                error.message
-            );
+                error.message 
+                );
+        }
+    }
+    async findUserByEmail(userEmail){
+        try {
+            const email = await this.prismaClient.user.findFirst({where:{correo:userEmail}});
+            if (!email) return [null, "Email not found"];
+            return [email, null];
+        } catch (error) {
+            throw new Error(
+                "There was a error in user-prisma-repository.finUserByEmail err:",
+                error.message 
+                );
         }
     }
 
@@ -38,6 +50,7 @@ module.exports = class UserPrismaRepository {
         }
     }
 
+    
      async updateUser(userId,userPayload){
         try {
             const user = await this.prismaClient.user.update({where:{id:userId},data:userPayload});
