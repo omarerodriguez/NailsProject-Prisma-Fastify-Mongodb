@@ -1,26 +1,27 @@
 const { getFormatDate } = require('../../utils/functions/fecha');
+const jwt = require('jsonwebtoken');
+
 module.exports = class UserUseCases {
     constructor(prismaRepository) {
         this.prismaRepository = prismaRepository;
     }
-    
+
     findUserById = async (userId) => {
         const [findUser, err] = await this.prismaRepository.findUserById(userId);
         if (err) return [null, 404, err];
-
         return [findUser, 200, null];
     };
 
-    findUserByEmail = async(email)=>{
-        const [findUser,err] = await this.prismaRepository.findUserByEmail(email);
-        if(err)return [null,404,err];
-        return [findUser,200,null];
+    findUserByEmail = async (email) => {
+        const [findUser, err] = await this.prismaRepository.findUserByEmail(email);
+        if (err) return [null, 404, err];
+        return [findUser, 200, null];
     };
 
-    findAllUsers =async () => {
-        const [users,err]= await this.prismaRepository.findAllUsers();
-        if(err) return [null,404,err];
-        return [users,200,null]
+    findAllUsers = async () => {
+        const [users, err] = await this.prismaRepository.findAllUsers();
+        if (err) return [null, 404, err];
+        return [users, 200, null]
     };
 
     createNewUser = async (userPayload) => {
@@ -38,19 +39,29 @@ module.exports = class UserUseCases {
             celular: newUser.celular,
             correo: newUser.correo,
         };
-       
-        return [userReponse, 201, null];
+        const token = jwt.sign({ correo: newUser.correo }, process.env.JWT_SECRET_KEY, {
+            expiresIn: 3600//1 hr
+        });
+
+        return [userReponse, token, 201, null];
     };
 
-    updateUser = async(userId,userPayload)=>{
-        const [user,err] = await this.prismaRepository.updateUser(userId,userPayload);
+    loginUser = async (userEmail, celular) => {
+
+        const [email, err] = await this.prismaRepository.findUserByEmail(userEmail);
+        if (err) return [null, 404, err];
+        return [email, 200, null];
+    }
+
+    updateUser = async (userId, userPayload) => {
+        const [user, err] = await this.prismaRepository.updateUser(userId, userPayload);
         if (err) return [null, 404, err];
         return [user, 200, null];
     }
 
-    deleteUser = async(userId)=>{
+    deleteUser = async (userId) => {
         const [deleteUser, err] = await this.prismaRepository.deleteUser(userId);
         if (err) return [null, 400, err];
-        return[deleteUser,202,null];
+        return [deleteUser, 202, null];
     }
 };

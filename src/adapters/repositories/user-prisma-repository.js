@@ -50,7 +50,15 @@ module.exports = class UserPrismaRepository {
         }
     }
 
-    
+    async loginUser(correo){
+        try {
+            const email = this.findUserByEmail(correo);
+            if (!user) return [null, "email not found"];
+            return [user, null];
+        } catch (error) {
+            throw new Error(`There was a error in user-prisma-repository.registerUser ${error.message}`);
+        }
+    }
      async updateUser(userId,userPayload){
         try {
             const user = await this.prismaClient.user.update({where:{id:userId},data:userPayload});

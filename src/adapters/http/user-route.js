@@ -22,6 +22,11 @@ const routes = [
         handler: userHandler.createNewUser,
     },
     {
+        url: '/users/login',
+        method: 'POST',
+        handler: userHandler.loginUser,
+    },
+    {
         url: '/users/:id',
         method: 'PUT',
         handler: userHandler.updateUser,
