@@ -7,5 +7,4 @@ const createNewuUserValidations = (newUserPayload) => {
     if (validation.fails()) return errors;
     return null;
 };
-
 module.exports = { createNewuUserValidations };

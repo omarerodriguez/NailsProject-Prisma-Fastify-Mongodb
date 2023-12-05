@@ -1,4 +1,4 @@
-const { createNewuUserValidations } = require('../../utils/functions/input-validations');
+const { createNewuUserValidations, verifyToken } = require('../../utils/functions/input-validations');
 module.exports = class Userhandler {
     constructor(userUsecases) {
         this.usecases = userUsecases;
@@ -48,7 +48,7 @@ module.exports = class Userhandler {
 
     findUserByEmail = async (req, res) => {
         try {
-            const {correo} = req.query;
+            const { correo } = req.query;
             const [user, status, err] = await this.usecases.findUserByEmail(correo);
             if (err)
                 return res.status(status).send({
@@ -67,11 +67,11 @@ module.exports = class Userhandler {
             });
         }
     };
-    
+
     createNewUser = async (req, res) => {
         try {
             console.log(req.body);
-            const errors = createNewuUserValidations(req.body); //
+            const errors = createNewuUserValidations(req.body);
             if (errors)
                 return res.status(400).send({
                     message: "fail",
@@ -83,7 +83,7 @@ module.exports = class Userhandler {
                     message: "fail",
                     errors: err,
                 });
-                return res.status(status).send({
+            return res.status(status).send({
                 message: "success",
                 data: newUser,
             });
@@ -96,11 +96,25 @@ module.exports = class Userhandler {
         }
     };
 
-    loginUser = async (req,res)=>{
+    loginUser = async (req, res) => {
         try {
-            const user = await this.usecases.fin
+            const { correo } = req.body;
+            const [user, status, err] = await this.usecases.findUserByEmail(correo);
+            if (err)
+                return res.status(status).send({
+                    message: "fail",
+                    errors: err,
+                });
+            return res.status(status).send({
+                message: "success",
+                data: user,
+            });
         } catch (error) {
-            
+            console.log(error);
+            return res.status(500).send({
+                message: "There war internal server error",
+                errors: error,
+            });
         }
     }
     updateUser = async (req, res) => {
@@ -112,7 +126,7 @@ module.exports = class Userhandler {
                     message: "fail",
                     errors: errors,
                 });
-            const [updatedUser, status, err] = await this.usecases.updateUser(req.params.id,req.body);
+            const [updatedUser, status, err] = await this.usecases.updateUser(req.params.id, req.body);
             if (err)
                 return res.status(status).send({
                     message: "fail",
