@@ -25,32 +25,48 @@ module.exports = class UserUseCases {
     };
 
     createNewUser = async (userPayload) => {
-        //const [findUser, err] = await this.findUserById()
+        const findUser = await this.findUserByEmail(userPayload.correo);
+        if (findUser.correo === userPayload.correo) return [null, 400, 'User already exist'];
         const newUserBody = { ...userPayload };
         const createdAt = getFormatDate();
         newUserBody.created_at = createdAt;
         console.log(getFormatDate());
 
         const [newUser, err] = await this.prismaRepository.createNewUser(newUserBody);
-
         if (err) return [null, 400, err];
-        const userReponse = {
-            nombre: newUser.nombre,
-            celular: newUser.celular,
-            correo: newUser.correo,
-        };
-        const token = jwt.sign({ correo: newUser.correo }, process.env.JWT_SECRET_KEY, {
-            expiresIn: 3600//1 hr
-        });
-
-        return [userReponse, token, 201, null];
+        const [token, status, error] = await this.GenerateToken(newUser)
+        if (error) return [null, status, error]
+        return [token, 201, null];
     };
 
-    loginUser = async (userEmail, celular) => {
+    GenerateToken = async (data) => {
+        if (!data) return [null, 404, new Error('empty data')];
+        function createToken(data) {
+            return jwt.sign({ data }, process.env.JWT_SECRET_KEY, {
+                algorithm: 'HS256',
+                expiresIn: '1d'
+            });
+        }
+        function verifyToken(token) {
+            return jwt.verify({ token }, process.env.JWT_SECRET_KEY)
+        }
+        const token = createToken(data)
+        return [token, 200, null];
+    }
 
-        const [email, err] = await this.prismaRepository.findUserByEmail(userEmail);
+    loginUser = async (userEmail) => {
+
+        const [user, err] = await this.prismaRepository.findUserByEmail(userEmail);
         if (err) return [null, 404, err];
-        return [email, 200, null];
+        const payload = {
+            nombre: user.nombre,
+            apellido: user.apellido
+        }
+        const token = jwt.sign({ payload }, process.env.JWT_SECRET_KEY, {
+            algorithm: 'HS256',
+            expiresIn: '1d'
+        });
+        return [token, 200, null];
     }
 
     updateUser = async (userId, userPayload) => {

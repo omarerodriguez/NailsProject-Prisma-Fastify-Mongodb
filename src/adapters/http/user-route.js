@@ -1,4 +1,5 @@
 
+const { validateToken } = require('../../utils/functions/input-validations');
 const { userHandler } = require('../../utils/intances-usecases');
 const routes = [
     {
@@ -29,6 +30,7 @@ const routes = [
     {
         url: '/users/:id',
         method: 'PUT',
+        preHandler: validateToken,
         handler: userHandler.updateUser,
     },
     {

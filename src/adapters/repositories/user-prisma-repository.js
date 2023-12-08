@@ -24,20 +24,20 @@ module.exports = class UserPrismaRepository {
         } catch (error) {
             throw new Error(
                 "There war a error in user-prisma-repository.finUserById err:",
-                error.message 
-                );
+                error.message
+            );
         }
     }
-    async findUserByEmail(userEmail){
+    async findUserByEmail(userEmail) {
         try {
-            const email = await this.prismaClient.user.findFirst({where:{correo:userEmail}});
+            const email = await this.prismaClient.user.findFirst({ where: { correo: userEmail } });
             if (!email) return [null, "Email not found"];
             return [email, null];
         } catch (error) {
             throw new Error(
                 "There was a error in user-prisma-repository.finUserByEmail err:",
-                error.message 
-                );
+                error.message
+            );
         }
     }
 
@@ -50,32 +50,32 @@ module.exports = class UserPrismaRepository {
         }
     }
 
-    async loginUser(correo){
+    async loginUser(correo) {
         try {
             const email = this.findUserByEmail(correo);
-            if (!user) return [null, "email not found"];
-            return [user, null];
+            if (!email || undefined) return [null, "email not found or no valid"];
+            return [email, null];
         } catch (error) {
             throw new Error(`There was a error in user-prisma-repository.registerUser ${error.message}`);
         }
     }
-     async updateUser(userId,userPayload){
+    async updateUser(userId, userPayload) {
         try {
-            const user = await this.prismaClient.user.update({where:{id:userId},data:userPayload});
-            return [user,null];
+            const user = await this.prismaClient.user.update({ where: { id: userId }, data: userPayload });
+            return [user, null];
         } catch (error) {
             throw new Error(`There was a error in user-prisma-repository.updateuser ${error.message}`)
         };
     }
 
 
-    async deleteUser(userId){
+    async deleteUser(userId) {
         try {
-            const user = await this.prismaClient.user.delete({where:{id:userId}});
-            return [user,null];
+            const user = await this.prismaClient.user.delete({ where: { id: userId } });
+            return [user, null];
         } catch (error) {
             throw new Error(`There was a error in user-prisma-repository.deleteuser ${error.message}`)
         };
     }
-    
+
 };

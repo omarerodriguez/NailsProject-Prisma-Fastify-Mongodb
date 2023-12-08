@@ -1,4 +1,5 @@
-const { createNewuUserValidations, verifyToken } = require('../../utils/functions/input-validations');
+const { createNewuUserValidations } = require('../../utils/functions/input-validations');
+const cookie = require('cookie-parser');
 module.exports = class Userhandler {
     constructor(userUsecases) {
         this.usecases = userUsecases;
@@ -71,21 +72,22 @@ module.exports = class Userhandler {
     createNewUser = async (req, res) => {
         try {
             console.log(req.body);
-            const errors = createNewuUserValidations(req.body);
+            const errors = createNewuUserValidations(req.body); //
             if (errors)
                 return res.status(400).send({
                     message: "fail",
                     errors: errors,
                 });
-            const [newUser, status, err] = await this.usecases.createNewUser(req.body);
+            const [token, status, err] = await this.usecases.createNewUser(req.body);
             if (err)
                 return res.status(status).send({
                     message: "fail",
                     errors: err,
                 });
-            return res.status(status).send({
+            res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
+
+            res.status(status).send({
                 message: "success",
-                data: newUser,
             });
         } catch (error) {
             console.log(error);
@@ -98,8 +100,8 @@ module.exports = class Userhandler {
 
     loginUser = async (req, res) => {
         try {
-            const { correo } = req.body;
-            const [user, status, err] = await this.usecases.findUserByEmail(correo);
+            const { correo, celular } = req.body;
+            const [token, status, err] = await this.usecases.loginUser(correo);
             if (err)
                 return res.status(status).send({
                     message: "fail",
@@ -107,7 +109,7 @@ module.exports = class Userhandler {
                 });
             return res.status(status).send({
                 message: "success",
-                data: user,
+                token: token,
             });
         } catch (error) {
             console.log(error);

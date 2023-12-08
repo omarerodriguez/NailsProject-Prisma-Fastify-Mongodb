@@ -1,8 +1,7 @@
 const fastify = require('fastify')({ logger: true });
-const cookieParser = require('cookie-parser');
-await fastify.register(require('@fastify/express'))
+// fastify.register(require('@fastify/express'))
+const jwt = require('jsonwebtoken');
 
-const cookieParser = require('cookie-parser');
 const userRoutes = require('./adapters/http/user-route');
 
 fastify.get('/', (req, reply) => {
@@ -11,8 +10,6 @@ fastify.get('/', (req, reply) => {
 userRoutes.forEach((route) => {
   fastify.route(route)
 });
-
-fastify.use(cookieParser());
 
 const start = async () => {
   try {
