@@ -1,4 +1,4 @@
-const { getFormatDate } = require('../../utils/functions/fecha');
+const { getFormatDate } = require('../../utils/functions/date');
 const jwt = require('jsonwebtoken');
 
 module.exports = class UserUseCases {
