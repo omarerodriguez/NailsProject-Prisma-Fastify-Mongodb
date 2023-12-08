@@ -2,8 +2,9 @@ const { getFormatDate } = require('../../utils/functions/date');
 const jwt = require('jsonwebtoken');
 
 module.exports = class UserUseCases {
-    constructor(prismaRepository) {
+    constructor(prismaRepository, tokenUsescases) {
         this.prismaRepository = prismaRepository;
+        this.tokenUsescases = tokenUsescases
     }
 
     findUserById = async (userId) => {
@@ -34,14 +35,14 @@ module.exports = class UserUseCases {
 
         const [newUser, err] = await this.prismaRepository.createNewUser(newUserBody);
         if (err) return [null, 400, err];
-        const [token, status, error] = await this.GenerateToken(newUser)
+        const [token, status, error] = await this.tokenUsescases.GenerateToken(newUser)
         if (error) return [null, status, error]
         return [token, 201, null];
     };
 
     GenerateToken = async (data) => {
-        if (!data) return [null, 404, new Error('empty data')];
         function createToken(data) {
+            if (!data) return [null, 404, 'empty data not allow'];
             return jwt.sign({ data }, process.env.JWT_SECRET_KEY, {
                 algorithm: 'HS256',
                 expiresIn: '1d'

@@ -6,6 +6,7 @@ const UserPrismaRepository = require('../adapters/repositories/user-prisma-repos
 
 // Usecases
 const UserUseCases = require('../application/usecases/user-usecases');
+const TokenUsesCases = require('../application/usecases/token-usecases');
 
 // handlers
 const Userhandler = require('../adapters/http/user-handler');
@@ -14,7 +15,8 @@ const Userhandler = require('../adapters/http/user-handler');
 const userPrimaRepository = new UserPrismaRepository(prisma);
 
 // Intance- usecases
-const userUseCases = new UserUseCases(userPrimaRepository);
+const tokenUsescases = new TokenUsesCases();
+const userUseCases = new UserUseCases(userPrimaRepository, tokenUsescases);
 
 // Intance - Handler
 const userHandler = new Userhandler(userUseCases);
