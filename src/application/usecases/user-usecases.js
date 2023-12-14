@@ -1,6 +1,4 @@
 const { getFormatDate } = require('../../utils/functions/date');
-const jwt = require('jsonwebtoken');
-
 module.exports = class UserUseCases {
     constructor(prismaRepository, tokenUsescases) {
         this.prismaRepository = prismaRepository;
@@ -35,38 +33,17 @@ module.exports = class UserUseCases {
 
         const [newUser, err] = await this.prismaRepository.createNewUser(newUserBody);
         if (err) return [null, 400, err];
-        const [token, status, error] = await this.tokenUsescases.GenerateToken(newUser)
+        const [token, status, error] = await this.tokenUsescases.GenerateToken(newUser.id)
         if (error) return [null, status, error]
         return [token, 201, null];
     };
 
-    GenerateToken = async (data) => {
-        function createToken(data) {
-            if (!data) return [null, 404, 'empty data not allow'];
-            return jwt.sign({ data }, process.env.JWT_SECRET_KEY, {
-                algorithm: 'HS256',
-                expiresIn: '1d'
-            });
-        }
-        function verifyToken(token) {
-            return jwt.verify({ token }, process.env.JWT_SECRET_KEY)
-        }
-        const token = createToken(data)
-        return [token, 200, null];
-    }
-
     loginUser = async (userEmail) => {
-
-        const [user, err] = await this.prismaRepository.findUserByEmail(userEmail);
+        //verify token after login
+        const [user, err] = await this.prismaRepository.findUserById(userEmail);
         if (err) return [null, 404, err];
-        const payload = {
-            nombre: user.nombre,
-            apellido: user.apellido
-        }
-        const token = jwt.sign({ payload }, process.env.JWT_SECRET_KEY, {
-            algorithm: 'HS256',
-            expiresIn: '1d'
-        });
+        const [token, status, error] = await this.tokenUsescases.verifyToken(user)
+        if (error) return [null, status, error]
         return [token, 200, null];
     }
 

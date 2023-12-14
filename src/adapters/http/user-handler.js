@@ -1,5 +1,4 @@
 const { createNewuUserValidations } = require('../../utils/functions/input-validations');
-const cookie = require('cookie-parser');
 module.exports = class Userhandler {
     constructor(userUsecases) {
         this.usecases = userUsecases;
@@ -71,7 +70,6 @@ module.exports = class Userhandler {
 
     createNewUser = async (req, res) => {
         try {
-            console.log(req.body);
             const errors = createNewuUserValidations(req.body); //
             if (errors)
                 return res.status(400).send({
@@ -85,7 +83,6 @@ module.exports = class Userhandler {
                     errors: err,
                 });
             res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
-
             res.status(status).send({
                 message: "success",
             });
@@ -100,16 +97,21 @@ module.exports = class Userhandler {
 
     loginUser = async (req, res) => {
         try {
+            let token = req.headers.authorization.split(" ")[1];
+            if (!token) return res.send({ message: "Error", errors: "Invalid token" });
             const { correo, celular } = req.body;
-            const [token, status, err] = await this.usecases.loginUser(correo);
+            const [user, status, err] = await this.usecases.loginUser(correo);
+            // if (user.correo !== correo) return res.send({ message: "Error", errors: "correo o celular incorrecto" })
             if (err)
                 return res.status(status).send({
                     message: "fail",
                     errors: err,
                 });
+            res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
+
             return res.status(status).send({
                 message: "success",
-                token: token,
+                data: user
             });
         } catch (error) {
             console.log(error);
