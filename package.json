@@ -4,7 +4,9 @@
   "description": "NAILS API-REST",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,9 @@
     "validatorjs": "3.22.1"
   },
   "devDependencies": {
+    "eslint": "^8.55.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
     "nodemon": "3.0.1"
   }
 }
