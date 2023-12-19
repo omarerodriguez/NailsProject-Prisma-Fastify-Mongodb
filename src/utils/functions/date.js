@@ -5,7 +5,7 @@ const getFormatDate = () => {
   const formatoFechaHora = fechaActual.toLocaleString('es-ES', timeZone);
   const fechaFormateadaConEspacios = formatoFechaHora.replace(',', '');
   return fechaFormateadaConEspacios;
-}
+};
 
 
 module.exports = { getFormatDate };

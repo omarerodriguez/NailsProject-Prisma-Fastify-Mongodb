@@ -6,11 +6,11 @@ module.exports = class UserPrismaRepository {
     async findAllUsers() {
         try {
             const users = await this.prismaClient.user.findMany({});
-            if (users.length === 0 || !users) return [null, "There are not users fetched"];
+            if (users.length === 0 || !users) return [null, 'There are not users fetched'];
             return [users, null];
         } catch (error) {
             throw new Error(
-                "There war a error in user-prisma-repository.findAllUsers err:",
+                'There war a error in user-prisma-repository.findAllUsers err:',
                 error.message
             );
         }
@@ -19,23 +19,24 @@ module.exports = class UserPrismaRepository {
     async findUserById(userId) {
         try {
             const user = await this.prismaClient.user.findFirst({ where: { id: userId } });
-            if (!user) return [null, "user not found"];
+            if (!user) return [null, 'user not found'];
             return [user, null];
         } catch (error) {
             throw new Error(
-                "There war a error in user-prisma-repository.finUserById err:",
+                'There war a error in user-prisma-repository.finUserById err:',
                 error.message
             );
         }
     }
+
     async findUserByEmail(userEmail) {
         try {
             const email = await this.prismaClient.user.findFirst({ where: { correo: userEmail } });
-            if (!email) return [null, "Email not found"];
+            if (!email) return [null, 'Email not found'];
             return [email, null];
         } catch (error) {
             throw new Error(
-                "There was a error in user-prisma-repository.finUserByEmail err:",
+                'There was a error in user-prisma-repository.finUserByEmail err:',
                 error.message
             );
         }
@@ -53,18 +54,19 @@ module.exports = class UserPrismaRepository {
     async loginUser(correo) {
         try {
             const email = this.findUserByEmail(correo);
-            if (!email || undefined) return [null, "email not found or no valid"];
+            if (!email || undefined) return [null, 'email not found or no valid'];
             return [email, null];
         } catch (error) {
             throw new Error(`There was a error in user-prisma-repository.registerUser ${error.message}`);
         }
     }
+
     async updateUser(userId, userPayload) {
         try {
             const user = await this.prismaClient.user.update({ where: { id: userId }, data: userPayload });
             return [user, null];
         } catch (error) {
-            throw new Error(`There was a error in user-prisma-repository.updateuser ${error.message}`)
+            throw new Error(`There was a error in user-prisma-repository.updateuser ${error.message}`);
         };
     }
 
@@ -74,7 +76,7 @@ module.exports = class UserPrismaRepository {
             const user = await this.prismaClient.user.delete({ where: { id: userId } });
             return [user, null];
         } catch (error) {
-            throw new Error(`There was a error in user-prisma-repository.deleteuser ${error.message}`)
+            throw new Error(`There was a error in user-prisma-repository.deleteuser ${error.message}`);
         };
     }
 

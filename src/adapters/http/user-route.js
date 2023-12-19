@@ -1,6 +1,7 @@
 
 const { validateToken } = require('../../utils/functions/input-validations');
 const { userHandler } = require('../../utils/intances-usecases');
+
 const routes = [
     {
         url: '/users',
@@ -40,4 +41,4 @@ const routes = [
     }
 ];
 
-module.exports = routes
+module.exports = routes;
