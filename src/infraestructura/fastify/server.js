@@ -1,5 +1,6 @@
-const fastify = require('fastify')({logger:true});
+require('fastify')({ logger: true });
 
 module.exports = class Server {
-    constructor(){}
+  // eslint-disable-next-line no-useless-constructor, no-empty-function
+  constructor() {}
 };
