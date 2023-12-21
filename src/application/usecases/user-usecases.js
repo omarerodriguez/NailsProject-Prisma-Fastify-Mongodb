@@ -25,7 +25,10 @@ module.exports = class UserUseCases {
   };
 
   createNewUser = async (userPayload) => {
-    const findUser = await this.findUserByEmail(userPayload.correo);
+
+    const [findUser, userError] =  await this.prismaRepository.findUserById(userId);
+    if (userError) return [null, 500, userError];
+
     if (findUser.correo === userPayload.correo) {
       return [null, 400, 'User already exist'];
     }
@@ -37,11 +40,11 @@ module.exports = class UserUseCases {
       await this.prismaRepository.createNewUser(newUserBody);
     if (err) return [null, 400, err];
 
-    const [token, error] = await this.tokenUsescases.generateToken(
+    const [token, tokenError] = await this.tokenUsescases.generateToken(
       newUser.id,
     );
 
-    if (error) return [null, 400, error];
+    if (tokenError) return [null, 400, error];
     return [token, 201, null];
   };
 
