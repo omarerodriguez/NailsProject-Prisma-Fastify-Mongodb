@@ -49,8 +49,7 @@ module.exports = class UserUseCases {
   };
 
   loginUser = async (userEmail) => {
-    // verify token after login
-    const [user, err] = await this.prismaRepository.findUserById(userEmail);
+    const [user, err] = await this.prismaRepository.findUserByEmail(userEmail);
     if (err) return [null, 404, err];
     const [token, status, error] = await this.tokenUsescases.verifyToken(user);
     if (error) return [null, status, error];
