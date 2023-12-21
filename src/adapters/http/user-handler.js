@@ -104,9 +104,12 @@ module.exports = class Userhandler {
 
   loginUser = async (req, res) => {
     try {
-      const token = req.headers.authorization.split(' ')[1];
-      if (!token)
-        return res.send({ message: 'Error', errors: 'Invalid token' });
+      const token = req.headers?.authorization?.split(' ')[1];
+      if (!token) return res.send({ 
+        message: 'Error',
+        errors: 'Invalid token'
+      });
+      
       const { correo } = req.body;
       const [user, status, err] = await this.usecases.loginUser(correo);
       // if (user.correo !== correo) return res.send({ message: "Error", errors: "correo o celular incorrecto" })
