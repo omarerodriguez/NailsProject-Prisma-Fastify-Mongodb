@@ -81,12 +81,14 @@ module.exports = class Userhandler {
           message: 'fail',
           errors,
         });
+
       const [token, status, err] = await this.usecases.createNewUser(req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
           errors: err,
         });
+        
       res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
       return res.status(status).send({
         message: 'success',

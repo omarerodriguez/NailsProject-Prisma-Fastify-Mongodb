@@ -29,17 +29,19 @@ module.exports = class UserUseCases {
     if (findUser.correo === userPayload.correo) {
       return [null, 400, 'User already exist'];
     }
+
     const newUserBody = { ...userPayload };
-    const createdAt = getFormatDate();
-    newUserBody.created_at = createdAt;
+    newUserBody.created_at = getFormatDate();
 
     const [newUser, err] =
       await this.prismaRepository.createNewUser(newUserBody);
     if (err) return [null, 400, err];
-    const [token, status, error] = await this.tokenUsescases.GenerateToken(
+
+    const [token, error] = await this.tokenUsescases.GenerateToken(
       newUser.id,
     );
-    if (error) return [null, status, error];
+
+    if (error) return [null, 400, error];
     return [token, 201, null];
   };
 
