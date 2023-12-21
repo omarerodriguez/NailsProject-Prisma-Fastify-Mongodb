@@ -26,10 +26,10 @@ module.exports = class UserUseCases {
 
   createNewUser = async (userPayload) => {
 
-    const [findUser, userError] =  await this.prismaRepository.findUserById(userId);
+    const [findUser, userError] =  await this.prismaRepository.findUserByEmail(userPayload.correo);
     if (userError) return [null, 500, userError];
 
-    if (findUser.correo === userPayload.correo) {
+    if (findUser) {
       return [null, 400, 'User already exist'];
     }
 
