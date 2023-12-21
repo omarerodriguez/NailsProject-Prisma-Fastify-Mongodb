@@ -48,11 +48,15 @@ module.exports = class UserUseCases {
     return [token, 201, null];
   };
 
-  loginUser = async (userEmail) => {
-    const [user, err] = await this.prismaRepository.findUserByEmail(userEmail);
+  loginUser = async (logUser) => {
+    const [user, err] = await this.prismaRepository.findUserByEmail(logUser.email);
     if (err) return [null, 404, err];
-    const [token, status, error] = await this.tokenUsescases.verifyToken(user);
+
+    if (user.celular !== logUser.celular) return [null, 400, 'El numero no pertenece al correo'];
+
+    const [token, error] = await this.tokenUsescases.generateToken(user.id);
     if (error) return [null, status, error];
+
     return [token, 200, null];
   };
 

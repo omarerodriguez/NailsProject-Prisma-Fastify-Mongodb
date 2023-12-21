@@ -105,23 +105,24 @@ module.exports = class Userhandler {
   loginUser = async (req, res) => {
     try {
       // const token = req.headers?.authorization?.split(' ')[1];
-      // if (!token) return res.send({ 
+      // if (token) return res.send({ 
       //   message: 'Error',
       //   errors: 'Invalid token'
       // });
 
-      const [user, status, err] = await this.usecases.loginUser(req.body);
+      const [userToken, status, err] = await this.usecases.loginUser(req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
           errors: err,
         });
 
-      res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
+      res.header('Set-Cookie', `token=${userToken}; Path=/; HttpOnly`);
       return res.status(status).send({
         message: 'success',
-        data: user,
+        data: 'usuario logueado',
       });
+      
     } catch (error) {
       console.log(error);
       return res.status(500).send({
