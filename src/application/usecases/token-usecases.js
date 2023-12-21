@@ -4,11 +4,11 @@ module.exports = class TokenUsesCases {
   // eslint-disable-next-line no-useless-constructor, no-empty-function
   constructor() {}
 
-  generateToken = async (uid) => {
+  generateToken = async (userId) => {
     const expiresIn = 60 * 15;
 
-    if (!uid) return [null, 404, 'empty data not allow'];
-    const token = jwt.sign({ uid }, process.env.JWT_SECRET_KEY, {
+    if (!userId) return [null, 404, 'empty data not allow'];
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
       algorithm: 'HS256',
       expiresIn,
     });
