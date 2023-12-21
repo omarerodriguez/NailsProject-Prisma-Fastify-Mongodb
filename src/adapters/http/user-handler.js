@@ -1,5 +1,6 @@
 const {
   createNewuUserValidations,
+  loginUserValidations,
 } = require('../../utils/functions/input-validations');
 
 module.exports = class Userhandler {
@@ -88,7 +89,7 @@ module.exports = class Userhandler {
           message: 'fail',
           errors: err,
         });
-        
+
       res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
       return res.status(status).send({
         message: 'success',
@@ -105,10 +106,16 @@ module.exports = class Userhandler {
   loginUser = async (req, res) => {
     try {
       // const token = req.headers?.authorization?.split(' ')[1];
-      // if (token) return res.send({ 
+      // if (token) return res.send({
       //   message: 'Error',
       //   errors: 'Invalid token'
       // });
+      const validationErrors = loginUserValidations(req.body);
+      if (validationErrors)
+        return res.status(400).send({
+          message: 'fail',
+          errors: validationErrors,
+        });
 
       const [userToken, status, err] = await this.usecases.loginUser(req.body);
       if (err)
@@ -120,9 +127,8 @@ module.exports = class Userhandler {
       res.header('Set-Cookie', `token=${userToken}; Path=/; HttpOnly`);
       return res.status(status).send({
         message: 'success',
-        data: 'usuario logueado',
+        data: 'Usuario logueado con exito',
       });
-      
     } catch (error) {
       console.log(error);
       return res.status(500).send({
