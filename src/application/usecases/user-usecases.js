@@ -37,7 +37,7 @@ module.exports = class UserUseCases {
       await this.prismaRepository.createNewUser(newUserBody);
     if (err) return [null, 400, err];
 
-    const [token, error] = await this.tokenUsescases.GenerateToken(
+    const [token, error] = await this.tokenUsescases.generateToken(
       newUser.id,
     );
 

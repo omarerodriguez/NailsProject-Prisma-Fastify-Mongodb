@@ -5,15 +5,19 @@ module.exports = class TokenUsesCases {
   constructor() {}
 
   generateToken = async (userId) => {
-    const expiresIn = 60 * 15;
+    try {
+      const expiresIn = 60 * 15;
 
-    if (!userId) return [null, 404, 'empty data not allow'];
-    const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-      algorithm: 'HS256',
-      expiresIn,
-    });
+      if (!userId) return [null, 'empty data not allow'];
+      const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
+        algorithm: 'HS256',
+        expiresIn,
+      });
 
-    return [token, null];
+      return [token, null];
+    } catch (error) {
+      return [null, error.message];
+    }
   };
 
   verifyToken = async (token) => {
