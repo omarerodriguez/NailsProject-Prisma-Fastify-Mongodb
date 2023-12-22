@@ -1,9 +1,16 @@
 const Validator = require('validatorjs');
 const jwt = require('jsonwebtoken');
-const { rules } = require('../const/input-rules');
+const { createNewUserRules, loginUserRules } = require('../const/input-rules');
 
 const createNewuUserValidations = (newUserPayload) => {
-  const validation = new Validator(newUserPayload, rules);
+  const validation = new Validator(newUserPayload, createNewUserRules);
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
+
+const loginUserValidations = (userPayload) => {
+  const validation = new Validator(userPayload, loginUserRules);
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
@@ -19,4 +26,4 @@ const validateToken = (req, res, done) => {
     }
   });
 };
-module.exports = { createNewuUserValidations, validateToken };
+module.exports = { createNewuUserValidations, validateToken, loginUserValidations };

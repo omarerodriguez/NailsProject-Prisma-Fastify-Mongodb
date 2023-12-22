@@ -25,30 +25,38 @@ module.exports = class UserUseCases {
   };
 
   createNewUser = async (userPayload) => {
-    const findUser = await this.findUserByEmail(userPayload.correo);
-    if (findUser.correo === userPayload.correo) {
+
+    const [findUser, userError] =  await this.prismaRepository.findUserByEmail(userPayload.correo);
+    if (userError) return [null, 500, userError];
+
+    if (findUser) {
       return [null, 400, 'User already exist'];
     }
+
     const newUserBody = { ...userPayload };
-    const createdAt = getFormatDate();
-    newUserBody.created_at = createdAt;
+    newUserBody.created_at = getFormatDate();
 
     const [newUser, err] =
       await this.prismaRepository.createNewUser(newUserBody);
     if (err) return [null, 400, err];
-    const [token, status, error] = await this.tokenUsescases.GenerateToken(
+
+    const [token, tokenError] = await this.tokenUsescases.generateToken(
       newUser.id,
     );
-    if (error) return [null, status, error];
+
+    if (tokenError) return [null, 400, error];
     return [token, 201, null];
   };
 
-  loginUser = async (userEmail) => {
-    // verify token after login
-    const [user, err] = await this.prismaRepository.findUserById(userEmail);
+  loginUser = async (logUser) => {
+    const [user, err] = await this.prismaRepository.findUserByEmail(logUser.email);
     if (err) return [null, 404, err];
-    const [token, status, error] = await this.tokenUsescases.verifyToken(user);
+
+    if (user.celular !== logUser.celular) return [null, 400, 'El numero no pertenece al correo'];
+
+    const [token, error] = await this.tokenUsescases.generateToken(user.id);
     if (error) return [null, status, error];
+
     return [token, 200, null];
   };
 

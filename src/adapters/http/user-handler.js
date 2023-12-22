@@ -1,5 +1,6 @@
 const {
   createNewuUserValidations,
+  loginUserValidations,
 } = require('../../utils/functions/input-validations');
 
 module.exports = class Userhandler {
@@ -81,12 +82,14 @@ module.exports = class Userhandler {
           message: 'fail',
           errors,
         });
+
       const [token, status, err] = await this.usecases.createNewUser(req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
           errors: err,
         });
+
       res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
       return res.status(status).send({
         message: 'success',
@@ -102,22 +105,29 @@ module.exports = class Userhandler {
 
   loginUser = async (req, res) => {
     try {
-      const token = req.headers.authorization.split(' ')[1];
-      if (!token)
-        return res.send({ message: 'Error', errors: 'Invalid token' });
-      const { correo } = req.body;
-      const [user, status, err] = await this.usecases.loginUser(correo);
-      // if (user.correo !== correo) return res.send({ message: "Error", errors: "correo o celular incorrecto" })
+      // const token = req.headers?.authorization?.split(' ')[1];
+      // if (token) return res.send({
+      //   message: 'Error',
+      //   errors: 'Invalid token'
+      // });
+      const validationErrors = loginUserValidations(req.body);
+      if (validationErrors)
+        return res.status(400).send({
+          message: 'fail',
+          errors: validationErrors,
+        });
+
+      const [userToken, status, err] = await this.usecases.loginUser(req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
           errors: err,
         });
-      res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
 
+      res.header('Set-Cookie', `token=${userToken}; Path=/; HttpOnly`);
       return res.status(status).send({
         message: 'success',
-        data: user,
+        data: 'Usuario logueado con exito',
       });
     } catch (error) {
       console.log(error);

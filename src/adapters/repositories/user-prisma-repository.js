@@ -10,8 +10,7 @@ module.exports = class UserPrismaRepository {
             return [users, null];
         } catch (error) {
             throw new Error(
-                'There war a error in user-prisma-repository.findAllUsers err:',
-                error.message
+                `There war a error in user-prisma-repository.findAllUsers err: ${error.message}`,
             );
         }
     }
@@ -23,8 +22,7 @@ module.exports = class UserPrismaRepository {
             return [user, null];
         } catch (error) {
             throw new Error(
-                'There war a error in user-prisma-repository.finUserById err:',
-                error.message
+                `There war a error in user-prisma-repository.findUserById err: ${error.message}`,
             );
         }
     }
@@ -36,8 +34,7 @@ module.exports = class UserPrismaRepository {
             return [email, null];
         } catch (error) {
             throw new Error(
-                'There was a error in user-prisma-repository.finUserByEmail err:',
-                error.message
+                `There war a error in user-prisma-repository.findUserByEmail err: ${error.message}`,
             );
         }
     }
