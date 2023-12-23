@@ -7,8 +7,8 @@ const NailsTypesPrismaRepositoryPrismaRepository = require('../adapters/reposito
 
 // Usecases
 const UserUseCases = require('../application/usecases/user-usecases');
-const NailsTypesUseCases = require('../application/usecases/nailsTypes-usecases');
 const TokenUsesCases = require('../application/usecases/token-usecases');
+const NailsTypesUseCases = require('../application/usecases/nailsTypes-usecases');
 
 // handlers
 const Userhandler = require('../adapters/http/user/user-handler');

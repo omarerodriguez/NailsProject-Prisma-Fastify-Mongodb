@@ -13,7 +13,8 @@
     "semi": "error",
     " linebreak-style": 0,
     //"nonblock-statement-body-position": "off",
-    "curly": "off"
+    "curly": "off",
+    "no-console": "off"
     //"operator-linebreak": "off"
   }
 }
