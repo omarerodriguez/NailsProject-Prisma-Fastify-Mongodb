@@ -1,7 +1,7 @@
 const fastify = require('fastify')({ logger: true });
 // fastify.register(require('@fastify/express'))
 
-const userRoutes = require('./adapters/http/user-route');
+const userRoutes = require('./adapters/http/user/user-route');
 
 fastify.get('/', (req, reply) => {
   reply.send({ hello: 'world' });

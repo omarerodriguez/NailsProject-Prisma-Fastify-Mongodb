@@ -4,6 +4,7 @@ module.exports = class TokenUsesCases {
   // eslint-disable-next-line no-useless-constructor, no-empty-function
   constructor() {}
 
+  // eslint-disable-next-line class-methods-use-this
   generateToken = async (userId) => {
     try {
       const expiresIn = 60 * 15;
@@ -20,6 +21,7 @@ module.exports = class TokenUsesCases {
     }
   };
 
+  // eslint-disable-next-line class-methods-use-this
   verifyToken = async (token) => {
     if (!token) return [null, 404, 'Invalid token'];
 
