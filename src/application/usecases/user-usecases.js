@@ -25,8 +25,9 @@ module.exports = class UserUseCases {
   };
 
   createNewUser = async (userPayload) => {
-
-    const [findUser, userError] =  await this.prismaRepository.findUserByEmail(userPayload.correo);
+    const [findUser, userError] = await this.prismaRepository.findUserByEmail(
+      userPayload.correo,
+    );
     if (userError) return [null, 500, userError];
 
     if (findUser) {
@@ -44,18 +45,21 @@ module.exports = class UserUseCases {
       newUser.id,
     );
 
-    if (tokenError) return [null, 400, error];
+    if (tokenError) return [null, 400, tokenError];
     return [token, 201, null];
   };
 
   loginUser = async (logUser) => {
-    const [user, err] = await this.prismaRepository.findUserByEmail(logUser.email);
+    const [user, err] = await this.prismaRepository.findUserByEmail(
+      logUser.email,
+    );
     if (err) return [null, 404, err];
 
-    if (user.celular !== logUser.celular) return [null, 400, 'El numero no pertenece al correo'];
+    if (user.celular !== logUser.celular)
+      return [null, 400, 'El numero no pertenece al correo'];
 
     const [token, error] = await this.tokenUsescases.generateToken(user.id);
-    if (error) return [null, status, error];
+    if (error) return [null, error];
 
     return [token, 200, null];
   };
