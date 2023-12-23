@@ -1,6 +1,6 @@
 module.exports = class UserPrismaRepository {
-    constructor(primasClient) {
-        this.prismaClient = primasClient;
+    constructor(primaClient) {
+        this.prismaClient = primaClient;
     }
 
     async findAllUsers() {
@@ -10,7 +10,7 @@ module.exports = class UserPrismaRepository {
             return [users, null];
         } catch (error) {
             throw new Error(
-                "There war a error in user-prisma-repository.findAllUsers err:",
+                "There was a error in user-prisma-repository.findAllUsers err:",
                 error.message
             );
         }

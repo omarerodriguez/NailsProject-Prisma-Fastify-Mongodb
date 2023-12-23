@@ -1,4 +1,4 @@
-const { createNewuUserValidations, verifyToken } = require('../../utils/functions/input-validations');
+const { createNewuUserValidations, verifyToken } = require('../../../utils/functions/input-validations');
 module.exports = class Userhandler {
     constructor(userUsecases) {
         this.usecases = userUsecases;

@@ -21,3 +21,22 @@ model user {
   correo String @unique
   created_at String
 }
+
+model nails_types {
+  id String  @id @default(auto())  @map("_id") @db.ObjectId
+  name String
+  allowed_detalis nails_details[]
+  default_price Int
+  deleted_at String
+  created_at String
+}
+
+model nails_details {
+  id String  @id @default(auto())  @map("_id") @db.ObjectId
+  name String
+  price Int
+  details nails_types? @relation(fields: [detailsId], references: [id])
+  detailsId String @db.ObjectId
+  deleted_at String
+  created_at String
+}
