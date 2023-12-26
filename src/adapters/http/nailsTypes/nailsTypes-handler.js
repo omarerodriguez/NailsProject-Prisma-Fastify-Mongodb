@@ -46,4 +46,12 @@ module.exports = class NailsTypesHandler {
       });
     }
   };
+
+  createNewNailsTypes = async(req,res)=>{
+    try {
+        const []
+    } catch (error) {
+        
+    }
+  }
 };
