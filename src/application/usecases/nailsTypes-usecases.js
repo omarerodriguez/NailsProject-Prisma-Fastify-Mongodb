@@ -1,4 +1,5 @@
 const { getFormatDate } = require('../../utils/functions/date');
+
 module.exports = class NailsTypesUseCases {
   constructor(prismaRepository) {
     this.prismaRepository = prismaRepository;
