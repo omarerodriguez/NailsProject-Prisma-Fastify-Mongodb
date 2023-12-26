@@ -162,7 +162,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
@@ -183,7 +183,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
