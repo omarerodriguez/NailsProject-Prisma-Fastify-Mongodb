@@ -10,5 +10,11 @@ module.exports = class NailsTypesUseCases {
         return [findNailsTp,200,null];
     };
 
+    findAllNailsTypes = async(){
+        const [nailsTypes,err] = await this.prismaRepository.findAllNailsTypes();
+        if(err)return [null,404,err];
+        return [nailsTypes,200,null];
+    };
+
     
 };
