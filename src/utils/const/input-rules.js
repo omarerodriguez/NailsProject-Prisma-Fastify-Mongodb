@@ -13,7 +13,7 @@ const loginUserRules = {
   correo: 'required|email',
 };
 
-const createNewNailsTypes = {
+const createNewNailsTypesRules = {
   name: 'string|min:3|max:25|required',
   'allowed_detalis.*.name': 'string|min:3|max:25',
   'allowed_detalis.*.price': 'integer',
@@ -22,5 +22,5 @@ const createNewNailsTypes = {
 module.exports = {
   createNewUserRules,
   loginUserRules,
-  createNewNailsTypes,
+  createNewNailsTypesRules,
 };
