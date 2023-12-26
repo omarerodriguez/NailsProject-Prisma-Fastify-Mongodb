@@ -1,6 +1,7 @@
 const {
   createNewNailsTypesValidations,
 } = require('../../../utils/functions/input-validations');
+
 module.exports = class NailsTypesHandler {
   constructor(nailsTypesUseCases) {
     this.usecases = nailsTypesUseCases;
@@ -52,7 +53,7 @@ module.exports = class NailsTypesHandler {
 
   createNewNailsTypes = async (req, res) => {
     try {
-      const errors = this.createNewNailsTypesValidations(req.body);
+      const errors = createNewNailsTypesValidations(req.body);
       if (errors)
         return res.status(400).send({
           message: 'fail',
@@ -96,6 +97,29 @@ module.exports = class NailsTypesHandler {
       return res.status(status).send({
         message: 'success',
         data: updatedNailsTypes,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
+
+  deleteNailsTypes = async (req, res) => {
+    try {
+      const [nailsTpyes, status, err] = await this.usecases.deleteNailsTypes(
+        req.params.id,
+      );
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: `deleted Nails Types with ID: ${nailsTpyes.id}`,
       });
     } catch (error) {
       console.log(error);
