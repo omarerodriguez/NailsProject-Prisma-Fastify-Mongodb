@@ -40,4 +40,11 @@ module.exports = class NailsTypesUseCases {
     if (err) return [null, 400, err];
     return [nailsTypes, 200, null];
   };
+
+  deleteNailsType = async (nailsTpId) => {
+    const [deleteNailsTp, err] =
+      await this.prismaRepository.deleteNailsTp(nailsTpId);
+    if (err) return [null, 400, err];
+    return [deleteNailsTp, 202, null];
+  };
 };
