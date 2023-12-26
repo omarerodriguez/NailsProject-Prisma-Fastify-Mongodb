@@ -1,12 +1,17 @@
 const fastify = require('fastify')({ logger: true });
-// fastify.register(require('@fastify/express'))
 
 const userRoutes = require('./adapters/http/user/user-route');
+const nailsTypes = require('./adapters/http/nailsTypes/nailsTypes-route');
 
 fastify.get('/', (req, reply) => {
   reply.send({ hello: 'world' });
 });
+
+// create index in http folder and add all routes
 userRoutes.forEach((route) => {
+  fastify.route(route);
+});
+nailsTypes.forEach((route) => {
   fastify.route(route);
 });
 
