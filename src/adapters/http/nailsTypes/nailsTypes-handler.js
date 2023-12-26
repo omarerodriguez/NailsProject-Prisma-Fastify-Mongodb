@@ -1,3 +1,4 @@
+const {} = require('../../../utils/functions/input-validations');
 module.exports = class NailsTypesHandler {
   constructor(nailsTypesUseCases) {
     this.usecases = nailsTypesUseCases;
@@ -47,11 +48,31 @@ module.exports = class NailsTypesHandler {
     }
   };
 
-  createNewNailsTypes = async(req,res)=>{
+  createNewNailsTypes = async (req, res) => {
     try {
-        const []
+      const errors = this.createNewNailsTypes(req.body);
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
+      const [nailsTypes, status, err] = await this.usecases.createNewNailsTypes(
+        req.body,
+      );
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'succes',
+        data: nailsTypes,
+      });
     } catch (error) {
-        
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+      });
     }
-  }
+  };
 };
