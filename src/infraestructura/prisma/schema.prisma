@@ -29,8 +29,8 @@ model NailType {
   name String
   allowed_detalis NailsDetails[]
   default_price Int
-  deleted_at String
-  created_at String
+  deleted_at DateTime @updatedAt
+  created_at DateTime @default(now())
 
   @@map("nailstypes")
 }
@@ -39,10 +39,10 @@ model NailsDetails {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String
   price Int
-  details NailType? @relation(fields: [detailsId], references: [id])
+  details NailType @relation(fields: [detailsId], references: [id])
   detailsId String @db.ObjectId
-  deleted_at String
-  created_at String
+  deleted_at DateTime @updatedAt
+  created_at DateTime @default(now())
 
   @@map("nailsdetails")
 }

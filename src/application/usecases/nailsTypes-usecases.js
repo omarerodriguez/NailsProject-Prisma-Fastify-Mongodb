@@ -19,10 +19,10 @@ module.exports = class NailsTypesUseCases {
   };
 
   createNewNailsTypes = async (nailsTpPayload) => {
-    const [findNailsTp, nailsError] =
-      await this.prismaRepository.findNailsTpById(nailsTpPayload.id);
+    const [newNailstp, nailsError] =
+      await this.prismaRepository.createNewNailsTypes(nailsTpPayload);
     if (nailsError) return [null, 500, nailsError];
-    if (findNailsTp) return [null, 400, 'NailsTypes already exist'];
+    if (newNailstp) return [null, 400, 'NailsTypes already exist'];
 
     const newNailsTypeBody = { ...nailsTpPayload };
     newNailsTypeBody.created_at = getFormatDate();

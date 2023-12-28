@@ -5,7 +5,7 @@ module.exports = class NailsTypesPrismaRepository {
 
   async findAllNailsTypes() {
     try {
-      const nailsTps = await this.prismaClient.nailstypes.findMany({});
+      const nailsTps = await this.prismaClient.nailType.findMany({});
       if (nailsTps.length === 0 || !nailsTps)
         return [null, 'there are not nails types fetched'];
       return [nailsTps, null];
@@ -18,7 +18,7 @@ module.exports = class NailsTypesPrismaRepository {
 
   async findNailsTypesById(nailsTpId) {
     try {
-      const nailsTp = await this.prismaClient.nailsTp.findFirst({
+      const nailsTp = await this.prismaClient.nailType.findFirst({
         where: { id: nailsTpId },
       });
       if (!nailsTp) return [null, 'NailsTypes not found'];
@@ -30,9 +30,9 @@ module.exports = class NailsTypesPrismaRepository {
     }
   }
 
-  async createNewNailsType(newNailsType) {
+  async createNewNailsTypes(newNailsType) {
     try {
-      const nailsTp = await this.prismaClient.nailsTp.create({
+      const nailsTp = await this.prismaClient.nailType.create({
         data: newNailsType,
       });
       return [nailsTp, null];
@@ -43,9 +43,9 @@ module.exports = class NailsTypesPrismaRepository {
     }
   }
 
-  async updateNailsType(nailsTpId, nailsType) {
+  async updateNailsTypes(nailsTpId, nailsType) {
     try {
-      const nailsTps = await this.prismaClient.nailsTp.update({
+      const nailsTps = await this.prismaClient.nailType.update({
         where: { id: nailsTpId },
         data: nailsType,
       });
@@ -59,7 +59,7 @@ module.exports = class NailsTypesPrismaRepository {
 
   async deleteNailsTypes(nailsTpId) {
     try {
-      const nailsTp = await this.prismaClient.nailsTp.delete({
+      const nailsTp = await this.prismaClient.nailType.delete({
         where: { id: nailsTpId },
       });
       return [nailsTp, null];
