@@ -3,19 +3,19 @@ const prisma = require('../infraestructura/prisma/prismaConfig');
 
 // Repositories
 const UserPrismaRepository = require('../adapters/repositories/user-prisma-repository');
-const NailsTypesPrismaRepository = require('../adapters/repositories/nailstypes-prisma-repository');
-const NailsDetailsPrismaRepository = require('../adapters/repositories/nailsdetails-prisma-repository');
+const NailsTypesPrismaRepository = require('../adapters/repositories/nails-types-prisma-repository');
+const NailsDetailsPrismaRepository = require('../adapters/repositories/nails-details-prisma-repository');
 
 // Usecases
 const UserUseCases = require('../application/usecases/user-usecases');
 const TokenUsesCases = require('../application/usecases/token-usecases');
-const NailsTypesUseCases = require('../application/usecases/nailstypes-usecases');
-const NailsDetailsUseCases = require('../application/usecases/nailsdetails-usecases');
+const NailsTypesUseCases = require('../application/usecases/nails-types-usecases');
+const NailsDetailsUseCases = require('../application/usecases/nails-details-usecases');
 
 // handlers
 const Userhandler = require('../adapters/http/user/user-handler');
-const NailsTypesHandler = require('../adapters/http/nails/nailstypes-handler');
-const NailsDetailsHandler = require('../adapters/http/nails/nailsdetails-handler');
+const NailsTypesHandler = require('../adapters/http/nails/nails-types-handler');
+const NailsDetailsHandler = require('../adapters/http/nails/nails-details-handler');
 
 // Intance- repository
 const userPrismaRepository = new UserPrismaRepository(prisma);
