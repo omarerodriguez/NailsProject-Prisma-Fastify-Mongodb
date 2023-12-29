@@ -24,4 +24,26 @@ module.exports = class NailsDetailsHandler {
       });
     }
   };
+
+  findNailsDetailsById = async (req, res) => {
+    try {
+      const [nailsDetail, status, err] =
+        await this.usecases.findNailsDetailsById(req.params.id);
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: nailsDetail,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
 };
