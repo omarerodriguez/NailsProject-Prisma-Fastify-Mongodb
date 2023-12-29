@@ -55,4 +55,17 @@ module.exports = class NailsDetailsPrismaRepository {
       );
     }
   }
+
+  async deleteNailsDetails(nailsDetailsId) {
+    try {
+      const nailsDetail = await this.prismaClient.delete({
+        where: { id: nailsDetailsId },
+      });
+      return [nailsDetail, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in nailsDetails-prisma-repository.deleteNailsDetails err: ${error.message}`,
+      );
+    }
+  }
 };
