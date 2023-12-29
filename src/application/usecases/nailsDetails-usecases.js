@@ -24,4 +24,13 @@ module.exports = class NailsDetailsUseCases {
     if (err) return [null, 404, err];
     return [newNailsDetails, 200, null];
   };
+
+  updateNailsDetails = async (nailsDetailsId, nailsDetailPayload) => {
+    const [nailsDetail, err] = await this.prismaRepository.updateNailsDetails(
+      nailsDetailsId,
+      nailsDetailPayload,
+    );
+    if (err) return [null, 404, err];
+    return [nailsDetail, 200, null];
+  };
 };
