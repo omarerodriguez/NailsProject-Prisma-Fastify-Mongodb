@@ -4,27 +4,27 @@ const routes = [
   {
     url: '/nailsdetails',
     method: 'GET',
-    handler: nailsDetailsHandler.findAllNailsTypes,
+    handler: nailsDetailsHandler.findAllNailsDetails,
   },
   {
     url: '/nailsdetails/:id',
     method: 'GET',
-    handler: nailsDetailsHandler.findNailsTypesById,
+    handler: nailsDetailsHandler.findNailsDetailsById,
   },
   {
     url: '/nailsdetails',
     method: 'POST',
-    handler: nailsDetailsHandler.createNewNailsTypes,
+    handler: nailsDetailsHandler.createNewNailsDetalis,
   },
   {
     url: '/nailsdetails/:id',
     method: 'PUT',
-    handler: nailsDetailsHandler.updateNailsTypes,
+    handler: nailsDetailsHandler.updateNailsDetails,
   },
   {
     url: '/nailsdetails/:id',
     method: 'DELETE',
-    handler: nailsDetailsHandler.deleteNailsTypes,
+    handler: nailsDetailsHandler.deleteNailsDetails,
   },
 ];
 

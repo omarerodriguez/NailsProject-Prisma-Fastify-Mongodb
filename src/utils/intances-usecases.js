@@ -14,7 +14,7 @@ const NailsDetailsUseCases = require('../application/usecases/nailsDetails-useca
 
 // handlers
 const Userhandler = require('../adapters/http/user/user-handler');
-const NailsTypesHandler = require('../adapters/http/nailsTypes/nailsTypes-handler');
+const NailsTypesHandler = require('../adapters/http/nails/nailsTypes-handler');
 const NailsDetailsHandler = require('../adapters/http/nails/nailsDetails-handler');
 
 // Intance- repository

@@ -20,6 +20,14 @@ module.exports = class NailsTypesPrismaRepository {
     try {
       const nailsTp = await this.prismaClient.nailType.findFirst({
         where: { id: nailsTpId },
+        include: {
+          allowed_detalis: {
+            select: {
+              name: true,
+              price: true,
+            },
+          },
+        },
       });
       if (!nailsTp) return [null, 'NailsTypes not found'];
       return [nailsTp, null];

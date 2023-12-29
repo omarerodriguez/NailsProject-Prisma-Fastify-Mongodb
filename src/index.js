@@ -1,7 +1,7 @@
 const fastify = require('fastify')({ logger: true });
 
 const userRoutes = require('./adapters/http/user/user-route');
-const nailsTypes = require('./adapters/http/nailsTypes/nailsTypes-route');
+const nailsTypes = require('./adapters/http/nails/nailsTypes-route');
 const nailsDetails = require('./adapters/http/nails/nailsDetails-route');
 fastify.get('/', (req, reply) => {
   reply.send({ hello: 'world' });

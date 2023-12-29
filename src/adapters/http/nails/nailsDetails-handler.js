@@ -71,7 +71,7 @@ module.exports = class NailsDetailsHandler {
   updateNailsDetails = async (req, res) => {
     try {
       const [updateNailsDetail, status, err] =
-        await this.usecases.updateNailsDetails(req.body);
+        await this.usecases.updateNailsDetails(req.params.id, req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
