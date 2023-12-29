@@ -4,6 +4,7 @@ const {
   createNewUserRules,
   loginUserRules,
   createNewNailsTypesRules,
+  createNewNailsDetailsRules,
 } = require('../const/input-rules');
 
 const createNewuUserValidations = (newUserPayload) => {
@@ -40,9 +41,20 @@ const createNewNailsTypesValidations = (newNailsTypesPayload) => {
   if (validation.fails()) return errors;
   return null;
 };
+
+const createNewNailsDetailsValidations = (newNailsDetailsPayload) => {
+  const validation = new Validator(
+    newNailsDetailsPayload,
+    createNewNailsDetailsRules,
+  );
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
 module.exports = {
   createNewuUserValidations,
   validateToken,
   loginUserValidations,
   createNewNailsTypesValidations,
+  createNewNailsDetailsValidations,
 };

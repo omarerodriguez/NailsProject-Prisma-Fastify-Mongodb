@@ -1,3 +1,6 @@
+const {
+  createNewNailsDetailsValidations,
+} = require('../../../utils/functions/input-validations');
 module.exports = class NailsDetailsHandler {
   constructor(nailsDetailsUseCases) {
     this.usecases = nailsDetailsUseCases;
@@ -49,6 +52,12 @@ module.exports = class NailsDetailsHandler {
 
   createNewNailsDetalis = async (req, res) => {
     try {
+      const errors = createNewNailsDetailsValidations(req.body);
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const [newNailsDetails, status, err] =
         await this.usecases.createNewNailsDetalis(req.body);
       if (err)

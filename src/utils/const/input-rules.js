@@ -15,12 +15,19 @@ const loginUserRules = {
 
 const createNewNailsTypesRules = {
   name: 'string|min:3|max:25|required',
+  default_price: 'integer|min:3|max:7',
   'allowed_detalis.*.name': 'string|min:3|max:25',
   'allowed_detalis.*.price': 'integer',
+};
+
+const createNewNailsDetailsRules = {
+  name: 'string|min:3|max:25|required',
+  price: 'integer|min:3|max:7',
 };
 
 module.exports = {
   createNewUserRules,
   loginUserRules,
   createNewNailsTypesRules,
+  createNewNailsDetailsRules,
 };
