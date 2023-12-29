@@ -5,9 +5,10 @@ module.exports = class NailsTypesUseCases {
     this.prismaRepository = prismaRepository;
   }
 
-  findNailsTpById = async (nailsTpId) => {
-    const [findNailsTp, err] =
-      await this.prismaRepository.findNailsTpById(nailsTpId);
+  findNailsTypesById = async (nailsTpId) => {
+    const [findNailsTp, err] = await this.prismaRepository.findNailsTypesById(
+      nailsTpId,
+    );
     if (err) return [null, 404, err];
     return [findNailsTp, 200, null];
   };
@@ -22,15 +23,15 @@ module.exports = class NailsTypesUseCases {
     const [newNailstp, nailsError] =
       await this.prismaRepository.createNewNailsTypes(nailsTpPayload);
     if (nailsError) return [null, 500, nailsError];
-    if (newNailstp) return [null, 400, 'NailsTypes already exist'];
+    return [newNailstp, 200, null];
 
-    const newNailsTypeBody = { ...nailsTpPayload };
+    /* const newNailsTypeBody = { ...nailsTpPayload };
     newNailsTypeBody.created_at = getFormatDate();
 
     const [newNailsType, err] =
       await this.prismaRepository.createNewNailsTypes(newNailsTypeBody);
     if (err) return [null, 400, err];
-    return [newNailsType, 201, null];
+    return [newNailsType, 201, null];*/
   };
 
   updateNailsTypes = async (nailsTpId, nailsTpPayload) => {
@@ -42,9 +43,10 @@ module.exports = class NailsTypesUseCases {
     return [nailsTypes, 200, null];
   };
 
-  deleteNailsType = async (nailsTpId) => {
-    const [deleteNailsTp, err] =
-      await this.prismaRepository.deleteNailsTp(nailsTpId);
+  deleteNailsTypes = async (nailsTpId) => {
+    const [deleteNailsTp, err] = await this.prismaRepository.deleteNailsTypes(
+      nailsTpId,
+    );
     if (err) return [null, 400, err];
     return [deleteNailsTp, 202, null];
   };

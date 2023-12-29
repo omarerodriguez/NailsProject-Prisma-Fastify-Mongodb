@@ -30,7 +30,7 @@ module.exports = class NailsTypesHandler {
 
   findNailsTypesById = async (req, res) => {
     try {
-      const [nailsTypes, status, err] = await this.usecases.findNailsTypesById(
+      const [nailsType, status, err] = await this.usecases.findNailsTypesById(
         req.params.id,
       );
       if (err)
@@ -40,7 +40,7 @@ module.exports = class NailsTypesHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: nailsTypes,
+        data: nailsType,
       });
     } catch (error) {
       console.log(error);
@@ -81,7 +81,7 @@ module.exports = class NailsTypesHandler {
 
   updateNailsTypes = async (req, res) => {
     try {
-      const errors = this.createNewNailsTypesValidations(req.body);
+      const errors = createNewNailsTypesValidations(req.body);
       if (errors)
         return res.status(400).send({
           message: 'fail',
