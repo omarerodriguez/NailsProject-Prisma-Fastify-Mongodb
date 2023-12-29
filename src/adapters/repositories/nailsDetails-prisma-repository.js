@@ -41,4 +41,18 @@ module.exports = class NailsDetailsPrismaRepository {
       );
     }
   }
+
+  async updateNailsDetails(nailsDetailsId, nailsDetail) {
+    try {
+      const nailsDetails = await this.prismaClient.update({
+        where: { id: nailsDetailsId },
+        data: nailsDetail,
+      });
+      return [nailsDetails, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in nailsDetails-prisma-repository.updateNailsDetails err: ${error.message}`,
+      );
+    }
+  }
 };
