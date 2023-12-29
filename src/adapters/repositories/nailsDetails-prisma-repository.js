@@ -28,4 +28,17 @@ module.exports = class NailsDetailsPrismaRepository {
       );
     }
   }
+
+  async createNewNailsDetalis(newNailsDetails) {
+    try {
+      const nailsDetails = await this.prismaClient.create({
+        data: newNailsDetails,
+      });
+      return [nailsDetails, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in nailsDetails-prisma-repository.createNewNailsDetalis err: ${error.message}`,
+      );
+    }
+  }
 };
