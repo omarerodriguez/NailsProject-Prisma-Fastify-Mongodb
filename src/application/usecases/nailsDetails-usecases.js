@@ -9,4 +9,12 @@ module.exports = class NailsDetailsUseCases {
     if (err) return [null, 404, err];
     return [nailsDetails, 200, null];
   };
+
+  findNailsDetailsById = async (nailsDetailsId) => {
+    const [nailsDetail, err] = await this.prismaRepository.findNailsDetailsById(
+      nailsDetailsId,
+    );
+    if (err) return [null, 404, err];
+    return [nailsDetail, 200, null];
+  };
 };
