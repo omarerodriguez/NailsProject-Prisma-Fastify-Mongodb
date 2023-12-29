@@ -67,4 +67,26 @@ module.exports = class NailsDetailsHandler {
       });
     }
   };
+
+  updateNailsDetails = async (req, res) => {
+    try {
+      const [updateNailsDetail, status, err] =
+        await this.usecases.updateNailsDetails(req.body);
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: updateNailsDetail,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
 };
