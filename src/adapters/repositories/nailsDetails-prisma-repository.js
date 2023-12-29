@@ -14,4 +14,18 @@ module.exports = class NailsDetailsPrismaRepository {
       );
     }
   }
+
+  async findNailsDetailsById(nailsDetailsId) {
+    try {
+      const nailsDetail = await this.prismaClient.findFirst({
+        where: { id: nailsDetailsId },
+      });
+      if (!nailsDetail) return [null, `NailsDetails not found`];
+      return [nailsDetail, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in nailsDetails-prisma-repository.findNailsDetailsById err: ${error.message}`,
+      );
+    }
+  }
 };
