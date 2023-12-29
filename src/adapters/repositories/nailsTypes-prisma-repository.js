@@ -5,10 +5,10 @@ module.exports = class NailsTypesPrismaRepository {
 
   async findAllNailsTypes() {
     try {
-      const nailsTp = await this.prismaClient.nailstp.findMany({});
-      if (nailsTp.length === 0 || !nailsTp)
+      const nailsTps = await this.prismaClient.nailType.findMany({});
+      if (nailsTps.length === 0 || !nailsTps)
         return [null, 'there are not nails types fetched'];
-      return [nailsTp, null];
+      return [nailsTps, null];
     } catch (error) {
       throw new Error(
         `there was a error in nailsTypes-prisma-repository.findAllNailsTypes err: ${error.message}`,
@@ -18,8 +18,16 @@ module.exports = class NailsTypesPrismaRepository {
 
   async findNailsTypesById(nailsTpId) {
     try {
-      const nailsTp = await this.prismaClient.nailsTp.findFirst({
+      const nailsTp = await this.prismaClient.nailType.findFirst({
         where: { id: nailsTpId },
+        include: {
+          allowed_detalis: {
+            select: {
+              name: true,
+              price: true,
+            },
+          },
+        },
       });
       if (!nailsTp) return [null, 'NailsTypes not found'];
       return [nailsTp, null];
@@ -30,9 +38,9 @@ module.exports = class NailsTypesPrismaRepository {
     }
   }
 
-  async createNewNailsType(newNailsType) {
+  async createNewNailsTypes(newNailsType) {
     try {
-      const nailsTp = await this.prismaClient.nailsTp.create({
+      const nailsTp = await this.prismaClient.nailType.create({
         data: newNailsType,
       });
       return [nailsTp, null];
@@ -43,13 +51,13 @@ module.exports = class NailsTypesPrismaRepository {
     }
   }
 
-  async updateNailsType(nailsTpId, nailsType) {
+  async updateNailsTypes(nailsTpId, nailsType) {
     try {
-      const nailsTp = await this.prismaClient.nailsTp.update({
+      const nailsTps = await this.prismaClient.nailType.update({
         where: { id: nailsTpId },
         data: nailsType,
       });
-      return [nailsTp, null];
+      return [nailsTps, null];
     } catch (error) {
       throw new Error(
         `there was a error in nailsTypes-prisma-repository.updateNailsType err: ${error.message}`,
@@ -59,7 +67,7 @@ module.exports = class NailsTypesPrismaRepository {
 
   async deleteNailsTypes(nailsTpId) {
     try {
-      const nailsTp = await this.prismaClient.delete({
+      const nailsTp = await this.prismaClient.nailType.delete({
         where: { id: nailsTpId },
       });
       return [nailsTp, null];

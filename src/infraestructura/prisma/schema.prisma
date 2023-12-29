@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model User {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   nombre     String
   apellido   String
@@ -20,23 +20,29 @@ model user {
   sexo       String?
   correo     String  @unique
   created_at String
+
+  @@map("user")
 }
 
-model nails_types {
+model NailType {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
-  name String
-  allowed_detalis nails_details[]
+  name String @unique
+  allowed_detalis NailsDetails[]
   default_price Int
-  deleted_at String
-  created_at String
+  deleted_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("nailstypes")
 }
 
-model nails_details {
+model NailsDetails {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String
   price Int
-  details nails_types? @relation(fields: [detailsId], references: [id])
+  details NailType @relation(fields: [detailsId], references: [id])
   detailsId String @db.ObjectId
-  deleted_at String
-  created_at String
+  deleted_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("nailsdetails")
 }

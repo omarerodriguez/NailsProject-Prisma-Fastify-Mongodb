@@ -1,6 +1,6 @@
 module.exports = class UserPrismaRepository {
-  constructor(primaClient) {
-    this.prismaClient = primaClient;
+  constructor(prismaClient) {
+    this.prismaClient = prismaClient;
   }
 
   async findAllUsers() {
