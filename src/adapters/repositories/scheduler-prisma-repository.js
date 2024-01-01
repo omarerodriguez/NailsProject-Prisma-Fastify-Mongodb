@@ -4,7 +4,7 @@ module.exports = class SchedulerPrismaRepository {
     this.prismaClient = prismaClient;
   }
 
-  async findAllScheduler() {
+  async findAllSchedulers() {
     try {
       const schedulers = await this.prismaClient.scheduler.findMany({});
       if (schedulers.length === 0 || !schedulers)
