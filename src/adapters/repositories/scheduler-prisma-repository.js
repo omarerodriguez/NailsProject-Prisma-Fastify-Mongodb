@@ -57,4 +57,16 @@ module.exports = class SchedulerPrismaRepository {
       );
     }
   }
+  async deleteScheduler(schedulerId) {
+    try {
+      const deletescheduler = await this.prismaClient.scheduler.delete({
+        where: { id: schedulerId },
+      });
+      return [deletescheduler, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in scheduler-prisma-repository.deleteScheduler err: ${error.message}`,
+      );
+    }
+  }
 };
