@@ -15,4 +15,12 @@ module.exports = class SchedulerUseCases {
     if (err) return [null, 404, err];
     return [scheduler, 200, null];
   };
+
+  createNewScheduler = async (schedulerPayload) => {
+    const [newScheduler, err] = await this.prismaRepository.createNewScheduler(
+      schedulerPayload,
+    );
+    if (err) return [null, 404, err];
+    return [newScheduler, 200, null];
+  };
 };
