@@ -1,3 +1,4 @@
+const appointments = require('./../../utils/const/scheduler');
 module.exports = class SchedulerPrismaRepository {
   constructor(prismaClient) {
     this.prismaClient = prismaClient;
@@ -25,6 +26,20 @@ module.exports = class SchedulerPrismaRepository {
     } catch (error) {
       throw new Error(
         `there was a error in scheduler-prisma-repository.findSchedulerById err: ${error.message}`,
+      );
+    }
+  }
+
+  async createNewScheduler(newScheduler) {
+    try {
+      const scheduler = await this.prismaClient.scheduler.create({
+        data: newScheduler,
+        appointments,
+      });
+      return [scheduler, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in scheduler-prisma-repository.createNewScheduler err: ${error.message}`,
       );
     }
   }
