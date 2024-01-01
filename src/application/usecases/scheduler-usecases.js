@@ -23,4 +23,13 @@ module.exports = class SchedulerUseCases {
     if (err) return [null, 404, err];
     return [newScheduler, 200, null];
   };
+
+  updateScheduler = async (schedulerId, schedulerPayload) => {
+    const [updateScheduler, err] = await this.prismaRepository.updateScheduler(
+      schedulerId,
+      schedulerPayload,
+    );
+    if (err) return [null, 404, err];
+    return [updateScheduler, 200, null];
+  };
 };
