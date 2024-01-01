@@ -7,4 +7,12 @@ module.exports = class SchedulerUseCases {
     if (err) return [null, 404, err];
     return [schedulers, 200, null];
   };
+
+  findSchedulerById = async (schedulerId) => {
+    const [scheduler, err] = await this.prismaRepository.findSchedulerById(
+      schedulerId,
+    );
+    if (err) return [null, 404, err];
+    return [scheduler, 200, null];
+  };
 };
