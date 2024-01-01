@@ -51,12 +51,12 @@ model NailsDetails {
   @@map("nailsdetails")
 }
 
-model scheduler {
+model Scheduler {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  appointments String[]
-  appointment Appointment @relation(fields: [appointmentId],references: [id])
-  appointmentId String @unique @db.ObjectId
+  appointments Json
   created_at String
+
+  @@map("scheduler")
 }
 
 model Appointment {
@@ -69,20 +69,18 @@ model Appointment {
   types_of_nailsId String @unique @db.ObjectId
   //..........details_of_nails...........
   details_of_nails NailsDetails[]
-  //........scheduler.........
-  scheduler scheduler?
-  status Status @default(FREE)
+  status Status @default(RESERVED)
   status_date String
   status_logs String[]
   duration String
   reserved_at String
   deleted_at String
   created_at String
+
   @@map("appointments")
 }
 
 enum Status {
-  FREE
   RESERVED
   CONFIRMED
   CANCELED
