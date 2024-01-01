@@ -43,4 +43,18 @@ module.exports = class SchedulerPrismaRepository {
       );
     }
   }
+
+  async updateScheduler(schedulerId, scheduler) {
+    try {
+      const updateScheduler = await this.prismaClient.scheduler.update({
+        where: { id: schedulerId },
+        data: scheduler,
+      });
+      return [updateScheduler, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in scheduler-prisma-repository.updateScheduler err: ${error.message}`,
+      );
+    }
+  }
 };
