@@ -32,4 +32,12 @@ module.exports = class SchedulerUseCases {
     if (err) return [null, 404, err];
     return [updateScheduler, 200, null];
   };
+
+  deleteScheduler = async (schedulerId) => {
+    const [deletescheduler, err] = await this.prismaRepository.deleteScheduler(
+      schedulerId,
+    );
+    if (err) return [null, 404, err];
+    return [deletescheduler, 200, null];
+  };
 };
