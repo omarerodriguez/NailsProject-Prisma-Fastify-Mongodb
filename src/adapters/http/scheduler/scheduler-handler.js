@@ -89,4 +89,26 @@ module.exports = class SchedulerHandler {
       });
     }
   };
+
+  deleteScheduler = async (req, res) => {
+    try {
+      const [deleteScheduler, status, err] =
+        await this.usecases.deleteScheduler(req.params.id);
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: `deleted Nails Details with ID: ${deleteScheduler.id}`,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
 };
