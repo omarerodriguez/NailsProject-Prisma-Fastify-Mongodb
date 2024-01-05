@@ -1,4 +1,3 @@
-const appointments = require('./../../utils/const/scheduler');
 module.exports = class SchedulerPrismaRepository {
   constructor(prismaClient) {
     this.prismaClient = prismaClient;
@@ -34,7 +33,6 @@ module.exports = class SchedulerPrismaRepository {
     try {
       const scheduler = await this.prismaClient.scheduler.create({
         data: newScheduler,
-        appointments,
       });
       return [scheduler, null];
     } catch (error) {
