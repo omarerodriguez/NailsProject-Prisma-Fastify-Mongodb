@@ -7,5 +7,20 @@ const getFormatDate = () => {
   return fechaFormateadaConEspacios;
 };
 
+const addHour = (originalDate, hoursToAdd) => {
+  if (!(originalDate instanceof Date)) {
+    throw new Error('El primer argumento debe ser una instancia de Date.');
+  }
 
-module.exports = { getFormatDate };
+  if (typeof hoursToAdd !== 'number' || isNaN(hoursToAdd)) {
+    throw new Error('El segundo argumento debe ser un número válido.');
+  }
+
+  const newDate = new Date(originalDate.getTime());
+  newDate.setHours(newDate.getHours() + hoursToAdd);
+
+  return newDate;
+};
+
+
+module.exports = { getFormatDate, addHour };
