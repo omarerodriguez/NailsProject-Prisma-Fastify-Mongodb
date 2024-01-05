@@ -1,3 +1,5 @@
+const { getFormatDate } = require('../../utils/functions/date');
+
 module.exports = class SchedulerUseCases {
   constructor(prismaRepository) {
     this.prismaRepository = prismaRepository;
@@ -17,11 +19,14 @@ module.exports = class SchedulerUseCases {
   };
 
   createNewScheduler = async (schedulerPayload) => {
-    const [newScheduler, err] = await this.prismaRepository.createNewScheduler(
+    const newScheduler = { ...schedulerPayload };
+    newScheduler.created_at = getFormatDate();
+
+    const [scheduler, err] = await this.prismaRepository.createNewScheduler(
       schedulerPayload,
     );
     if (err) return [null, 404, err];
-    return [newScheduler, 200, null];
+    return [scheduler, 200, null];
   };
 
   updateScheduler = async (schedulerId, schedulerPayload) => {
