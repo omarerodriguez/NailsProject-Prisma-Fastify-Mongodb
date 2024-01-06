@@ -1,8 +1,12 @@
 const { getFormatDate } = require('../../utils/functions/date');
-const { setAppoinments, updateAppoinments } = require('../../utils/functions/scheduler');
+const {
+  setAppoinments,
+  updateAppoinments,
+} = require('../../utils/functions/scheduler');
 module.exports = class SchedulerUseCases {
-  constructor(prismaRepository) {
+  constructor(prismaRepository, appointmentUseCases) {
     this.prismaRepository = prismaRepository;
+    this.appointmentUseCases = appointmentUseCases;
   }
   findAllSchedulers = async () => {
     const [schedulers, err] = await this.prismaRepository.findAllSchedulers();
@@ -30,12 +34,20 @@ module.exports = class SchedulerUseCases {
   };
 
   updateScheduler = async (schedulerId, appointmentId, userId) => {
-    const [scheduler, errScheduler] = await this.prismaRepository.findSchedulerById(
-      schedulerId,
-    );
-    if (errScheduler) return [null, 404, err];
+    const [scheduler, errScheduler] =
+      await this.prismaRepository.findSchedulerById(schedulerId);
+    if (errScheduler) return [null, 404, errScheduler];
 
-    const [updatedScheduler, errUpdateAppoinment] = updateAppoinments(scheduler,"APOINMENT", "appointment.reserved_at", "appointment.duration");
+    const [appointment, errAppointment] =
+      await this.appointmentUseCases.findAppointmentById(appointmentId);
+    if (errAppointment) return [null, 404, err];
+
+    const [updatedScheduler, errUpdateAppoinment] = updateAppoinments(
+      scheduler,
+      appointment,
+      appointment.reserved_at,
+      appointment.duration,
+    );
     if (errUpdateAppoinment) return [null, 400, errUpdateAppoinment];
 
     const [updateScheduler, err] = await this.prismaRepository.updateScheduler(
