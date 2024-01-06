@@ -33,12 +33,13 @@ module.exports = class UserUseCases {
     if (findUser) {
       return [null, 400, 'User already exist'];
     }
-
+    ///arreglar validacion, si no existe el correo
     const newUserBody = { ...userPayload };
     newUserBody.created_at = getFormatDate();
 
-    const [newUser, err] =
-      await this.prismaRepository.createNewUser(newUserBody);
+    const [newUser, err] = await this.prismaRepository.createNewUser(
+      newUserBody,
+    );
     if (err) return [null, 400, err];
 
     const [token, tokenError] = await this.tokenUsescases.generateToken(
