@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = appointments = {
   7: null,
   7.5: null,
   8: null,

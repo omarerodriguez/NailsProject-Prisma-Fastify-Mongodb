@@ -15,7 +15,7 @@ const loginUserRules = {
 
 const createNewNailsTypesRules = {
   name: 'string|min:3|max:25|required',
-  default_price: 'integer|min:3|max:7',
+  default_price: 'integer|min:3|max:1000000',
   'allowed_detalis.*.name': 'string|min:3|max:25',
   'allowed_detalis.*.price': 'integer',
 };
