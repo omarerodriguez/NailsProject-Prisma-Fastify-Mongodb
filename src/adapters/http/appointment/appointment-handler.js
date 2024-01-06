@@ -65,4 +65,26 @@ module.exports = class SchedulerHandler {
       });
     }
   };
+
+  updateAppointment = async (req, res) => {
+    try {
+      const [updateAppointment, status, err] =
+        await this.usecases.updateAppointment(req.params.id, req.body);
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: updateAppointment,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
 };
