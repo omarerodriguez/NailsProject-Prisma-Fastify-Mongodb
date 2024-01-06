@@ -53,4 +53,16 @@ module.exports = class AppointmentPrismaRepository {
       );
     }
   }
+  async deleteAppointment(appointmentId) {
+    try {
+      const deleteAppointment = await this.prismaClient.appointment.delete({
+        where: { id: appointmentId },
+      });
+      return [deleteAppointment, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in appointment-prisma-repository.deleteAppointment err: ${error.message}`,
+      );
+    }
+  }
 };
