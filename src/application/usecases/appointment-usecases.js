@@ -17,4 +17,14 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
     return [appointment, 200, null];
   };
+  createNewAppointment = async (appointmentPayload) => {
+    const newAppointment = { ...appointmentPayload };
+    newAppointment.created_at = getFormatDate();
+
+    const [appointment, err] = await this.prismaRepository.createNewAppointment(
+      newAppointment,
+    );
+    if (err) return [null, 404, err];
+    return [appointment, 200, null];
+  };
 };
