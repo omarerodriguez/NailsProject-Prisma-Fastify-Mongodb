@@ -36,4 +36,10 @@ module.exports = class AppointmentUseCases {
     if (errAppoinment) return [null, 404, err];
     return [appointment, 200, null];
   };
+  deleteAppointment = async (appointmentId) => {
+    const [deleteAppointment, err] =
+      await this.prismaRepository.deleteAppointment(appointmentId);
+    if (err) return [null, 404, err];
+    return [deleteAppointment, 200, null];
+  };
 };
