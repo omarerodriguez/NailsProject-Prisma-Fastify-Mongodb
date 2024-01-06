@@ -28,4 +28,16 @@ module.exports = class AppointmentPrismaRepository {
       );
     }
   }
+  async createNewAppointment(newAppointment) {
+    try {
+      const appointment = await this.prismaClient.appointment.create({
+        data: newAppointment,
+      });
+      return [appointment, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in appointment-prisma-repository.createNewAppointment err: ${error.message}`,
+      );
+    }
+  }
 };
