@@ -40,4 +40,17 @@ module.exports = class AppointmentPrismaRepository {
       );
     }
   }
+  async updateAppointment(appointmentId, appointment) {
+    try {
+      const updateAppointment = await this.prismaClient.appointment.update({
+        where: { id: appointmentId },
+        data: appointment,
+      });
+      return [updateAppointment, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in appointment-prisma-repository.updateAppointment err: ${error.message}`,
+      );
+    }
+  }
 };
