@@ -87,4 +87,25 @@ module.exports = class SchedulerHandler {
       });
     }
   };
+  deleteAppointment = async (req, res) => {
+    try {
+      const [deleteAppointment, status, err] =
+        await this.usecases.deleteAppointment(req.params.id);
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: `deleted appointment Details with ID: ${deleteAppointment.id}`,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
 };
