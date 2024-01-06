@@ -10,4 +10,11 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
     return [appointmets, 200, null];
   };
+  findAppointmentById = async (appointmentId) => {
+    const [appointment, err] = await this.prismaRepository.findAppointmentById(
+      appointmentId,
+    );
+    if (err) return [null, 404, err];
+    return [appointment, 200, null];
+  };
 };
