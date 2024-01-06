@@ -101,7 +101,7 @@ module.exports = class SchedulerHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: `deleted Nails Details with ID: ${deleteScheduler.id}`,
+        data: `deleted Scheduler with ID: ${deleteScheduler.id}`,
       });
     } catch (error) {
       console.log(error);
