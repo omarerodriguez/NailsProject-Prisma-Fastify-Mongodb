@@ -27,4 +27,13 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
     return [appointment, 200, null];
   };
+  updateAppointment = async (appointmentPayload, appointmentId) => {
+    const [appointment, errAppoinment] =
+      await this.prismaRepository.updateAppointment(
+        appointmentId,
+        appointmentPayload,
+      );
+    if (errAppoinment) return [null, 404, err];
+    return [appointment, 200, null];
+  };
 };
