@@ -35,15 +35,16 @@ const nailsTypesUseCases = new NailsTypesUseCases(nailsTypesPrismaRepository);
 const nailsDetailsUseCases = new NailsDetailsUseCases(
   nailsDetailsPrismaRepository,
 );
+const schedulerUseCases = new SchedulerUseCases(schedulerPrismaRepository);
 const appointmentUseCases = new AppointmentUseCases(
   appointmentPrismaRepository,
+  userPrismaRepository,
+  nailsTypesPrismaRepository,
+  nailsDetailsPrismaRepository,
+  schedulerUseCases,
 );
 const tokenUsescases = new TokenUsesCases();
 const userUseCases = new UserUseCases(userPrismaRepository, tokenUsescases);
-const schedulerUseCases = new SchedulerUseCases(
-  schedulerPrismaRepository,
-  appointmentUseCases,
-);
 
 // Intance - Handler
 const userHandler = new Userhandler(userUseCases);
