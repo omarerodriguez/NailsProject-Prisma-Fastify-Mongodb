@@ -10,7 +10,7 @@ const errorOcupedAppoinment = (
   currentHourAppointmentObject,
   currentHourAppoinment,
   hourAppoinment,
-  reservedAt
+  reservedAt,
 ) => {
   if (currentHourAppointmentObject) {
     if (currentHourAppoinment === hourAppoinment) {
@@ -28,15 +28,27 @@ const errorOcupedAppoinment = (
 
 const updateAppoinments = (scheduler, appointmentId, hour, numOfSessions) => {
   const newScheduler = { ...scheduler };
-  let hourRevisor = hour;
+  delete newScheduler.id;
+  const parseDate = new Date(hour);
+  let hourByDate = parseDate.getHours();
+  const minutesByDate = parseDate.getMinutes();
+  hourByDate = minutesByDate === 30 ? (hourByDate += 0.5) : hourByDate;
+  const allowHours = Object.keys(newScheduler.appointments);
+  let hourRevisor = hourByDate;
 
   for (let index = 0; index < numOfSessions; index++) {
     const err = errorOcupedAppoinment(
       newScheduler.appointments[hourRevisor],
-      hour,
+      hourRevisor,
+      hourByDate,
+      parseDate,
     );
     if (err) return [null, err];
-
+    if (!allowHours.includes(`${hourRevisor}`))
+      return [
+        null,
+        'Horario de reserva no disponible, esta hora no esta habilitada.',
+      ];
     newScheduler.appointments[hourRevisor] = appointmentId;
     hourRevisor += 0.5;
   }
