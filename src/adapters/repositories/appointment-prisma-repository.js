@@ -7,7 +7,7 @@ module.exports = class AppointmentPrismaRepository {
     try {
       const appointmets = await this.prismaClient.appointment.findMany({});
       if (appointmets.length === 0 || !appointmets)
-        return [null, `there are not schedulers fetched`];
+        return [null, `there are not appointment fetched`];
       return [appointmets, null];
     } catch (error) {
       throw new Error(
