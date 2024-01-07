@@ -41,10 +41,9 @@ model NailsDetails {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String
   price Int
-  details NailType @relation(fields: [detailsId], references: [id])
-  detailsId String @db.ObjectId
-  appointments Appointment @relation(fields: [appointmentId],references: [id])
-  appointmentId String @db.ObjectId
+  details NailType? @relation(fields: [details_id], references: [id])
+  details_id String? @db.ObjectId
+  appointment_id String? @db.ObjectId
   deleted_at DateTime @updatedAt
   created_at DateTime @default(now())
 
@@ -62,19 +61,19 @@ model Scheduler {
 model Appointment {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   //...........user_id...........
-  user User @relation(fields: [userId],references: [id])
-  userId String @unique @db.ObjectId
+  user User @relation(fields: [user_id],references: [id])
+  user_id String @unique @db.ObjectId
   //..........types_of_details............
-  types_of_nails NailType @relation(fields: [types_of_nailsId],references: [id])
-  types_of_nailsId String @unique @db.ObjectId
+  types_of_nails NailType @relation(fields: [types_of_nails_id],references: [id])
+  types_of_nails_id String @unique @db.ObjectId
   //..........details_of_nails...........
-  details_of_nails NailsDetails[]
+  details_of_nails String[]
   status Status @default(RESERVED)
   status_date String
-  status_logs String[]
-  duration String
+  status_logs Json
+  duration Int
   reserved_at String
-  deleted_at String
+  deleted_at String?
   created_at String
 
   @@map("appointments")
