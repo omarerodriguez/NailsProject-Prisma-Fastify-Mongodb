@@ -22,7 +22,7 @@ const createNewNailsTypesRules = {
 
 const createNewNailsDetailsRules = {
   name: 'string|min:3|max:25|required',
-  price: 'integer|min:3|max:7',
+  price: 'integer|min:3|max:1000000',
 };
 
 module.exports = {
