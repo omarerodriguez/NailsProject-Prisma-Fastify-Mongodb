@@ -45,6 +45,28 @@ module.exports = class SchedulerHandler {
       });
     }
   };
+  findAppointmentByUser = async (req, res) => {
+    try {
+      const [userId, status, err] = await this.usecases.findAppointmentByUser(
+        req.params.id,
+      );
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: userId,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
   createNewAppointment = async (req, res) => {
     try {
       const [appointmentPayload, status, err] =
