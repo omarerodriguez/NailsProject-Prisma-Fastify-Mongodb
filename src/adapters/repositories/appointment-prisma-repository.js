@@ -28,6 +28,25 @@ module.exports = class AppointmentPrismaRepository {
       );
     }
   }
+  async findAppointmentByUser(userId) {
+    try {
+      const userInAppointment = await this.prismaClient.user.findFirst({
+        where: {
+          appointment: {
+            is: {
+              user_id: userId,
+            },
+          },
+        },
+      });
+      if (!userInAppointment) return [null, `User into appointment not found`];
+      return [userInAppointment, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in appointment-prisma-repository.findAppointmentByUser err: ${error.message}`,
+      );
+    }
+  }
   async createNewAppointment(newAppointment) {
     try {
       const appointment = await this.prismaClient.appointment.create({
