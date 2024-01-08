@@ -30,7 +30,7 @@ module.exports = class AppointmentUseCases {
   findAppointmentByUser = async (userId) => {
     const [appointment, err] =
       await this.prismaRepository.findAppointmentByUser(userId);
-    if (appointment) if (err) return [null, 404, err];
+    if (err) return [null, 404, err];
     return [appointment, 200, null];
   };
   createNewAppointment = async (appointmentPayload) => {
@@ -42,17 +42,26 @@ module.exports = class AppointmentUseCases {
     } = appointmentPayload;
 
     // Realiza las operaciones asincrónicas simultáneamente utilizando Promise.all
-    const [userData, typeOfNailsData, nailsDetailsData] = await Promise.all([
-      this.userPrismaRepository.findUserById(userId),
-      this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
-      this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
-    ]);
+    const [userData, typeOfNailsData, nailsDetailsData, userAppointmentData] =
+      await Promise.all([
+        this.prismaRepository.findAppointmentByUser(userId),
+        this.userPrismaRepository.findUserById(userId),
+        this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
+        this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
+      ]);
     // Extrae los resultados y errores específicos
+    const [, userAppoinmentErr] = userAppointmentData;
     const [, userErr] = userData;
     const [, typeOfNailsErr] = typeOfNailsData;
     const [, nailsDetailsErr] = nailsDetailsData;
 
     // Verifica los errores y devuelve una respuesta adecuada
+    if (!userAppoinmentErr)
+      return [
+        null,
+        404,
+        'Este usuario ya tiene un cita reservada, podra reservar de nuevo cuando cambie su estado',
+      ];
     if (userErr) return [null, 404, userErr];
     if (typeOfNailsErr) return [null, 404, typeOfNailsErr];
     if (nailsDetailsErr) return [null, 404, nailsDetailsErr];
