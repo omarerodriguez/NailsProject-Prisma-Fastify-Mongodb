@@ -12,13 +12,13 @@ datasource db {
 
 model User {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  nombre     String
-  apellido   String
-  edad       Int?
-  celular    String  @unique
-  barrio     String?
-  sexo       String?
-  correo     String  @unique
+  name     String
+  last_name   String
+  age       Int?
+  phone_number    String  @unique
+  district     String?
+  gender       String?
+  email     String  @unique
   appointment Appointment?
   created_at String
 

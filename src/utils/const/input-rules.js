@@ -1,16 +1,16 @@
 const createNewUserRules = {
-  nombre: 'string|min:3|max:15|required',
-  apellido: 'string|min:3|max:20',
-  edad: 'integer',
-  celular: 'string|max:10|required',
-  barrio: 'string|max:40',
-  sexo: 'string',
-  correo: 'required|email',
+  name: 'string|min:3|max:15|required',
+  last_name: 'string|min:3|max:20',
+  age: 'integer',
+  phone_number: 'string|max:10|required',
+  district: 'string|max:40',
+  gender: 'string',
+  email: 'required|email',
 };
 
 const loginUserRules = {
-  celular: 'string|max:10|required',
-  correo: 'required|email',
+  phone_number: 'string|max:10|required',
+  email: 'required|email',
 };
 
 const createNewNailsTypesRules = {
