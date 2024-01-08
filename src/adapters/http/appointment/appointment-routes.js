@@ -12,6 +12,11 @@ const routes = [
     handler: appointmentHandler.findAppointmentById,
   },
   {
+    url: '/appointments/userid/:id',
+    method: 'GET',
+    handler: appointmentHandler.findAppointmentByUser,
+  },
+  {
     url: '/appointments',
     method: 'POST',
     handler: appointmentHandler.createNewAppointment,
