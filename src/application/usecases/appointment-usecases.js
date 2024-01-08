@@ -27,6 +27,13 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
     return [appointment, 200, null];
   };
+  findAppointmentByUser = async (userId) => {
+    const [appointment, err] =
+      await this.prismaRepository.findAppointmentByUser(userId);
+    if (appointment)
+      if (err) return [null, 'Este usuario ya tiene una cita agendada', err];
+    return [appointment, 200, null];
+  };
   createNewAppointment = async (appointmentPayload) => {
     const {
       scheduler_id: schedulerId,
