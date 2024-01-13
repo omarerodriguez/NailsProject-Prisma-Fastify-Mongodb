@@ -2,9 +2,20 @@ module.exports = class NailsDetailsPrismaRepository {
   constructor(prismaClient) {
     this.prismaClient = prismaClient;
   }
-  async findAllNailsDetails() {
+  async findAllNailsDetails(ids) {
     try {
-      const nailsdetails = await this.prismaClient.nailsDetails.findMany({});
+      const whereClause = ids
+        ? {
+            where: {
+              id: {
+                in: ids,
+              },
+            },
+          }
+        : {};
+      const nailsdetails = await this.prismaClient.nailsDetails.findMany(
+        whereClause,
+      );
       if (nailsdetails.length === 0 || !nailsdetails)
         return [null, `there are not nails details fetched`];
       return [nailsdetails, null];

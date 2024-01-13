@@ -54,8 +54,8 @@ module.exports = class Userhandler {
 
   findUserByEmail = async (req, res) => {
     try {
-      const { correo } = req.query;
-      const [user, status, err] = await this.usecases.findUserByEmail(correo);
+      const { email } = req.query;
+      const [user, status, err] = await this.usecases.findUserByEmail(email);
       if (err)
         return res.status(status).send({
           message: 'fail',

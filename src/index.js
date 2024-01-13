@@ -1,8 +1,11 @@
 const fastify = require('fastify')({ logger: true });
 
 const userRoutes = require('./adapters/http/user/user-route');
-const nailsTypes = require('./adapters/http/nails/nails-types-route');
-const nailsDetails = require('./adapters/http/nails/nails-details-route');
+const nailsTypesRoutes = require('./adapters/http/nails/nails-types-route');
+const nailsDetailsRoutes = require('./adapters/http/nails/nails-details-route');
+const schedulerRoutes = require('./adapters/http/scheduler/scheduler-route');
+const appointmentsRoutes = require('./adapters/http/appointment/appointment-routes');
+
 fastify.get('/', (req, reply) => {
   reply.send({ hello: 'world' });
 });
@@ -11,10 +14,16 @@ fastify.get('/', (req, reply) => {
 userRoutes.forEach((route) => {
   fastify.route(route);
 });
-nailsDetails.forEach((route) => {
+nailsDetailsRoutes.forEach((route) => {
   fastify.route(route);
 });
-nailsTypes.forEach((route) => {
+nailsTypesRoutes.forEach((route) => {
+  fastify.route(route);
+});
+schedulerRoutes.forEach((route) => {
+  fastify.route(route);
+});
+appointmentsRoutes.forEach((route) => {
   fastify.route(route);
 });
 
