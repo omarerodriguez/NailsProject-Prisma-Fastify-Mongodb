@@ -1,3 +1,6 @@
+const {
+  getSchedulerByDateValidations,
+} = require('../../../utils/functions/input-validations');
 module.exports = class SchedulerHandler {
   constructor(schedulerUsecases) {
     this.usecases = schedulerUsecases;
@@ -6,6 +9,44 @@ module.exports = class SchedulerHandler {
   findAllSchedulers = async (req, res) => {
     try {
       const [schedulers, status, err] = await this.usecases.findAllSchedulers();
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: schedulers,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
+
+  findSchedulersByDate = async (req, res) => {
+    try {
+      const {
+        date_type: dateType,
+        date_from: dateFrom,
+        date_to: dateTo,
+      } = req.query;
+      if (!dateType && !dateFrom && !dateTo)
+        return res.status(400).send({
+          message: 'fail',
+          errors: 'la fecha es requerida',
+        });
+      const queryError = getSchedulerByDateValidations(req.query);
+      if (queryError)
+        return res.status(400).send({
+          message: 'fail',
+          errors: queryError,
+        });
+      const [schedulers, status, err] =
+        await this.usecases.findSchedulersByFilters(req.query);
       if (err)
         return res.status(status).send({
           message: 'fail',

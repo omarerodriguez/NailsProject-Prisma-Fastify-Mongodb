@@ -15,6 +15,25 @@ module.exports = class SchedulerPrismaRepository {
       );
     }
   }
+  async findSchedulersByDate(dateFrom, dateTo) {
+    try {
+      const schedulers = await this.prismaClient.scheduler.findMany({
+        where: {
+          created_at: {
+            gte: dateFrom,
+            lte: dateTo,
+          },
+        },
+      });
+      if (schedulers.length === 0 || !schedulers)
+        return [null, `there are not schedulers fetched`];
+      return [schedulers, null];
+    } catch (error) {
+      throw new Error(
+        `there was a error in scheduler-prisma-repository.findAllScheduler err: ${error.message}`,
+      );
+    }
+  }
   async findSchedulerById(schedulerId) {
     try {
       const scheduler = await this.prismaClient.scheduler.findFirst({

@@ -1,5 +1,7 @@
 const appointments = require('../const/scheduler');
-const { addHour } = require('../functions/date');
+const { addHour, setHourToDate, addDays } = require('../functions/date');
+const dateMap = require('../const/date-map');
+const { getFormatDate } = require('../../utils/functions/date');
 
 const setAppoinments = (schedulerPayload) => {
   schedulerPayload.appointments = appointments;
@@ -56,7 +58,25 @@ const updateAppoinments = (scheduler, appointmentId, hour, numOfSessions) => {
   return [newScheduler, null];
 };
 
+const dateFromAndDateToByFilters = (filters) => {
+  let dateFrom;
+  let dateTo;
+  if (filters.date_type) {
+    const today = new Date();
+    dateFrom = setHourToDate(today, 0);
+    dateTo = addDays(today, dateMap[filters.date_type]);
+  } else {
+    dateFrom = filters.date_type;
+    dateTo = filters.date_type;
+  }
+  return [
+    dateFrom.toLocaleString().replace(',', ''),
+    dateTo.toLocaleString().replace(',', ''),
+  ];
+};
+
 module.exports = {
   setAppoinments,
   updateAppoinments,
+  dateFromAndDateToByFilters,
 };

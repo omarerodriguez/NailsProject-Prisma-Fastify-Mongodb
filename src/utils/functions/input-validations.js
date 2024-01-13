@@ -5,6 +5,7 @@ const {
   loginUserRules,
   createNewNailsTypesRules,
   createNewNailsDetailsRules,
+  getSchedulerByDateRules,
 } = require('../const/input-rules');
 
 const createNewuUserValidations = (newUserPayload) => {
@@ -51,10 +52,18 @@ const createNewNailsDetailsValidations = (newNailsDetailsPayload) => {
   if (validation.fails()) return errors;
   return null;
 };
+
+const getSchedulerByDateValidations = (filters) => {
+  const validation = new Validator(filters, getSchedulerByDateRules);
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
 module.exports = {
   createNewuUserValidations,
   validateToken,
   loginUserValidations,
   createNewNailsTypesValidations,
   createNewNailsDetailsValidations,
+  getSchedulerByDateValidations,
 };

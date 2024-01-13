@@ -25,9 +25,16 @@ const createNewNailsDetailsRules = {
   price: 'integer|min:3|max:1000000',
 };
 
+const getSchedulerByDateRules = {
+  date_type: 'string|in:week,half_month,month',
+  date_to: 'date',
+  date_from: 'date',
+};
+
 module.exports = {
   createNewUserRules,
   loginUserRules,
   createNewNailsTypesRules,
   createNewNailsDetailsRules,
+  getSchedulerByDateRules,
 };

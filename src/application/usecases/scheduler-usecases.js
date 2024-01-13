@@ -3,12 +3,29 @@ const {
   setAppoinments,
   updateAppoinments,
 } = require('../../utils/functions/scheduler');
+const {
+  validateSchedulerQueryParams,
+} = require('../../utils/functions/query-validations');
+const {
+  dateFromAndDateToByFilters,
+} = require('../../utils/functions/scheduler');
 module.exports = class SchedulerUseCases {
   constructor(prismaRepository) {
     this.prismaRepository = prismaRepository;
   }
   findAllSchedulers = async () => {
     const [schedulers, err] = await this.prismaRepository.findAllSchedulers();
+    if (err) return [null, 404, err];
+    return [schedulers, 200, null];
+  };
+  findSchedulersByFilters = async (filters) => {
+    const queryErrors = validateSchedulerQueryParams(filters);
+    const [dateFrom, dateTo] = dateFromAndDateToByFilters(filters);
+    if (queryErrors) return [null, 400, queryErrors];
+    const [schedulers, err] = await this.prismaRepository.findSchedulersByDate(
+      dateFrom,
+      dateTo,
+    );
     if (err) return [null, 404, err];
     return [schedulers, 200, null];
   };
