@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/v1/src/(.*)",
+      "destination": "/src/$1"
+    }
+  ]
+}
