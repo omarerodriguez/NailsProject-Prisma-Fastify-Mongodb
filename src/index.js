@@ -1,12 +1,29 @@
 const fastify = require('fastify')({ logger: true });
-// fastify.register(require('@fastify/express'))
 
 const userRoutes = require('./adapters/http/user/user-route');
+const nailsTypesRoutes = require('./adapters/http/nails/nails-types-route');
+const nailsDetailsRoutes = require('./adapters/http/nails/nails-details-route');
+const schedulerRoutes = require('./adapters/http/scheduler/scheduler-route');
+const appointmentsRoutes = require('./adapters/http/appointment/appointment-routes');
 
 fastify.get('/', (req, reply) => {
   reply.send({ hello: 'world' });
 });
+
+// create index in http folder and add all routes
 userRoutes.forEach((route) => {
+  fastify.route(route);
+});
+nailsDetailsRoutes.forEach((route) => {
+  fastify.route(route);
+});
+nailsTypesRoutes.forEach((route) => {
+  fastify.route(route);
+});
+schedulerRoutes.forEach((route) => {
+  fastify.route(route);
+});
+appointmentsRoutes.forEach((route) => {
   fastify.route(route);
 });
 

@@ -1,6 +1,6 @@
 module.exports = class UserPrismaRepository {
-  constructor(primaClient) {
-    this.prismaClient = primaClient;
+  constructor(prismaClient) {
+    this.prismaClient = prismaClient;
   }
 
   async findAllUsers() {
@@ -33,7 +33,7 @@ module.exports = class UserPrismaRepository {
   async findUserByEmail(userEmail) {
     try {
       const email = await this.prismaClient.user.findFirst({
-        where: { correo: userEmail },
+        where: { email: userEmail },
       });
       if (!email) return [null, 'Email not found'];
       return [email, null];
@@ -57,9 +57,9 @@ module.exports = class UserPrismaRepository {
     }
   }
 
-  async loginUser(correo) {
+  async loginUser(email) {
     try {
-      const email = this.findUserByEmail(correo);
+      const email = this.findUserByEmail(email);
       if (!email || undefined) return [null, 'email not found or no valid'];
       return [email, null];
     } catch (error) {

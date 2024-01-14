@@ -23,7 +23,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
@@ -46,7 +46,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
@@ -54,8 +54,8 @@ module.exports = class Userhandler {
 
   findUserByEmail = async (req, res) => {
     try {
-      const { correo } = req.query;
-      const [user, status, err] = await this.usecases.findUserByEmail(correo);
+      const { email } = req.query;
+      const [user, status, err] = await this.usecases.findUserByEmail(email);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -68,7 +68,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
@@ -97,7 +97,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
@@ -132,7 +132,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
@@ -162,7 +162,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
@@ -183,7 +183,7 @@ module.exports = class Userhandler {
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There war internal server error',
+        message: 'There was internal server error',
         errors: error,
       });
     }
