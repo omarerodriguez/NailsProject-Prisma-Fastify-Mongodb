@@ -1,5 +1,4 @@
 const fastify = require('fastify')({ logger: true });
-
 const userRoutes = require('./adapters/http/user/user-route');
 const nailsTypesRoutes = require('./adapters/http/nails/nails-types-route');
 const nailsDetailsRoutes = require('./adapters/http/nails/nails-details-route');
@@ -10,6 +9,18 @@ fastify.get('/', (req, reply) => {
   reply.send({ hello: 'world' });
 });
 
+fastify.register(require('@fastify/cors'), {
+  origin: '*',
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Accept',
+    'Content-Type',
+    'Authorization',
+  ],
+  methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  credentials: true,
+});
 // create index in http folder and add all routes
 userRoutes.forEach((route) => {
   fastify.route(route);
