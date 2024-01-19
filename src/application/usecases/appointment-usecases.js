@@ -60,7 +60,7 @@ module.exports = class AppointmentUseCases {
       return [
         null,
         404,
-        'Este usuario ya tiene un cita reservada, una vez termine su cita',
+        'Este usuario ya tiene un cita reservada, puede agendar de nuevo cuando termine su cita',
       ];
     if (userErr) return [null, 404, userErr];
     if (typeOfNailsErr) return [null, 404, typeOfNailsErr];

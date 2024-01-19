@@ -28,7 +28,7 @@ module.exports = class UserUseCases {
     const [findUser, userError] = await this.prismaRepository.findUserByEmail(
       userPayload.email,
     );
-    if (!userError) return [null, 500, 'Email already exist'];
+    if (!userError) return [null, 400, 'Email already exist'];
     const newUserBody = { ...userPayload };
     newUserBody.created_at = getFormatDate();
 

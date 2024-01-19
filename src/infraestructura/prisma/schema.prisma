@@ -43,7 +43,6 @@ model NailsDetails {
   price Int
   details NailType? @relation(fields: [details_id], references: [id])
   details_id String? @db.ObjectId
-  appointment_id String? @db.ObjectId
   deleted_at DateTime @updatedAt
   created_at DateTime @default(now())
 
