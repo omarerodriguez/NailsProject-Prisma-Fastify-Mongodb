@@ -17,6 +17,7 @@ fastify.register(require('@fastify/cors'), {
     'Accept',
     'Content-Type',
     'Authorization',
+    'token',
   ],
   methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
   credentials: true,
