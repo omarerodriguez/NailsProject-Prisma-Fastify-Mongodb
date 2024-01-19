@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/github.com/omarerodriguez#readme",
   "dependencies": {
+    "@fastify/cors": "^8.5.0",
     "@fastify/express": "2.3.0",
     "@fastify/swagger": "^8.14.0",
     "@prisma/client": "^5.7.1",
