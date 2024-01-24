@@ -31,10 +31,15 @@ const getSchedulerByDateRules = {
   date_from: 'date',
 };
 
+const getUserByIdRules = {
+  id: 'string|hex|size:24|required',
+};
+
 module.exports = {
   createNewUserRules,
   loginUserRules,
   createNewNailsTypesRules,
   createNewNailsDetailsRules,
   getSchedulerByDateRules,
+  getUserByIdRules,
 };

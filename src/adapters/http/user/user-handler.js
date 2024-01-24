@@ -74,6 +74,30 @@ module.exports = class Userhandler {
     }
   };
 
+  findUserByPhoneNumber = async (req, res) => {
+    try {
+      const { phone_number } = req.query;
+      const [user, status, err] = await this.usecases.findUserByPhoneNumber(
+        phone_number,
+      );
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: user,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
+
   createNewUser = async (req, res) => {
     try {
       const errors = createNewuUserValidations(req.body); //
