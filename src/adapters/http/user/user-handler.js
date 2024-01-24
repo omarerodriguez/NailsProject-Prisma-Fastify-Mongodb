@@ -31,6 +31,12 @@ module.exports = class Userhandler {
 
   findUserById = async (req, res) => {
     try {
+      const errors = getUserByIdValidations(req.params); //
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const [user, status, err] = await this.usecases.findUserById(
         req.params.id,
       );
@@ -164,6 +170,12 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
+      const userIdErrors = getUserByIdValidations(req.params); //
+      if (userIdErrors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const errors = createNewuUserValidations(req.body);
       if (errors)
         return res.status(400).send({
