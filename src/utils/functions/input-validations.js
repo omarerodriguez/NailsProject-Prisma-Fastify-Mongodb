@@ -59,6 +59,13 @@ const getSchedulerByDateValidations = (filters) => {
   if (validation.fails()) return errors;
   return null;
 };
+
+const getUserByIdValidations = (filters) => {
+  const validation = new Validator(filters, getUserByIdRules);
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
 module.exports = {
   createNewuUserValidations,
   validateToken,
@@ -66,4 +73,5 @@ module.exports = {
   createNewNailsTypesValidations,
   createNewNailsDetailsValidations,
   getSchedulerByDateValidations,
+  getUserByIdValidations,
 };

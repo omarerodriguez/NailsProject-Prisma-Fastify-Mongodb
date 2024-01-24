@@ -21,7 +21,7 @@ module.exports = class UserPrismaRepository {
       const user = await this.prismaClient.user.findFirst({
         where: { id: userId },
       });
-      if (!user) return [null, 'user not found'];
+      if (!user) return [null, 'user not found or not exist'];
       return [user, null];
     } catch (error) {
       throw new Error(
@@ -37,6 +37,20 @@ module.exports = class UserPrismaRepository {
       });
       if (!email) return [null, 'Email not found'];
       return [email, null];
+    } catch (error) {
+      throw new Error(
+        `There war a error in user-prisma-repository.findUserByEmail err: ${error.message}`,
+      );
+    }
+  }
+
+  async findUserByPhoneNumber(userPhoneNumber) {
+    try {
+      const phoneNumber = await this.prismaClient.user.findFirst({
+        where: { phone_number: userPhoneNumber },
+      });
+      if (!phoneNumber) return [null, 'Phone number not found'];
+      return [phoneNumber, null];
     } catch (error) {
       throw new Error(
         `There war a error in user-prisma-repository.findUserByEmail err: ${error.message}`,

@@ -31,6 +31,12 @@ module.exports = class Userhandler {
 
   findUserById = async (req, res) => {
     try {
+      const errors = getUserByIdValidations(req.params); //
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const [user, status, err] = await this.usecases.findUserById(
         req.params.id,
       );
@@ -56,6 +62,30 @@ module.exports = class Userhandler {
     try {
       const { email } = req.query;
       const [user, status, err] = await this.usecases.findUserByEmail(email);
+      if (err)
+        return res.status(status).send({
+          message: 'fail',
+          errors: err,
+        });
+      return res.status(status).send({
+        message: 'success',
+        data: user,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was internal server error',
+        errors: error,
+      });
+    }
+  };
+
+  findUserByPhoneNumber = async (req, res) => {
+    try {
+      const { phone_number } = req.query;
+      const [user, status, err] = await this.usecases.findUserByPhoneNumber(
+        phone_number,
+      );
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -140,6 +170,12 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
+      const userIdErrors = getUserByIdValidations(req.params); //
+      if (userIdErrors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const errors = createNewuUserValidations(req.body);
       if (errors)
         return res.status(400).send({
