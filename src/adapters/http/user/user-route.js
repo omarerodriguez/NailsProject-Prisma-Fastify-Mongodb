@@ -13,11 +13,6 @@ const routes = [
   },
   {
     url: '/users',
-    method: 'GET',
-    handler: userHandler.findUserByEmail,
-  },
-  {
-    url: '/users',
     method: 'POST',
     handler: userHandler.createNewUser,
   },
