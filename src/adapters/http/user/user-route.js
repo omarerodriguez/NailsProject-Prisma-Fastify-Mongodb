@@ -12,7 +12,7 @@ const routes = [
     handler: userHandler.findUserById,
   },
   {
-    url: '/users/',
+    url: '/users',
     method: 'GET',
     handler: userHandler.findUserByEmail,
   },

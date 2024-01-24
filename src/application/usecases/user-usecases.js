@@ -18,6 +18,13 @@ module.exports = class UserUseCases {
     return [findUser, 200, null];
   };
 
+  findUserByPhoneNumber = async (phoneNumber) => {
+    const [findPhoneNumber, err] =
+      await this.prismaRepository.findUserByPhoneNumber(phoneNumber);
+    if (err) return [null, 404, err];
+    return [findPhoneNumber, 200, null];
+  };
+
   findAllUsers = async () => {
     const [users, err] = await this.prismaRepository.findAllUsers();
     if (err) return [null, 404, err];
@@ -28,7 +35,12 @@ module.exports = class UserUseCases {
     const [findUser, userError] = await this.prismaRepository.findUserByEmail(
       userPayload.email,
     );
+    const [findPhoneNumber, userPhoneError] =
+      await this.prismaRepository.findUserByPhoneNumber(
+        userPayload.phone_number,
+      );
     if (!userError) return [null, 400, 'Email already exist'];
+    if (!userPhoneError) return [null, 400, 'Phone number already exist'];
     const newUserBody = { ...userPayload };
     newUserBody.created_at = getFormatDate();
 
