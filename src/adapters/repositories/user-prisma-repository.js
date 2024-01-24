@@ -21,7 +21,7 @@ module.exports = class UserPrismaRepository {
       const user = await this.prismaClient.user.findFirst({
         where: { id: userId },
       });
-      if (!user) return [null, 'user not found'];
+      if (!user) return [null, 'user not found or not exist'];
       return [user, null];
     } catch (error) {
       throw new Error(
