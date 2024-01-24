@@ -44,6 +44,20 @@ module.exports = class UserPrismaRepository {
     }
   }
 
+  async findUserByPhoneNumber(userPhoneNumber) {
+    try {
+      const phoneNumber = await this.prismaClient.user.findFirst({
+        where: { phone_number: userPhoneNumber },
+      });
+      if (!phoneNumber) return [null, 'Phone number not found'];
+      return [phoneNumber, null];
+    } catch (error) {
+      throw new Error(
+        `There war a error in user-prisma-repository.findUserByEmail err: ${error.message}`,
+      );
+    }
+  }
+
   async createNewUser(newUserPayload) {
     try {
       const user = await this.prismaClient.user.create({
