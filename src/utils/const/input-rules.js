@@ -4,7 +4,7 @@ const createNewUserRules = {
   age: 'integer',
   phone_number: 'string|max:10|required',
   district: 'string|max:40',
-  gender: 'string',
+  gender: 'string|min:5|max:9',
   email: 'required|email',
 };
 
@@ -15,14 +15,14 @@ const loginUserRules = {
 
 const createNewNailsTypesRules = {
   name: 'string|min:3|max:25|required',
-  default_price: 'integer|min:3|max:1000000',
+  default_price: 'integer|min:500|max:1000000',
   'allowed_detalis.*.name': 'string|min:3|max:25',
   'allowed_detalis.*.price': 'integer',
 };
 
 const createNewNailsDetailsRules = {
   name: 'string|min:3|max:25|required',
-  price: 'integer|min:3|max:1000000',
+  price: 'integer|min:500|max:1000000',
 };
 
 const getSchedulerByDateRules = {
