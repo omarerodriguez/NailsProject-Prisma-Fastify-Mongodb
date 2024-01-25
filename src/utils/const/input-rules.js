@@ -1,6 +1,6 @@
 const createNewUserRules = {
   name: 'string|between:3,15|required',
-  last_name: 'string|between:3,20',
+  last_name: 'string|between:3,15',
   age: 'integer',
   phone_number: 'string|size:10|required',
   district: 'string|max:40',
