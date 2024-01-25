@@ -7,16 +7,30 @@ const {
   createNewNailsDetailsRules,
   getSchedulerByDateRules,
 } = require('../const/input-rules');
+const {
+  customMessagesCreateUser,
+  customMessagesCreateNailsTypes,
+  customMessagesCreateDetailsNails,
+  customMessagesLoginUser,
+} = require('./../const/custom-messages');
 
 const createNewuUserValidations = (newUserPayload) => {
-  const validation = new Validator(newUserPayload, createNewUserRules);
+  const validation = new Validator(
+    newUserPayload,
+    createNewUserRules,
+    customMessagesCreateUser,
+  );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
 };
 
 const loginUserValidations = (userPayload) => {
-  const validation = new Validator(userPayload, loginUserRules);
+  const validation = new Validator(
+    userPayload,
+    loginUserRules,
+    customMessagesLoginUser,
+  );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
@@ -37,6 +51,7 @@ const createNewNailsTypesValidations = (newNailsTypesPayload) => {
   const validation = new Validator(
     newNailsTypesPayload,
     createNewNailsTypesRules,
+    customMessagesCreateNailsTypes,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
@@ -47,6 +62,7 @@ const createNewNailsDetailsValidations = (newNailsDetailsPayload) => {
   const validation = new Validator(
     newNailsDetailsPayload,
     createNewNailsDetailsRules,
+    customMessagesCreateDetailsNails,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;

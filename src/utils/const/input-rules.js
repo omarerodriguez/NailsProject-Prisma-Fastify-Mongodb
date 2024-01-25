@@ -4,7 +4,7 @@ const createNewUserRules = {
   age: 'integer',
   phone_number: 'string|size:10|required',
   district: 'string|max:40',
-  gender: 'string',
+  gender: 'string|min:5|max:9',
   email: 'required|email',
 };
 
