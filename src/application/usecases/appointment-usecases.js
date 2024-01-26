@@ -1,4 +1,7 @@
 const { getFormatDate } = require('../../utils/functions/date');
+const {
+  validateAppointmentByUser,
+} = require('./../../utils/functions/appointment-validation');
 
 module.exports = class AppointmentUseCases {
   constructor(
@@ -41,30 +44,35 @@ module.exports = class AppointmentUseCases {
       details_of_nails: detailsOfNails,
     } = appointmentPayload;
 
-    // Realiza las operaciones asincrónicas simultáneamente utilizando Promise.all
-    const [userData, typeOfNailsData, nailsDetailsData, userAppointmentData] =
-      await Promise.all([
-        this.prismaRepository.findAppointmentByUser(userId),
-        this.userPrismaRepository.findUserById(userId),
-        this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
-        this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
-      ]);
-    // Extrae los resultados y errores específicos
-    const [, userAppoinmentErr] = userAppointmentData;
+    const [userData, typeOfNailsData, nailsDetailsData] = await Promise.all([
+      this.userPrismaRepository.findUserById(userId),
+      this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
+      this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
+    ]);
     const [, userErr] = userData;
     const [, typeOfNailsErr] = typeOfNailsData;
     const [, nailsDetailsErr] = nailsDetailsData;
 
-    // Verifica los errores y devuelve una respuesta adecuada
-    if (!userAppoinmentErr)
-      return [
-        null,
-        404,
-        'Este usuario ya tiene un cita reservada, puede agendar de nuevo cuando termine su cita',
-      ];
     if (userErr) return [null, 404, userErr];
     if (typeOfNailsErr) return [null, 404, typeOfNailsErr];
     if (nailsDetailsErr) return [null, 404, nailsDetailsErr];
+
+    const [scheduler, status, schedulerError] =
+      await this.schedulerUseCases.findSchedulerById(schedulerId);
+    if (schedulerError) return [null, status, schedulerError];
+    /**
+     * valida si un usuario tiene dos citas el mismo dia
+     */
+    const appointmentExist = validateAppointmentByUser(
+      scheduler.appointmets,
+      userId,
+    );
+    if (appointmentExist)
+      return [
+        null,
+        400,
+        'Ya tiene una cita agendada para el dia de hoy, solo puede tener una cita por dia',
+      ];
 
     const newAppointment = {
       ...appointmentPayload,
@@ -72,6 +80,9 @@ module.exports = class AppointmentUseCases {
       created_at: getFormatDate(),
       status: 'RESERVED',
     };
+    /**
+     * scheduler id solo se usa para validar citas existentes, no para la creacion
+     */
     delete newAppointment.scheduler_id;
 
     const status_logs = [
