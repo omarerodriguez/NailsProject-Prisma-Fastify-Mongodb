@@ -6,6 +6,7 @@ const {
   createNewNailsTypesRules,
   createNewNailsDetailsRules,
   getSchedulerByDateRules,
+  getUserByIdRules,
 } = require('../const/input-rules');
 const {
   customMessagesCreateUser,
