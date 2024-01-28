@@ -46,10 +46,10 @@ module.exports = class AppointmentUseCases {
 
     const [userData, typeOfNailsData, nailsDetailsData, AppointmentData] =
     await Promise.all([
-      this.prismaRepository.findAppointmentByUser(userId),
       this.userPrismaRepository.findUserById(userId),
       this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
       this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
+      this.prismaRepository.findAppointmentByUser(userId),
     ]);
     const [appointmentsRecord, appointmentErr] = AppointmentData;
     const [, userErr] = userData;
