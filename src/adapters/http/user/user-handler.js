@@ -1,6 +1,7 @@
 const {
   createNewuUserValidations,
   loginUserValidations,
+  getUserByIdValidations,
 } = require('../../../utils/functions/input-validations');
 
 module.exports = class Userhandler {
