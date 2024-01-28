@@ -1,6 +1,6 @@
 const { getFormatDate } = require('../../utils/functions/date');
 const {
-  validateAppointmentByUser,
+  validateAppointmentsByUser,
 } = require('./../../utils/functions/appointment-validation');
 
 module.exports = class AppointmentUseCases {
@@ -44,11 +44,14 @@ module.exports = class AppointmentUseCases {
       details_of_nails: detailsOfNails,
     } = appointmentPayload;
 
-    const [userData, typeOfNailsData, nailsDetailsData] = await Promise.all([
+    const [userData, typeOfNailsData, nailsDetailsData, AppointmentData] =
+    await Promise.all([
+      this.prismaRepository.findAppointmentByUser(userId),
       this.userPrismaRepository.findUserById(userId),
       this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
       this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
     ]);
+    const [appointmentsRecord, appointmentErr] = AppointmentData;
     const [, userErr] = userData;
     const [, typeOfNailsErr] = typeOfNailsData;
     const [, nailsDetailsErr] = nailsDetailsData;
@@ -60,20 +63,24 @@ module.exports = class AppointmentUseCases {
     const [scheduler, status, schedulerError] =
       await this.schedulerUseCases.findSchedulerById(schedulerId);
     if (schedulerError) return [null, status, schedulerError];
+    
     /**
      * valida si un usuario tiene dos citas el mismo dia
      */
-    const appointmentExist = validateAppointmentByUser(
-      scheduler.appointmets,
-      userId,
-    );
-    if (appointmentExist)
-      return [
-        null,
-        400,
-        'Ya tiene una cita agendada para el dia de hoy, solo puede tener una cita por dia',
-      ];
+    if (!appointmentErr) {
+      const appointmentExist = validateAppointmentsByUser(
+        scheduler.appointmets,
+        appointmentsRecord,
+      );
 
+      if (appointmentExist)
+        return [
+          null,
+          400,
+          'Ya tiene una cita agendada para el dia de hoy, solo puede tener una cita por dia',
+        ];
+    }
+  
     const newAppointment = {
       ...appointmentPayload,
       status_date: getFormatDate(),
