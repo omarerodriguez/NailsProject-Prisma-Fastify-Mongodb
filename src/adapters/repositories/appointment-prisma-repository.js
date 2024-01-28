@@ -30,7 +30,7 @@ module.exports = class AppointmentPrismaRepository {
   }
   async findAppointmentByUser(userId) {
     try {
-      const userInAppointment = await this.prismaClient.user.findFirst({
+      const userInAppointment = await this.prismaClient.user.findMany({
         where: {
           appointment: {
             is: {
