@@ -1,3 +1,6 @@
+const {
+  createNewAppointmentValidations,
+} = require('../../../utils/functions/input-validations');
 module.exports = class SchedulerHandler {
   constructor(schedulerUsecases) {
     this.usecases = schedulerUsecases;
@@ -69,6 +72,12 @@ module.exports = class SchedulerHandler {
   };
   createNewAppointment = async (req, res) => {
     try {
+      const errors = createNewAppointmentValidations(req.body);
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const [appointmentPayload, status, err] =
         await this.usecases.createNewAppointment(req.body);
       if (err)
