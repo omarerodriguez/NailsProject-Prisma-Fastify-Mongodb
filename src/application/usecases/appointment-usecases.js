@@ -45,12 +45,12 @@ module.exports = class AppointmentUseCases {
     } = appointmentPayload;
 
     const [userData, typeOfNailsData, nailsDetailsData, AppointmentData] =
-    await Promise.all([
-      this.userPrismaRepository.findUserById(userId),
-      this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
-      this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
-      this.prismaRepository.findAppointmentByUser(userId),
-    ]);
+      await Promise.all([
+        this.userPrismaRepository.findUserById(userId),
+        this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
+        this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
+        this.prismaRepository.findAppointmentByUser(userId),
+      ]);
     const [appointmentsRecord, appointmentErr] = AppointmentData;
     const [, userErr] = userData;
     const [, typeOfNailsErr] = typeOfNailsData;
@@ -63,13 +63,13 @@ module.exports = class AppointmentUseCases {
     const [scheduler, status, schedulerError] =
       await this.schedulerUseCases.findSchedulerById(schedulerId);
     if (schedulerError) return [null, status, schedulerError];
-    
+
     /**
      * valida si un usuario tiene dos citas el mismo dia
      */
     if (!appointmentErr) {
       const appointmentExist = validateAppointmentsByUser(
-        scheduler.appointmets,
+        scheduler.appointments,
         appointmentsRecord,
       );
 
@@ -80,7 +80,7 @@ module.exports = class AppointmentUseCases {
           'Ya tiene una cita agendada para el dia de hoy, solo puede tener una cita por dia',
         ];
     }
-  
+
     const newAppointment = {
       ...appointmentPayload,
       status_date: getFormatDate(),
