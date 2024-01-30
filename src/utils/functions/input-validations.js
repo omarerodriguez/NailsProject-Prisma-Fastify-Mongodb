@@ -14,6 +14,7 @@ const {
   customMessagesCreateNailsTypes,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
+  customMessagesCreateNewAppointment,
 } = require('./../const/custom-messages');
 
 const createNewuUserValidations = (newUserPayload) => {
@@ -85,10 +86,11 @@ const getUserByIdValidations = (filters) => {
   return null;
 };
 
-const CreateNewAppointmentValidations = (appointmentPayload) => {
+const createNewAppointmentValidations = (appointmentPayload) => {
   const validation = new Validator(
     appointmentPayload,
     createNewAppointmentRules,
+    customMessagesCreateNewAppointment,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
@@ -102,5 +104,5 @@ module.exports = {
   createNewNailsDetailsValidations,
   getSchedulerByDateValidations,
   getUserByIdValidations,
-  CreateNewAppointmentValidations,
+  createNewAppointmentValidations,
 };
