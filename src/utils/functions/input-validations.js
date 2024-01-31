@@ -7,12 +7,14 @@ const {
   createNewNailsDetailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
+  createNewAppointmentRules,
 } = require('../const/input-rules');
 const {
   customMessagesCreateUser,
   customMessagesCreateNailsTypes,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
+  customMessagesCreateNewAppointment,
 } = require('./../const/custom-messages');
 
 const createNewuUserValidations = (newUserPayload) => {
@@ -83,6 +85,17 @@ const getUserByIdValidations = (filters) => {
   if (validation.fails()) return errors;
   return null;
 };
+
+const createNewAppointmentValidations = (appointmentPayload) => {
+  const validation = new Validator(
+    appointmentPayload,
+    createNewAppointmentRules,
+    customMessagesCreateNewAppointment,
+  );
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
 module.exports = {
   createNewuUserValidations,
   validateToken,
@@ -91,4 +104,5 @@ module.exports = {
   createNewNailsDetailsValidations,
   getSchedulerByDateValidations,
   getUserByIdValidations,
+  createNewAppointmentValidations,
 };

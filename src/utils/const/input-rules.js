@@ -35,6 +35,14 @@ const getUserByIdRules = {
   id: 'string|hex|size:24|required',
 };
 
+const createNewAppointmentRules = {
+  user_id: 'string|hex|size:24|required',
+  types_of_nails_id: 'string|hex|size:24|required',
+  details_of_nails: 'array|required',
+  duration: 'integer|max:10',
+  reserved_at: 'date',
+};
+
 module.exports = {
   createNewUserRules,
   loginUserRules,
@@ -42,4 +50,5 @@ module.exports = {
   createNewNailsDetailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
+  createNewAppointmentRules,
 };

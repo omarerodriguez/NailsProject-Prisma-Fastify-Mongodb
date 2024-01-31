@@ -31,13 +31,7 @@ module.exports = class AppointmentPrismaRepository {
   async findAppointmentByUser(userId) {
     try {
       const userInAppointment = await this.prismaClient.appointment.findMany({
-        where: {
-          appointment: {
-            is: {
-              user_id: userId,
-            },
-          },
-        },
+        where: { user_id: userId },
       });
       if (!userInAppointment) return [null, `User into appointment not found`];
       return [userInAppointment, null];

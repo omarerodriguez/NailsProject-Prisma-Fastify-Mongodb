@@ -41,9 +41,27 @@ const customMessagesLoginUser = {
   'email.email': 'El campo no es una dirección de correo electrónico válida.',
 };
 
+const customMessagesCreateNewAppointment = {
+  'required.user_id': 'El campo es obligatorio.',
+  'string.user_id': 'El campo deben ser letras',
+  'size.user_id': 'El campo debe ser de máximo de 24 caracteres',
+  'required.types_of_nails_id': 'El campo es obligatorio.',
+  'string.types_of_nails_id': 'El campo deben ser letras',
+  'size.types_of_nails_id': 'El campo debe ser de máximo de 24 caracteres',
+  'required.details_of_nails': 'El campo es obligatorio.',
+  'string.details_of_nails': 'El campo deben ser letras',
+  'size.details_of_nails': 'El campo debe ser de máximo de 24 caracteres',
+  'array.details_of_nails': 'El campo debe ser un arreglo',
+  'integer.duration': 'El campo debe un numero',
+  'max.duration': 'El campo debe ser maximo 10',
+  'string.reserved_at':
+    'El campo debe ser la fecha & hora "dd/mm/aa hh:mm:ss" ',
+};
+
 module.exports = {
   customMessagesCreateUser,
   customMessagesCreateNailsTypes,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
+  customMessagesCreateNewAppointment,
 };

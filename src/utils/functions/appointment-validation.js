@@ -1,14 +1,19 @@
-const validateAppointmentByUser = (appointmets, appointmeIdOfUser) => {
-  return Object.values(appointmets).find((userId) => userId === appointmeIdOfUser);
+const validateAppointmentByUser = (appointments, appointmentIdOfUser) => {
+  return Object.values(appointments).find(
+    (userId) => userId === appointmentIdOfUser,
+  );
 };
 
-const validateAppointmentsByUser = (appointmetsByScheduler, appoinmentsByUser) => {
+const validateAppointmentsByUser = (
+  appointmentsByScheduler,
+  appoinmentsByUser,
+) => {
   for (const appointment of appoinmentsByUser) {
-    if (validateAppointmentByUser(appointmetsByScheduler, appointment.id)) {
-      return true
+    if (validateAppointmentByUser(appointmentsByScheduler, appointment.id)) {
+      return true;
     }
   }
-  return false
-}
+  return false;
+};
 
 module.exports = { validateAppointmentsByUser };
