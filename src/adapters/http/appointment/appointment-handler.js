@@ -1,6 +1,6 @@
-module.exports = class SchedulerHandler {
-  constructor(schedulerUsecases) {
-    this.usecases = schedulerUsecases;
+module.exports = class AppointmentrHandler {
+  constructor(appointmentUseCases) {
+    this.usecases = appointmentUseCases;
   }
 
   findAllAppointments = async (req, res) => {
