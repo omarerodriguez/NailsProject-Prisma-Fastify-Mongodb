@@ -16,29 +16,19 @@ jest.mock('../../../../src/application/usecases/appointment-usecases', () =>
   })),
 );
 describe('test in appointmet handler', () => {
-  let appointmentPayload;
+  let request = {};
   let appointmentUseCases;
   let appointmentHandler;
+  const mockRes = {
+    status: jest.fn().mockReturnThis(),
+    send: jest.fn(),
+  };
 
   beforeAll(() => {
-    appointmentPayload = {
-      user_id: '659936dc6a1d92adb561073ex',
-      types_of_nails_id: '659930a740333038004d25eb',
-      details_of_nails: [
-        '6599a50d9f1803f665b2e087',
-        '6599a50d9f1803f665b2e187',
-      ],
-      duration: 2,
-      reserved_at: '7/1/2024 14:00:00',
-    };
+    appointmentUseCases = new AppointmentUseCases();
+    //Intance Handler
+    appointmentHandler = new AppointmentHandler(appointmentUseCases);
   });
-
-  /** Intances Repository */
-
-  /** Intances useCases */
-  appointmentUseCases = new AppointmentUseCases();
-  //Intance Handler
-  appointmentHandler = new AppointmentHandler(appointmentUseCases);
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -70,13 +60,51 @@ describe('test in appointmet handler', () => {
       ],
       null,
     );
+    request.body = {
+      user_id: '659936dc6a1d92adb561073e',
+      types_of_nails_id: '659930a740333038004d25eb',
+      details_of_nails: [
+        '6599a50d9f1803f665b2e087',
+        '6599a50d9f1803f665b2e187',
+      ],
+      duration: 2,
+      reserved_at: '7/1/2024 14:00:00',
+    };
   });
-  test('appointmet error to create', async () => {
-    mockCreateNewAppointmentHandler.mockResolvedValue([null, 'Error']);
-    const [appointment, status, error] =
-      await appointmentUseCases.createNewAppointment(appointmentPayload);
-    expect(status).toEqual(404);
-    expect(appointment).toBeNull();
-    expect(error).toBe('fail');
+  test('input validation error, bad format reserved_at', async () => {
+    request.body.reserved_at = '71202140000';
+    await appointmentHandler.createNewAppointment(request, mockRes);
+    expect(mockRes.status).toHaveBeenCalledWith(400);
+    expect(mockRes.send).toHaveBeenCalledWith({
+      message: 'fail',
+      errors: {
+        reserved_at: [
+          'El campo debe ser en formato fecha y hora "dd/mm/aa hh:mm:ss"',
+        ],
+      },
+    });
+  });
+
+  test('input validation error, time of appointment exceed five hours', async () => {
+    request.body.duration = 11;
+    await appointmentHandler.createNewAppointment(request, mockRes);
+    expect(mockRes.status).toHaveBeenCalledWith(400);
+    expect(mockRes.send).toHaveBeenCalledWith({
+      message: 'fail',
+      errors: {
+        duration: ['El campo debe ser maximo 10'],
+      },
+    });
+  });
+  test('input validation error, nails types empty', async () => {
+    request.body.types_of_nails_id = '';
+    await appointmentHandler.createNewAppointment(request, mockRes);
+    expect(mockRes.status).toHaveBeenCalledWith(400);
+    expect(mockRes.send).toHaveBeenCalledWith({
+      message: 'fail',
+      errors: {
+        types_of_nails_id: ['El campo es obligatorio.'],
+      },
+    });
   });
 });
