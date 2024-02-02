@@ -19,6 +19,7 @@ model User {
   district     String?
   gender       String?
   email     String  @unique
+  role Roles? @default(USER)
   appointment Appointment?
   created_at String
 
@@ -31,7 +32,6 @@ model NailType {
   allowed_detalis NailsDetails[]
   default_price Int
   appointment Appointment?
-  deleted_at DateTime @updatedAt
   created_at DateTime @default(now())
 
   @@map("nailstypes")
@@ -43,7 +43,6 @@ model NailsDetails {
   price Int
   details NailType? @relation(fields: [details_id], references: [id])
   details_id String? @db.ObjectId
-  deleted_at DateTime @updatedAt
   created_at DateTime @default(now())
 
   @@map("nailsdetails")
@@ -83,4 +82,8 @@ enum Status {
   CONFIRMED
   CANCELED
   DELETED
+}
+enum Roles {
+  ADMIN
+  USER
 }
