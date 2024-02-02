@@ -9,14 +9,19 @@ const SchedulerPrismaRepository = require('../../../src/adapters/repositories/sc
 const AppointmentUseCases = require('../../../src/application/usecases/appointment-usecases');
 const SchedulerUseCases = require('../../../src/application/usecases/scheduler-usecases');
 
-
 /** MOCKS */
 /** Appointments*/
 const mockFindAppointmentByUserId = jest.fn();
-jest.mock('../../../src/adapters/repositories/appointment-prisma-repository', () =>
-  jest.fn().mockImplementation(() => ({
-    findAppointmentByUser: mockFindAppointmentByUserId,
-  })),
+const mockFindAllAppointments = jest.fn();
+const mockDeleteAppointment = jest.fn();
+jest.mock(
+  '../../../src/adapters/repositories/appointment-prisma-repository',
+  () =>
+    jest.fn().mockImplementation(() => ({
+      findAppointmentByUser: mockFindAppointmentByUserId,
+      findAllAppointments: mockFindAllAppointments,
+      deleteAppointment: mockDeleteAppointment,
+    })),
 );
 
 /** User*/
@@ -29,26 +34,32 @@ jest.mock('../../../src/adapters/repositories/user-prisma-repository', () =>
 
 /** TypeNails*/
 const mockFindNailsTypeById = jest.fn();
-jest.mock('../../../src/adapters/repositories/nails-types-prisma-repository', () =>
-  jest.fn().mockImplementation(() => ({
-    findNailsTypesById: mockFindNailsTypeById,
-  })),
+jest.mock(
+  '../../../src/adapters/repositories/nails-types-prisma-repository',
+  () =>
+    jest.fn().mockImplementation(() => ({
+      findNailsTypesById: mockFindNailsTypeById,
+    })),
 );
 
 /** NailDetails*/
 const mockFindNailsDetailsByIds = jest.fn();
-jest.mock('../../../src/adapters/repositories/nails-details-prisma-repository', () =>
-  jest.fn().mockImplementation(() => ({
-    findAllNailsDetails: mockFindNailsDetailsByIds,
-  })),
+jest.mock(
+  '../../../src/adapters/repositories/nails-details-prisma-repository',
+  () =>
+    jest.fn().mockImplementation(() => ({
+      findAllNailsDetails: mockFindNailsDetailsByIds,
+    })),
 );
 
 /** Scheduler*/
 const mockFindSchedulerById = jest.fn();
-jest.mock('../../../src/adapters/repositories/scheduler-prisma-repository', () =>
-  jest.fn().mockImplementation(() => ({
-    findSchedulerById: mockFindSchedulerById,
-  })),
+jest.mock(
+  '../../../src/adapters/repositories/scheduler-prisma-repository',
+  () =>
+    jest.fn().mockImplementation(() => ({
+      findSchedulerById: mockFindSchedulerById,
+    })),
 );
 describe('test in appointment usecases', () => {
   let appoinmentPayload;
@@ -66,14 +77,11 @@ describe('test in appointment usecases', () => {
 
     /** Intances Repository */
     const userPrismaRepository = new UserPrismaRepository();
-    const typesNailsPrismaRepository = new TypesNailsPrismaRepository(
-    );
+    const typesNailsPrismaRepository = new TypesNailsPrismaRepository();
     const detailsTypesNailsPrismaRepository =
       new DetailsTypesNailsPrismaRepository();
-    const appointmentPrismaRepository = new AppointmentPrismaRepository(
-    );
-    const schedulerPrismaRepositry = new SchedulerPrismaRepository(
-    );
+    const appointmentPrismaRepository = new AppointmentPrismaRepository();
+    const schedulerPrismaRepositry = new SchedulerPrismaRepository();
 
     /** Intances useCases */
     const schedulerUseCases = new SchedulerUseCases(schedulerPrismaRepositry);
@@ -104,9 +112,9 @@ describe('test in appointment usecases', () => {
       {
         id: '9659916dc6a1d92adb561073ex',
       },
-      null
+      null,
     ]);
-    
+
     mockFindNailsDetailsByIds.mockResolvedValue([
       [
         {
@@ -120,17 +128,22 @@ describe('test in appointment usecases', () => {
           price: 1300,
         },
       ],
-      null
+      null,
     ]);
 
-    mockFindSchedulerById.mockResolvedValue([{
-      id: '9659936dc6a1d92adb561074',
-      appointmets: {
-        7: '659930a740333038004d25eb',
-        8: '6599a50d9f1803f665b3e087',
-      },
-    }], null)
-    
+    mockFindSchedulerById.mockResolvedValue(
+      [
+        {
+          id: '9659936dc6a1d92adb561074',
+          appointments: {
+            7: '659930a740333038004d25eb',
+            8: '6599a50d9f1803f665b3e087',
+          },
+        },
+      ],
+      null,
+    );
+
     mockFindAppointmentByUserId.mockResolvedValue(
       [
         [
@@ -141,7 +154,64 @@ describe('test in appointment usecases', () => {
       ],
       null,
     );
- 
+
+    mockFindAllAppointments.mockResolvedValue(
+      [
+        {
+          id: '659c0e0ac745996ba6b9b84e',
+          user_id: '659936dc6a1d92adb561073e',
+          types_of_nails_id: '659930b940333038004d25ec',
+          details_of_nails: [
+            '6599a50d9f1803f665b2e087',
+            '6599a654ce5a352bbf25a816',
+          ],
+          status: 'RESERVED',
+          status_date: '8/1/2024 19:00:26',
+          status_logs: [
+            {
+              code: 'RESERVED',
+              date: '8/1/2024 19:00:26',
+            },
+          ],
+          duration: 2,
+          reserved_at: '7/1/2024 14:00:00',
+          deleted_at: null,
+          created_at: '8/1/2024 19:00:26',
+        },
+        {
+          id: '659c0e0ac745996ba6b9b84c',
+          user_id: '659936dc6a1d92adb561073b',
+          types_of_nails_id: '659930b940333038004d25ec',
+          details_of_nails: [
+            '6599a50d9f1803f665b2e087',
+            '6599a654ce5a352bbf25a816',
+          ],
+          status: 'RESERVED',
+          status_date: '8/1/2024 19:00:26',
+          status_logs: [
+            {
+              code: 'RESERVED',
+              date: '8/1/2024 19:00:26',
+            },
+          ],
+          duration: 2,
+          reserved_at: '7/1/2024 16:00:00',
+          deleted_at: null,
+          created_at: '8/1/2024 19:00:26',
+        },
+      ],
+      null,
+    );
+    mockDeleteAppointment.mockResolvedValue(
+      [
+        [
+          {
+            id: '6599a50d9f1803f665b3e087',
+          },
+        ],
+      ],
+      null,
+    );
   });
 
   test('user dont exist', async () => {
@@ -155,18 +225,20 @@ describe('test in appointment usecases', () => {
   });
 
   test('type of neils dont exist', async () => {
-    mockFindNailsTypeById.mockResolvedValue([null, 'NailsTypes not found'])
+    mockFindNailsTypeById.mockResolvedValue([null, 'NailsTypes not found']);
 
-    const [nailType, status, error] = await appointmentUseCases.createNewAppointment(
-      appoinmentPayload,
-    );
+    const [nailType, status, error] =
+      await appointmentUseCases.createNewAppointment(appoinmentPayload);
     expect(status).toEqual(404);
     expect(nailType).toBeNull();
     expect(error).toBe('NailsTypes not found');
   });
 
   test('details of neils dont exist', async () => {
-    mockFindNailsDetailsByIds.mockResolvedValue([null, `there are not nails details fetched`])
+    mockFindNailsDetailsByIds.mockResolvedValue([
+      null,
+      `there are not nails details fetched`,
+    ]);
 
     const [detailOfNails, status, error] =
       await appointmentUseCases.createNewAppointment(appoinmentPayload);
@@ -177,9 +249,8 @@ describe('test in appointment usecases', () => {
 
   test('scheduler of neils dont exist or not found', async () => {
     mockFindSchedulerById.mockResolvedValue([null, `Scheduler not found`]);
-    const [user, status, error] = await appointmentUseCases.createNewAppointment(
-      appoinmentPayload,
-    );
+    const [user, status, error] =
+      await appointmentUseCases.createNewAppointment(appoinmentPayload);
 
     expect(status).toEqual(404);
     expect(user).toBeNull();
@@ -196,5 +267,27 @@ describe('test in appointment usecases', () => {
     expect(error).toBe(
       'Ya tiene una cita agendada para el dia de hoy, solo puede tener una cita por dia',
     );
+  });
+
+  test('there are not a list appointments', async () => {
+    mockFindAllAppointments.mockResolvedValue([
+      null,
+      `there are not appointment fetched`,
+    ]);
+    const [appointments, status, error] =
+      await appointmentUseCases.findAllAppointments();
+
+    expect(status).toEqual(404);
+    expect(appointments).toBeNull();
+    expect(error).toBe(`there are not appointment fetched`);
+  });
+
+  test('delete appointment', async () => {
+    const [appointmentId, status, error] =
+      await appointmentUseCases.deleteAppointment('6599a50d9f1803f665b3e087');
+
+    expect(status).toEqual(200);
+    expect(appointmentId).toStrictEqual([{ id: '6599a50d9f1803f665b3e087' }]);
+    expect(error).toBeNull();
   });
 });
