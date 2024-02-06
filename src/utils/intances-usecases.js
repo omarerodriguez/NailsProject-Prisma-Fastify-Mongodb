@@ -48,7 +48,7 @@ const appointmentUseCases = new AppointmentUseCases(
   schedulerUseCases,
 );
 const tokenUsescases = new TokenUsesCases(jwt);
-const userUseCases = new UserUseCases(userPrismaRepository);
+const userUseCases = new UserUseCases(userPrismaRepository, tokenUsescases);
 // Intance - Middlewares
 const tokenMiddleWare = new TokenMiddleWare(tokenUsescases);
 
