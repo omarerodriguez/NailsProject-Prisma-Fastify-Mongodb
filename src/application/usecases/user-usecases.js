@@ -1,9 +1,8 @@
 const { getFormatDate } = require('../../utils/functions/date');
 
 module.exports = class UserUseCases {
-  constructor(prismaRepository, tokenUsescases) {
+  constructor(prismaRepository) {
     this.prismaRepository = prismaRepository;
-    this.tokenUsescases = tokenUsescases;
   }
 
   findUserById = async (userId) => {
@@ -51,6 +50,7 @@ module.exports = class UserUseCases {
 
     const [token, tokenError] = await this.tokenUsescases.generateToken(
       newUser.id,
+      newUser.role,
     );
 
     if (tokenError) return [null, 400, tokenError];
