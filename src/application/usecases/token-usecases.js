@@ -1,36 +1,44 @@
-const jwt = require('jsonwebtoken');
+const { Roles } = require('@prisma/client');
 
 module.exports = class TokenUsesCases {
   // eslint-disable-next-line no-useless-constructor, no-empty-function
-  constructor() {}
+  constructor(jwt) {
+    this.jwt = jwt;
+  }
 
-  // eslint-disable-next-line class-methods-use-this
-  generateToken = async (userId) => {
+  generateToken = async (userId, role) => {
     try {
       const expiresIn = 60 * 15;
 
       if (!userId) return [null, 'empty data not allow'];
-      const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-        algorithm: 'HS256',
-        expiresIn,
-      });
-
+      const token = this.jwt.sign(
+        { userId, role },
+        process.env.JWT_SECRET_KEY,
+        {
+          algorithm: 'HS256',
+          expiresIn,
+        },
+      );
       return [token, null];
     } catch (error) {
       return [null, error.message];
     }
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  verifyToken = async (token) => {
-    if (!token) return [null, 404, 'Invalid token'];
+  verifyToken = (token, role) => {
+    try {
+      if (!token) return [null, 401, 'Token not provided'];
 
-    const tokenVerify = jwt.verify(
-      JSON.stringify(token),
-      process.env.JWT_SECRET_KEY,
-      (err) => [err, 403, 'Failed to authenticate token.'],
-    );
+      const decodedToken = this.jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    return [tokenVerify, 200, null];
+      if (decodedToken.role !== role) return [null, 403, 'Unauthorized'];
+      return [decodedToken, 200, null];
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        return [null, 401, 'Token has expired'];
+      }
+      console.log(err);
+    }
+    return [null, 403, 'Invalid token.'];
   };
 };
