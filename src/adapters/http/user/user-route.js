@@ -1,14 +1,19 @@
-const { userHandler } = require('../../../utils/intances-usecases');
+const {
+  userHandler,
+  tokenMiddleWare,
+} = require('../../../utils/intances-usecases');
 
 const routes = [
   {
     url: '/users',
     method: 'GET',
+    preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.findAllUsers,
   },
   {
     url: '/users/:id',
     method: 'GET',
+    preHandler: [tokenMiddleWare.verifyUserToken],
     handler: userHandler.findUserById,
   },
   {
@@ -24,11 +29,13 @@ const routes = [
   {
     url: '/users/:id',
     method: 'PUT',
+    preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.updateUser,
   },
   {
     url: '/users/:id',
     method: 'DELETE',
+    preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.deleteUser,
   },
 ];
