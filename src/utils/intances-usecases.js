@@ -1,5 +1,6 @@
 // imports -clients
 const prisma = require('../infraestructura/prisma/prismaConfig');
+const jwt = require('jsonwebtoken');
 
 // Repositories
 const UserPrismaRepository = require('../adapters/repositories/user-prisma-repository');
@@ -16,12 +17,15 @@ const NailsDetailsUseCases = require('../application/usecases/nails-details-usec
 const SchedulerUseCases = require('../application/usecases/scheduler-usecases');
 const AppointmentUseCases = require('../application/usecases/appointment-usecases');
 
-// handlers
+// Handlers
 const Userhandler = require('../adapters/http/user/user-handler');
 const NailsTypesHandler = require('../adapters/http/nails/nails-types-handler');
 const NailsDetailsHandler = require('../adapters/http/nails/nails-details-handler');
 const SchedulerHandler = require('../adapters/http/scheduler/scheduler-handler');
 const AppointmentHandler = require('../adapters/http/appointment/appointment-handler');
+
+// MiddleWares
+const TokenMiddleWare = require('../adapters/http/middleware/authentication');
 
 // Intance- repository
 const userPrismaRepository = new UserPrismaRepository(prisma);
@@ -43,8 +47,10 @@ const appointmentUseCases = new AppointmentUseCases(
   nailsDetailsPrismaRepository,
   schedulerUseCases,
 );
-const tokenUsescases = new TokenUsesCases();
-const userUseCases = new UserUseCases(userPrismaRepository, tokenUsescases);
+const tokenUsescases = new TokenUsesCases(jwt);
+const userUseCases = new UserUseCases(userPrismaRepository);
+// Intance - Middlewares
+const tokenMiddleWare = new TokenMiddleWare(tokenUsescases);
 
 // Intance - Handler
 const userHandler = new Userhandler(userUseCases);
@@ -59,4 +65,5 @@ module.exports = {
   nailsDetailsHandler,
   schedulerHandler,
   appointmentHandler,
+  tokenMiddleWare,
 };
