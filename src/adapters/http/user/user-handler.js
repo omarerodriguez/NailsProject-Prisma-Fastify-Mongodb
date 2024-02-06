@@ -121,7 +121,7 @@ module.exports = class Userhandler {
           errors: err,
         });
 
-      res.header('Set-Cookie', `token=${token}; Path=/; HttpOnly`);
+      res.header('Set-Cookie', `token=${token}`);
       return res.status(status).send({
         message: 'success',
       });
@@ -207,7 +207,12 @@ module.exports = class Userhandler {
 
   deleteUser = async (req, res) => {
     try {
-      const [user, status, err] = await this.usecases.deleteUser(req.params.id);
+      const userToken = req.headers.authorization.split(' ')[1];
+      const [user, status, err] = await this.usecases.deleteUser(
+        req.params.id,
+        userToken,
+      );
+      console.log(userToken);
       if (err)
         return res.status(status).send({
           message: 'fail',
