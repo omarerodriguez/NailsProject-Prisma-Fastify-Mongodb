@@ -1,5 +1,3 @@
-const { Roles } = require('@prisma/client');
-
 module.exports = class TokenUsesCases {
   // eslint-disable-next-line no-useless-constructor, no-empty-function
   constructor(jwt) {
