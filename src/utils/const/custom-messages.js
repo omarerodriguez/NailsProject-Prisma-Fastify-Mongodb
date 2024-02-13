@@ -54,8 +54,8 @@ const customMessagesCreateNewAppointment = {
   'array.details_of_nails': 'El campo debe ser un arreglo',
   'integer.duration': 'El campo debe un numero',
   'max.duration': 'El campo debe ser maximo 10',
-  'string.reserved_at':
-    'El campo debe ser la fecha & hora "dd/mm/aa hh:mm:ss" ',
+  'date.reserved_at':
+    'El campo debe ser en formato fecha y hora "dd/mm/aa hh:mm:ss"',
 };
 
 module.exports = {
