@@ -9,7 +9,7 @@ module.exports = class TokenUsesCases {
       const expiresIn = 60 * 15;
 
       if (!userId) return [null, 'empty data not allow'];
-      const token = this.jwt.sign(
+      const token = await this.jwt.sign(
         { userId, role },
         process.env.JWT_SECRET_KEY,
         {
