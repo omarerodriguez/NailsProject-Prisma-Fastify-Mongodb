@@ -13,7 +13,7 @@ const routes = [
   {
     url: '/users/:id',
     method: 'GET',
-    preHandler: [tokenMiddleWare.verifyUserToken],
+    preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.findUserById,
   },
   {
