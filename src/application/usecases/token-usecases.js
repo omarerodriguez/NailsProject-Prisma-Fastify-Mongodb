@@ -1,3 +1,5 @@
+const { verifyScopesByRole } = require('../../utils/functions/token-function');
+
 module.exports = class TokenUsesCases {
   constructor(jwt) {
     this.jwt = jwt;
@@ -22,13 +24,15 @@ module.exports = class TokenUsesCases {
     }
   };
 
-  verifyToken = (token, role) => {
+  verifyToken = (token, roles) => {
     try {
       if (!token) return [null, 401, 'Token not provided'];
 
       const decodedToken = this.jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-      if (decodedToken.role !== role) return [null, 403, 'Unauthorized'];
+      const isAuthorized = verifyScopesByRole(decodedToken.role, roles);
+      if (!isAuthorized) return [null, 403, 'Unauthorized'];
+
       return [decodedToken, 200, null];
     } catch (err) {
       if (err.name === 'TokenExpiredError') {
