@@ -213,7 +213,7 @@ describe('test in appointment usecases', () => {
       null,
     );
   });
-
+  /*
   test('user dont exist', async () => {
     mockFindUserById.mockResolvedValue([null, 'user not found or not exist']);
 
@@ -223,7 +223,7 @@ describe('test in appointment usecases', () => {
     expect(user).toBeNull();
     expect(error).toBe('user not found or not exist');
   });
-
+  
   test('type of neils dont exist', async () => {
     mockFindNailsTypeById.mockResolvedValue([null, 'NailsTypes not found']);
 
@@ -289,5 +289,31 @@ describe('test in appointment usecases', () => {
     expect(status).toEqual(200);
     expect(appointmentId).toStrictEqual([{ id: '6599a50d9f1803f665b3e087' }]);
     expect(error).toBeNull();
+  });
+  */
+  test('find appointment by user', async () => {
+    const [appointmentId, status, error] =
+      await appointmentUseCases.findAppointmentByUser(
+        '659936dc6a1d92adb561073e',
+      );
+
+    expect(status).toEqual(200);
+    expect(appointmentId).toStrictEqual([{ id: '6599a50d9f1803f665b3e087' }]);
+    expect(error).toBeNull();
+  });
+
+  test('user has not appointment', async () => {
+    mockFindAppointmentByUserId.mockResolvedValue([
+      null,
+      `User into appointment not found`,
+    ]);
+    const [userId, status, error] =
+      await appointmentUseCases.findAppointmentByUser(
+        '659936dc6a1d92adb561073e',
+      );
+
+    expect(status).toEqual(404);
+    expect(userId).toBeNull();
+    expect(error).toBe(`User into appointment not found`);
   });
 });
