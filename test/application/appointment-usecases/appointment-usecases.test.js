@@ -213,7 +213,7 @@ describe('test in appointment usecases', () => {
       null,
     );
   });
-  /*
+
   test('user dont exist', async () => {
     mockFindUserById.mockResolvedValue([null, 'user not found or not exist']);
 
@@ -223,7 +223,7 @@ describe('test in appointment usecases', () => {
     expect(user).toBeNull();
     expect(error).toBe('user not found or not exist');
   });
-  
+
   test('type of neils dont exist', async () => {
     mockFindNailsTypeById.mockResolvedValue([null, 'NailsTypes not found']);
 
@@ -290,7 +290,7 @@ describe('test in appointment usecases', () => {
     expect(appointmentId).toStrictEqual([{ id: '6599a50d9f1803f665b3e087' }]);
     expect(error).toBeNull();
   });
-  */
+
   test('find appointment by user', async () => {
     const [appointmentId, status, error] =
       await appointmentUseCases.findAppointmentByUser(
