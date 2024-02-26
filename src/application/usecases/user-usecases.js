@@ -62,15 +62,20 @@ module.exports = class UserUseCases {
     const [user, err] = await this.prismaRepository.findUserByEmail(
       logUser.email,
     );
-    if (err) return [null, 404, err];
+    if (err) return { token: null, user: null, statusCode: 404, error: err };
 
     if (user.phone_number !== logUser.phone_number)
-      return [null, 400, 'El numero no pertenece al email'];
+      return {
+        token: null,
+        user: null,
+        statusCode: 400,
+        error: 'El numero no pertenece al email',
+      };
 
     const [token, error] = await this.tokenUsescases.generateToken(user.id);
-    if (error) return [null, error];
+    if (error) return { token: null, user: null, statusCode: 500, error };
 
-    return [token, 200, null];
+    return { token, user, statusCode: 200, error: null };
   };
 
   updateUser = async (userId, userPayload) => {
