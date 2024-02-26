@@ -31,6 +31,7 @@ model NailType {
   name String @unique
   allowed_detalis NailsDetails[]
   default_price Int
+  duration Int
   appointment Appointment?
   created_at DateTime @default(now())
 
@@ -41,6 +42,7 @@ model NailsDetails {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String
   price Int
+  duration Int
   details NailType? @relation(fields: [details_id], references: [id])
   details_id String? @db.ObjectId
   created_at DateTime @default(now())
