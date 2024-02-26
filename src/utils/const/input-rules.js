@@ -22,7 +22,7 @@ const createNewNailsTypesRules = {
 };
 
 const createNewNailsDetailsRules = {
-  name: 'string|between:4,25|required',
+  name: 'required|string|between:4,25',
   price: 'required|customPrice|required',
   duration: 'required|integer|max:6',
 };
