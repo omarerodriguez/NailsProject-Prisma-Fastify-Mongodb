@@ -136,35 +136,35 @@ module.exports = class Userhandler {
 
   loginUser = async (req, res) => {
     try {
-      // const token = req.headers?.authorization?.split(' ')[1];
-      // if (token) return res.send({
-      //   message: 'Error',
-      //   errors: 'Invalid token'
-      // });
       const validationErrors = loginUserValidations(req.body);
-      if (validationErrors)
+      if (validationErrors) {
         return res.status(400).send({
           message: 'fail',
           errors: validationErrors,
         });
+      }
 
-      const [userToken, status, err] = await this.usecases.loginUser(req.body);
-      if (err)
-        return res.status(status).send({
+      const { token, user, statusCode, error } = await this.usecases.loginUser(
+        req.body,
+      );
+
+      if (error) {
+        return res.status(statusCode).send({
           message: 'fail',
-          errors: err,
+          errors: error,
         });
+      }
 
-      res.header('Set-Cookie', `token=${userToken}; Path=/; HttpOnly`);
-      return res.status(status).send({
+      res.header('Set-Cookie', `token=${token}`);
+      return res.status(statusCode).send({
         message: 'success',
-        data: 'Usuario logueado con exito',
+        data: user,
       });
     } catch (error) {
       console.log(error);
       return res.status(500).send({
-        message: 'There was internal server error',
-        errors: error,
+        message: 'There was an internal server error',
+        errors: error.message,
       });
     }
   };
