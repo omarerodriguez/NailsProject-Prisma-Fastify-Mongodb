@@ -22,7 +22,7 @@ const customMessagesCreateNailsTypes = {
   'between.name': 'El campo tener mínimo 4 y máximo 25 caracteres',
   'required.default_price': 'El campo es obligatorio',
   'customPrice.default_price':
-    'El campo debe tener un monto mínimo de $500.000,00 y máximo de $1.000.000,00M (COP)',
+    'El campo debe tener un monto mínimo de $5.000,00 y máximo de $1.000.000,00M (COP)',
   'required.duration': 'El campo es obligatorio',
   'integer.duration': 'El campo debe ser un numero entero',
   'max.duration': 'La duracion debe ser entre 1-6',
@@ -34,7 +34,7 @@ const customMessagesCreateDetailsNails = {
   'between.name': 'El campo tener mínimo 3 y  máximo 25 caracteres',
   'required.price': 'El campo es obligatorio',
   'customPrice.price':
-    'El campo debe tener un monto mínimo de $500.000,00 y máximo de $1.000.000,00M (COP)',
+    'El campo debe tener un monto mínimo de $5.000,00 y máximo de $1.000.000,00M (COP)',
   'required.duration': 'El campo es obligatorio',
   'integer.duration': 'El campo debe ser un numero entero',
   'max.duration': 'La duracion debe ser entre 1-6',
