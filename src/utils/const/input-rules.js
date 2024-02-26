@@ -1,3 +1,5 @@
+const { customPriceRule } = require('./custom-rules');
+
 const createNewUserRules = {
   name: 'string|between:3,15|required',
   last_name: 'string|between:3,15',
@@ -14,15 +16,15 @@ const loginUserRules = {
 };
 
 const createNewNailsTypesRules = {
-  name: 'string|between:4,25|required',
-  default_price: 'integer|between:500,10000000',
-  'allowed_detalis.*.name': 'string|min:3|max:25',
-  'allowed_detalis.*.price': 'integer',
+  name: 'required|string|between:4,25|required',
+  default_price: 'required|customPrice|required',
+  duration: 'required|integer|max:6',
 };
 
 const createNewNailsDetailsRules = {
   name: 'string|between:4,25|required',
-  price: 'integer|between:500,10000000',
+  price: 'required|customPrice|required',
+  duration: 'required|integer|max:6',
 };
 
 const getSchedulerByDateRules = {
@@ -39,7 +41,7 @@ const createNewAppointmentRules = {
   user_id: 'string|hex|size:24|required',
   types_of_nails_id: 'string|hex|size:24|required',
   details_of_nails: 'array|required',
-  duration: 'integer|max:10',
+  duration: 'required|integer|max:10',
   reserved_at: 'date',
 };
 
