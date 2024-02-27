@@ -7,7 +7,7 @@ const routes = [
   {
     url: '/detailsnails',
     method: 'GET',
-    //preHandler: [tokenMiddleWare.verifyUserToken],
+    preHandler: [tokenMiddleWare.verifyUserToken],
     handler: detailsNailsHandler.findAllDetailsNails,
   },
   {
