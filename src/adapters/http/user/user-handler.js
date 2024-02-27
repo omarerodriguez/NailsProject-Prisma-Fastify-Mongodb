@@ -136,11 +136,6 @@ module.exports = class Userhandler {
 
   loginUser = async (req, res) => {
     try {
-      // const token = req.headers?.authorization?.split(' ')[1];
-      // if (token) return res.send({
-      //   message: 'Error',
-      //   errors: 'Invalid token'
-      // });
       const validationErrors = loginUserValidations(req.body);
       if (validationErrors)
         return res.status(400).send({
@@ -148,17 +143,19 @@ module.exports = class Userhandler {
           errors: validationErrors,
         });
 
-      const [userToken, status, err] = await this.usecases.loginUser(req.body);
+      const [token, user, status, err] = await this.usecases.loginUser(
+        req.body,
+      );
       if (err)
         return res.status(status).send({
           message: 'fail',
           errors: err,
         });
 
-      res.header('Set-Cookie', `token=${userToken}; Path=/; HttpOnly`);
+      res.header('Set-Cookie', `token=${token}`);
       return res.status(status).send({
         message: 'success',
-        data: 'Usuario logueado con exito',
+        data: user,
       });
     } catch (error) {
       console.log(error);

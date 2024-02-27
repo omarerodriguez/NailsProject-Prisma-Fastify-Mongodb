@@ -70,7 +70,7 @@ module.exports = class UserUseCases {
     const [token, error] = await this.tokenUsescases.generateToken(user.id);
     if (error) return [null, error];
 
-    return [token, 200, null];
+    return [token, user, 200, null];
   };
 
   updateUser = async (userId, userPayload) => {
