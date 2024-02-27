@@ -44,9 +44,9 @@ model NailsDetails {
   name String
   price Int
   duration Int
-  details NailType? @relation(fields: [details_id], references: [id])
+  type NailType? @relation(fields: [type_id], references: [id])
   //cambiar por typeId
-  details_id String? @db.ObjectId
+  type_id String? @db.ObjectId
   deleted_at String?
   created_at DateTime @default(now())
 
