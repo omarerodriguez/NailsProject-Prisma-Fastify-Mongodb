@@ -1,3 +1,4 @@
+const { getFormatDate } = require('../../utils/functions/date');
 module.exports = class DetailsNailsUseCases {
   constructor(prismaRepository) {
     this.prismaRepository = prismaRepository;
@@ -19,8 +20,11 @@ module.exports = class DetailsNailsUseCases {
   };
 
   createNewNailsDetalis = async (detailsNailsPayload) => {
+    const newDetailsNailsBody = { ...detailsNailsPayload };
+    newDetailsNailsBody.created_at = getFormatDate();
+
     const [newDetailsNails, err] =
-      await this.prismaRepository.createNewNailsDetalis(detailsNailsPayload);
+      await this.prismaRepository.createNewNailsDetalis(newDetailsNailsBody);
     if (err) return [null, 404, err];
     return [newDetailsNails, 200, null];
   };
