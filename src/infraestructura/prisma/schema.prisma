@@ -34,7 +34,7 @@ model TypeNail {
   duration Int
   appointment Appointment?
   deleted_at String?
-  created_at DateTime @default(now())
+  created_at String
 
   @@map("typesnails")
 }
@@ -47,7 +47,7 @@ model DetailNail {
   type TypeNail? @relation(fields: [type_id], references: [id])
   type_id String? @db.ObjectId
   deleted_at String?
-  created_at DateTime @default(now())
+  created_at String
 
   @@map("detailsnails")
 }
