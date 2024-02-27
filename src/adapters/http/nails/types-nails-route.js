@@ -7,7 +7,7 @@ const routes = [
   {
     url: '/typesnails',
     method: 'GET',
-    //preHandler: [tokenMiddleWare.verifyUserToken],
+    preHandler: [tokenMiddleWare.verifyUserToken],
     handler: typesNailsHandler.findAllTypesNails,
   },
   {
