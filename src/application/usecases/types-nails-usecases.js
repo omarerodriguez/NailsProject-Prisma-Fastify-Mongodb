@@ -20,18 +20,13 @@ module.exports = class TypesNailsUseCases {
   };
 
   createNewTypesNails = async (typesNailsPayload) => {
-    const [newTpNails, nailsError] =
-      await this.prismaRepository.createNewTypesNails(typesNailsPayload);
-    if (nailsError) return [null, 500, nailsError];
-    return [newTpNails, 200, null];
-
-    /* const newTypeNailsBody = { ...nailsTpPayload };
+    const newTypeNailsBody = { ...typesNailsPayload };
     newTypeNailsBody.created_at = getFormatDate();
 
-    const [newNailsType, err] =
-      await this.prismaRepository.createNewTypesNails(newNailsTypeBody);
-    if (err) return [null, 400, err];
-    return [newNailsType, 201, null];*/
+    const [newTpNails, nailsError] =
+      await this.prismaRepository.createNewTypesNails(newTypeNailsBody);
+    if (nailsError) return [null, 500, nailsError];
+    return [newTpNails, 200, null];
   };
 
   updateTypesNails = async (typesNailsId, typesNailsPayload) => {
