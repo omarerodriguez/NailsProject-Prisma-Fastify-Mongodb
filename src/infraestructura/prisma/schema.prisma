@@ -26,31 +26,30 @@ model User {
   @@map("user")
 }
 
-model NailType {
+model TypeNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String @unique
-  allowed_detalis NailsDetails[]
+  allowed_detalis DetailNail[]
   default_price Int
   duration Int
   appointment Appointment?
   deleted_at String?
   created_at DateTime @default(now())
 
-  @@map("nailstypes")
+  @@map("typesnails")
 }
 
-model NailsDetails {
+model DetailNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String
   price Int
   duration Int
-  type NailType? @relation(fields: [type_id], references: [id])
-  //cambiar por typeId
+  type TypeNail? @relation(fields: [type_id], references: [id])
   type_id String? @db.ObjectId
   deleted_at String?
   created_at DateTime @default(now())
 
-  @@map("nailsdetails")
+  @@map("detailsnails")
 }
 
 model Scheduler {
@@ -67,7 +66,7 @@ model Appointment {
   user User @relation(fields: [user_id],references: [id])
   user_id String @unique @db.ObjectId
   //..........types_of_details............
-  types_of_nails NailType @relation(fields: [types_of_nails_id],references: [id])
+  types_of_nails TypeNail @relation(fields: [types_of_nails_id],references: [id])
   types_of_nails_id String @unique @db.ObjectId
   //..........details_of_nails...........
   details_of_nails String[]

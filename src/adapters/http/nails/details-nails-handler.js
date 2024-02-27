@@ -1,15 +1,15 @@
 const {
-  createNewNailsTypesValidations,
+  createNewDetailsNailsValidations,
 } = require('../../../utils/functions/input-validations');
-
-module.exports = class NailsTypesHandler {
-  constructor(nailsTypesUseCases) {
-    this.usecases = nailsTypesUseCases;
+module.exports = class DetailsNailsHandler {
+  constructor(detailsNailsUseCases) {
+    this.usecases = detailsNailsUseCases;
   }
 
-  findAllNailsTypes = async (req, res) => {
+  findAllDetailsNails = async (req, res) => {
     try {
-      const [nailsTypes, status, err] = await this.usecases.findAllNailsTypes();
+      const [detailsNails, status, err] =
+        await this.usecases.findAllDetailsNails();
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -17,7 +17,7 @@ module.exports = class NailsTypesHandler {
         });
       return res.status(status).send({
         success: 'success',
-        data: nailsTypes,
+        data: detailsNails,
       });
     } catch (error) {
       console.log(error);
@@ -28,11 +28,10 @@ module.exports = class NailsTypesHandler {
     }
   };
 
-  findNailsTypesById = async (req, res) => {
+  findDetailsNailsById = async (req, res) => {
     try {
-      const [nailsType, status, err] = await this.usecases.findNailsTypesById(
-        req.params.id,
-      );
+      const [detailNails, status, err] =
+        await this.usecases.findDetailsNailsById(req.params.id);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -40,7 +39,7 @@ module.exports = class NailsTypesHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: nailsType,
+        data: detailNails,
       });
     } catch (error) {
       console.log(error);
@@ -51,17 +50,16 @@ module.exports = class NailsTypesHandler {
     }
   };
 
-  createNewNailsTypes = async (req, res) => {
+  createNewNailsDetalis = async (req, res) => {
     try {
-      const errors = createNewNailsTypesValidations(req.body);
+      const errors = createNewDetailsNailsValidations(req.body);
       if (errors)
         return res.status(400).send({
           message: 'fail',
           errors,
         });
-      const [nailsTypes, status, err] = await this.usecases.createNewNailsTypes(
-        req.body,
-      );
+      const [newDetailsNails, status, err] =
+        await this.usecases.createNewNailsDetalis(req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -69,7 +67,7 @@ module.exports = class NailsTypesHandler {
         });
       return res.status(status).send({
         message: 'succes',
-        data: nailsTypes,
+        data: newDetailsNails,
       });
     } catch (error) {
       console.log(error);
@@ -79,16 +77,10 @@ module.exports = class NailsTypesHandler {
     }
   };
 
-  updateNailsTypes = async (req, res) => {
+  updateDetailsNails = async (req, res) => {
     try {
-      const errors = createNewNailsTypesValidations(req.body);
-      if (errors)
-        return res.status(400).send({
-          message: 'fail',
-          errors,
-        });
-      const [updatedNailsTypes, status, err] =
-        await this.usecases.updateNailsTypes(req.params.id, req.body);
+      const [updateDetailNails, status, err] =
+        await this.usecases.updateDetailsNails(req.params.id, req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -96,7 +88,7 @@ module.exports = class NailsTypesHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: updatedNailsTypes,
+        data: updateDetailNails,
       });
     } catch (error) {
       console.log(error);
@@ -107,11 +99,10 @@ module.exports = class NailsTypesHandler {
     }
   };
 
-  deleteNailsTypes = async (req, res) => {
+  deleteDetailsNails = async (req, res) => {
     try {
-      const [nailsTpyes, status, err] = await this.usecases.deleteNailsTypes(
-        req.params.id,
-      );
+      const [deleteDetailNails, status, err] =
+        await this.usecases.deleteDetailsNails(req.params.id);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -119,7 +110,7 @@ module.exports = class NailsTypesHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: `deleted Nails Types with ID: ${nailsTpyes.id}`,
+        data: `deleted Nails Details with ID: ${deleteDetailNails.id}`,
       });
     } catch (error) {
       console.log(error);

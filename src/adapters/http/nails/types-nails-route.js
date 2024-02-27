@@ -1,38 +1,38 @@
 const {
-  nailsTypesHandler,
+  typesNailsHandler,
   tokenMiddleWare,
 } = require('../../../utils/intances-usecases');
 
 const routes = [
   {
-    url: '/nailstypes',
+    url: '/typesnails',
     method: 'GET',
     preHandler: [tokenMiddleWare.verifyUserToken],
-    handler: nailsTypesHandler.findAllNailsTypes,
+    handler: typesNailsHandler.findAllTypesNails,
   },
   {
-    url: '/nailstypes/:id',
+    url: '/typesnails/:id',
     method: 'GET',
     preHandler: [tokenMiddleWare.verifyUserToken],
-    handler: nailsTypesHandler.findNailsTypesById,
+    handler: typesNailsHandler.findTypesNailsById,
   },
   {
-    url: '/nailstypes',
+    url: '/typesnails',
     method: 'POST',
     preHandler: [tokenMiddleWare.verifyAdminToken],
-    handler: nailsTypesHandler.createNewNailsTypes,
+    handler: typesNailsHandler.createNewTypesNails,
   },
   {
-    url: '/nailstypes/:id',
+    url: '/typesnails/:id',
     method: 'PUT',
     preHandler: [tokenMiddleWare.verifyAdminToken],
-    handler: nailsTypesHandler.updateNailsTypes,
+    handler: typesNailsHandler.updateTypesNails,
   },
   {
-    url: '/nailstypes/:id',
+    url: '/typesnails/:id',
     method: 'DELETE',
     preHandler: [tokenMiddleWare.verifyAdminToken],
-    handler: nailsTypesHandler.deleteNailsTypes,
+    handler: typesNailsHandler.deleteTypesNails,
   },
 ];
 

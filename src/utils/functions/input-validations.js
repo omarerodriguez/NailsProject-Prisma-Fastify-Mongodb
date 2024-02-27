@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const {
   createNewUserRules,
   loginUserRules,
-  createNewNailsTypesRules,
-  createNewNailsDetailsRules,
+  createNewTypesNailsRules,
+  createNewDetailsNailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,
@@ -50,10 +50,10 @@ const validateToken = (req, res, done) => {
   });
 };
 
-const createNewNailsTypesValidations = (newNailsTypesPayload) => {
+const createNewTypesNailsValidations = (newNailsTypesPayload) => {
   const validation = new Validator(
     newNailsTypesPayload,
-    createNewNailsTypesRules,
+    createNewTypesNailsRules,
     customMessagesCreateNailsTypes,
   );
   const errors = validation.errors.all();
@@ -61,10 +61,10 @@ const createNewNailsTypesValidations = (newNailsTypesPayload) => {
   return null;
 };
 
-const createNewNailsDetailsValidations = (newNailsDetailsPayload) => {
+const createNewDetailsNailsValidations = (newDetailsNailsPayload) => {
   const validation = new Validator(
-    newNailsDetailsPayload,
-    createNewNailsDetailsRules,
+    newDetailsNailsPayload,
+    createNewDetailsNailsRules,
     customMessagesCreateDetailsNails,
   );
   const errors = validation.errors.all();
@@ -100,8 +100,8 @@ module.exports = {
   createNewuUserValidations,
   validateToken,
   loginUserValidations,
-  createNewNailsTypesValidations,
-  createNewNailsDetailsValidations,
+  createNewTypesNailsValidations,
+  createNewDetailsNailsValidations,
   getSchedulerByDateValidations,
   getUserByIdValidations,
   createNewAppointmentValidations,

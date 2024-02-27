@@ -1,7 +1,7 @@
 /** Repositories */
 const UserPrismaRepository = require('../../../src/adapters/repositories/user-prisma-repository');
-const TypesNailsPrismaRepository = require('../../../src/adapters/repositories/nails-types-prisma-repository');
-const DetailsTypesNailsPrismaRepository = require('../../../src/adapters/repositories/nails-details-prisma-repository');
+const TypesNailsPrismaRepository = require('../../../src/adapters/repositories/types-nails-prisma-repository');
+const DetailsNailsPrismaRepository = require('../../../src/adapters/repositories/details-nails-prisma-repository');
 const AppointmentPrismaRepository = require('../../../src/adapters/repositories/appointment-prisma-repository');
 const SchedulerPrismaRepository = require('../../../src/adapters/repositories/scheduler-prisma-repository');
 
@@ -32,23 +32,23 @@ jest.mock('../../../src/adapters/repositories/user-prisma-repository', () =>
   })),
 );
 
-/** TypeNails*/
-const mockFindNailsTypeById = jest.fn();
+/** TypesNails*/
+const mockFindTypeNailsById = jest.fn();
 jest.mock(
-  '../../../src/adapters/repositories/nails-types-prisma-repository',
+  '../../../src/adapters/repositories/types-nails-prisma-repository',
   () =>
     jest.fn().mockImplementation(() => ({
-      findNailsTypesById: mockFindNailsTypeById,
+      findTypesNailsById: mockFindTypeNailsById,
     })),
 );
 
-/** NailDetails*/
-const mockFindNailsDetailsByIds = jest.fn();
+/** DetailsNails*/
+const mockFindDetailsNailsByIds = jest.fn();
 jest.mock(
-  '../../../src/adapters/repositories/nails-details-prisma-repository',
+  '../../../src/adapters/repositories/details-nails-prisma-repository',
   () =>
     jest.fn().mockImplementation(() => ({
-      findAllNailsDetails: mockFindNailsDetailsByIds,
+      findAllDetailsNails: mockFindDetailsNailsByIds,
     })),
 );
 
@@ -78,8 +78,7 @@ describe('test in appointment usecases', () => {
     /** Intances Repository */
     const userPrismaRepository = new UserPrismaRepository();
     const typesNailsPrismaRepository = new TypesNailsPrismaRepository();
-    const detailsTypesNailsPrismaRepository =
-      new DetailsTypesNailsPrismaRepository();
+    const detailsNailsPrismaRepository = new DetailsNailsPrismaRepository();
     const appointmentPrismaRepository = new AppointmentPrismaRepository();
     const schedulerPrismaRepositry = new SchedulerPrismaRepository();
 
@@ -89,7 +88,7 @@ describe('test in appointment usecases', () => {
       appointmentPrismaRepository,
       userPrismaRepository,
       typesNailsPrismaRepository,
-      detailsTypesNailsPrismaRepository,
+      detailsNailsPrismaRepository,
       schedulerUseCases,
     );
   });
@@ -108,14 +107,14 @@ describe('test in appointment usecases', () => {
       null,
     );
 
-    mockFindNailsTypeById.mockResolvedValue([
+    mockFindTypeNailsById.mockResolvedValue([
       {
         id: '9659916dc6a1d92adb561073ex',
       },
       null,
     ]);
 
-    mockFindNailsDetailsByIds.mockResolvedValue([
+    mockFindDetailsNailsByIds.mockResolvedValue([
       [
         {
           id: '6599a50d9f1803f665b2e087',
@@ -225,17 +224,17 @@ describe('test in appointment usecases', () => {
   });
 
   test('type of neils dont exist', async () => {
-    mockFindNailsTypeById.mockResolvedValue([null, 'NailsTypes not found']);
+    mockFindTypeNailsById.mockResolvedValue([null, 'NailsTypes not found']);
 
-    const [nailType, status, error] =
+    const [TypeNail, status, error] =
       await appointmentUseCases.createNewAppointment(appoinmentPayload);
     expect(status).toEqual(404);
-    expect(nailType).toBeNull();
+    expect(TypeNail).toBeNull();
     expect(error).toBe('NailsTypes not found');
   });
 
   test('details of neils dont exist', async () => {
-    mockFindNailsDetailsByIds.mockResolvedValue([
+    mockFindDetailsNailsByIds.mockResolvedValue([
       null,
       `there are not nails details fetched`,
     ]);

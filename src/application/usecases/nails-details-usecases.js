@@ -1,44 +1,44 @@
-module.exports = class NailsDetailsUseCases {
+module.exports = class DetailsNailsUseCases {
   constructor(prismaRepository) {
     this.prismaRepository = prismaRepository;
   }
 
-  findAllNailsDetails = async () => {
-    const [nailsDetails, err] =
-      await this.prismaRepository.findAllNailsDetails();
+  findAllDetailsNails = async () => {
+    const [DetailsNails, err] =
+      await this.prismaRepository.findAllDetailsNails();
     if (err) return [null, 404, err];
-    return [nailsDetails, 200, null];
+    return [DetailsNails, 200, null];
   };
 
-  findNailsDetailsById = async (nailsDetailsId) => {
-    const [nailsDetail, err] = await this.prismaRepository.findNailsDetailsById(
-      nailsDetailsId,
+  findDetailsNailsById = async (DetailsNailsId) => {
+    const [detailNail, err] = await this.prismaRepository.findDetailsNailsById(
+      DetailsNailsId,
     );
     if (err) return [null, 404, err];
-    return [nailsDetail, 200, null];
+    return [detailNail, 200, null];
   };
 
-  createNewNailsDetalis = async (nailsDetailPayload) => {
-    const [newNailsDetails, err] =
-      await this.prismaRepository.createNewNailsDetalis(nailsDetailPayload);
+  createNewNailsDetalis = async (detailsNailsPayload) => {
+    const [newDetailsNails, err] =
+      await this.prismaRepository.createNewNailsDetalis(detailsNailsPayload);
     if (err) return [null, 404, err];
-    return [newNailsDetails, 200, null];
+    return [newDetailsNails, 200, null];
   };
 
-  updateNailsDetails = async (nailsDetailsId, nailsDetailPayload) => {
+  updateDetailsNails = async (DetailsNailsId, nailsDetailPayload) => {
     const [updateNailsDetail, err] =
-      await this.prismaRepository.updateNailsDetails(
-        nailsDetailsId,
+      await this.prismaRepository.updateDetailsNails(
+        DetailsNailsId,
         nailsDetailPayload,
       );
     if (err) return [null, 404, err];
     return [updateNailsDetail, 200, null];
   };
 
-  deleteNailsDetails = async (nailsDetailsId) => {
-    const [deleteNailsDetail, err] =
-      await this.prismaRepository.deleteNailsDetails(nailsDetailsId);
+  deleteDetailsNails = async (DetailsNailsId) => {
+    const [deleteDetailNails, err] =
+      await this.prismaRepository.deleteDetailsNails(DetailsNailsId);
     if (err) return [null, 404, err];
-    return [deleteNailsDetail, 200, null];
+    return [deleteDetailNails, 200, null];
   };
 };

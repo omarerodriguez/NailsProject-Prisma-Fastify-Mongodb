@@ -15,13 +15,13 @@ const loginUserRules = {
   email: 'required|email',
 };
 
-const createNewNailsTypesRules = {
+const createNewTypesNailsRules = {
   name: 'required|string|between:4,25|required',
   default_price: 'required|customPrice|required',
   duration: 'required|integer|max:6',
 };
 
-const createNewNailsDetailsRules = {
+const createNewDetailsNailsRules = {
   name: 'required|string|between:4,25',
   price: 'required|customPrice|required',
   duration: 'required|integer|max:6',
@@ -48,8 +48,8 @@ const createNewAppointmentRules = {
 module.exports = {
   createNewUserRules,
   loginUserRules,
-  createNewNailsTypesRules,
-  createNewNailsDetailsRules,
+  createNewTypesNailsRules,
+  createNewDetailsNailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,
