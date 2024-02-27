@@ -7,14 +7,14 @@ module.exports = class AppointmentUseCases {
   constructor(
     prismaRepository,
     userPrismaRepository,
-    nailsTypesPrismaRepository,
+    typesNailsPrismaRepository,
     nailsDetailsPrismaRepository,
     schedulerUseCases,
   ) {
     this.prismaRepository = prismaRepository;
     this.userPrismaRepository = userPrismaRepository;
     this.nailsDetailsPrismaRepository = nailsDetailsPrismaRepository;
-    this.nailsTypesPrismaRepository = nailsTypesPrismaRepository;
+    this.typesNailsPrismaRepository = typesNailsPrismaRepository;
     this.schedulerUseCases = schedulerUseCases;
   }
   findAllAppointments = async () => {
@@ -47,7 +47,7 @@ module.exports = class AppointmentUseCases {
     const [userData, typeOfNailsData, nailsDetailsData, AppointmentData] =
       await Promise.all([
         this.userPrismaRepository.findUserById(userId),
-        this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
+        this.typesNailsPrismaRepository.findTypesNailsById(typesOfNailsId),
         this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
         this.prismaRepository.findAppointmentByUser(userId),
       ]);

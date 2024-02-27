@@ -1,6 +1,6 @@
 /** Repositories */
 const UserPrismaRepository = require('../../../src/adapters/repositories/user-prisma-repository');
-const TypesNailsPrismaRepository = require('../../../src/adapters/repositories/nails-types-prisma-repository');
+const TypesNailsPrismaRepository = require('../../../src/adapters/repositories/types-nails-prisma-repository');
 const DetailsTypesNailsPrismaRepository = require('../../../src/adapters/repositories/nails-details-prisma-repository');
 const AppointmentPrismaRepository = require('../../../src/adapters/repositories/appointment-prisma-repository');
 const SchedulerPrismaRepository = require('../../../src/adapters/repositories/scheduler-prisma-repository');
@@ -32,13 +32,13 @@ jest.mock('../../../src/adapters/repositories/user-prisma-repository', () =>
   })),
 );
 
-/** TypeNails*/
-const mockFindNailsTypeById = jest.fn();
+/** NailsTypes*/
+const mockFindTypeNailsById = jest.fn();
 jest.mock(
-  '../../../src/adapters/repositories/nails-types-prisma-repository',
+  '../../../src/adapters/repositories/types-nails-prisma-repository',
   () =>
     jest.fn().mockImplementation(() => ({
-      findNailsTypesById: mockFindNailsTypeById,
+      findTypesNailsById: mockFindTypeNailsById,
     })),
 );
 
@@ -108,7 +108,7 @@ describe('test in appointment usecases', () => {
       null,
     );
 
-    mockFindNailsTypeById.mockResolvedValue([
+    mockFindTypeNailsById.mockResolvedValue([
       {
         id: '9659916dc6a1d92adb561073ex',
       },
@@ -225,12 +225,12 @@ describe('test in appointment usecases', () => {
   });
 
   test('type of neils dont exist', async () => {
-    mockFindNailsTypeById.mockResolvedValue([null, 'NailsTypes not found']);
+    mockFindTypeNailsById.mockResolvedValue([null, 'NailsTypes not found']);
 
-    const [nailType, status, error] =
+    const [TypeNail, status, error] =
       await appointmentUseCases.createNewAppointment(appoinmentPayload);
     expect(status).toEqual(404);
-    expect(nailType).toBeNull();
+    expect(TypeNail).toBeNull();
     expect(error).toBe('NailsTypes not found');
   });
 

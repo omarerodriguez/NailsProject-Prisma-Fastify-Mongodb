@@ -1,6 +1,6 @@
 const fastify = require('fastify')({ logger: true });
 const userRoutes = require('./adapters/http/user/user-route');
-const nailsTypesRoutes = require('./adapters/http/nails/nails-types-route');
+const typesNailsRoutes = require('./adapters/http/nails/types-nails-route');
 const nailsDetailsRoutes = require('./adapters/http/nails/nails-details-route');
 const schedulerRoutes = require('./adapters/http/scheduler/scheduler-route');
 const appointmentsRoutes = require('./adapters/http/appointment/appointment-routes');
@@ -27,7 +27,7 @@ userRoutes.forEach((route) => {
 nailsDetailsRoutes.forEach((route) => {
   fastify.route(route);
 });
-nailsTypesRoutes.forEach((route) => {
+typesNailsRoutes.forEach((route) => {
   fastify.route(route);
 });
 schedulerRoutes.forEach((route) => {

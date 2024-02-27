@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 // Repositories
 const UserPrismaRepository = require('../adapters/repositories/user-prisma-repository');
-const NailsTypesPrismaRepository = require('../adapters/repositories/nails-types-prisma-repository');
+const TypesNailsPrismaRepository = require('../adapters/repositories/types-nails-prisma-repository');
 const NailsDetailsPrismaRepository = require('../adapters/repositories/nails-details-prisma-repository');
 const SchedulerPrismaRepository = require('../adapters/repositories/scheduler-prisma-repository');
 const AppointmentPrismaRepository = require('../adapters/repositories/appointment-prisma-repository');
@@ -12,14 +12,14 @@ const AppointmentPrismaRepository = require('../adapters/repositories/appointmen
 // Usecases
 const UserUseCases = require('../application/usecases/user-usecases');
 const TokenUsesCases = require('../application/usecases/token-usecases');
-const NailsTypesUseCases = require('../application/usecases/nails-types-usecases');
+const TypesNailsUseCases = require('../application/usecases/types-nails-usecases.js');
 const NailsDetailsUseCases = require('../application/usecases/nails-details-usecases');
 const SchedulerUseCases = require('../application/usecases/scheduler-usecases');
 const AppointmentUseCases = require('../application/usecases/appointment-usecases');
 
 // Handlers
 const Userhandler = require('../adapters/http/user/user-handler');
-const NailsTypesHandler = require('../adapters/http/nails/nails-types-handler');
+const TypesNailsHandler = require('../adapters/http/nails/types-nails-handler');
 const NailsDetailsHandler = require('../adapters/http/nails/nails-details-handler');
 const SchedulerHandler = require('../adapters/http/scheduler/scheduler-handler');
 const AppointmentHandler = require('../adapters/http/appointment/appointment-handler');
@@ -29,13 +29,13 @@ const TokenMiddleWare = require('../adapters/http/middleware/authentication');
 
 // Intance- repository
 const userPrismaRepository = new UserPrismaRepository(prisma);
-const nailsTypesPrismaRepository = new NailsTypesPrismaRepository(prisma);
+const typesNailsPrismaRepository = new TypesNailsPrismaRepository(prisma);
 const nailsDetailsPrismaRepository = new NailsDetailsPrismaRepository(prisma);
 const schedulerPrismaRepository = new SchedulerPrismaRepository(prisma);
 const appointmentPrismaRepository = new AppointmentPrismaRepository(prisma);
 
 // Intance- usecases
-const nailsTypesUseCases = new NailsTypesUseCases(nailsTypesPrismaRepository);
+const typesNailsUseCases = new TypesNailsUseCases(typesNailsPrismaRepository);
 const nailsDetailsUseCases = new NailsDetailsUseCases(
   nailsDetailsPrismaRepository,
 );
@@ -43,7 +43,7 @@ const schedulerUseCases = new SchedulerUseCases(schedulerPrismaRepository);
 const appointmentUseCases = new AppointmentUseCases(
   appointmentPrismaRepository,
   userPrismaRepository,
-  nailsTypesPrismaRepository,
+  typesNailsPrismaRepository,
   nailsDetailsPrismaRepository,
   schedulerUseCases,
 );
@@ -54,14 +54,14 @@ const tokenMiddleWare = new TokenMiddleWare(tokenUsescases);
 
 // Intance - Handler
 const userHandler = new Userhandler(userUseCases);
-const nailsTypesHandler = new NailsTypesHandler(nailsTypesUseCases);
+const typesNailsHandler = new TypesNailsHandler(typesNailsUseCases);
 const nailsDetailsHandler = new NailsDetailsHandler(nailsDetailsUseCases);
 const schedulerHandler = new SchedulerHandler(schedulerUseCases);
 const appointmentHandler = new AppointmentHandler(appointmentUseCases);
 
 module.exports = {
   userHandler,
-  nailsTypesHandler,
+  typesNailsHandler,
   nailsDetailsHandler,
   schedulerHandler,
   appointmentHandler,

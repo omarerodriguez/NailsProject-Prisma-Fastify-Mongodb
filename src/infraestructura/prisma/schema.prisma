@@ -26,7 +26,7 @@ model User {
   @@map("user")
 }
 
-model NailType {
+model TypeNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String @unique
   allowed_detalis NailsDetails[]
@@ -44,7 +44,7 @@ model NailsDetails {
   name String
   price Int
   duration Int
-  type NailType? @relation(fields: [type_id], references: [id])
+  type TypeNail? @relation(fields: [type_id], references: [id])
   //cambiar por typeId
   type_id String? @db.ObjectId
   deleted_at String?
@@ -67,7 +67,7 @@ model Appointment {
   user User @relation(fields: [user_id],references: [id])
   user_id String @unique @db.ObjectId
   //..........types_of_details............
-  types_of_nails NailType @relation(fields: [types_of_nails_id],references: [id])
+  types_of_nails TypeNail @relation(fields: [types_of_nails_id],references: [id])
   types_of_nails_id String @unique @db.ObjectId
   //..........details_of_nails...........
   details_of_nails String[]

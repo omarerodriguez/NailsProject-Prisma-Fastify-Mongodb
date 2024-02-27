@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const {
   createNewUserRules,
   loginUserRules,
-  createNewNailsTypesRules,
+  createNewTypesNailsRules,
   createNewNailsDetailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
@@ -50,10 +50,10 @@ const validateToken = (req, res, done) => {
   });
 };
 
-const createNewNailsTypesValidations = (newNailsTypesPayload) => {
+const createNewTypesNailsValidations = (newNailsTypesPayload) => {
   const validation = new Validator(
     newNailsTypesPayload,
-    createNewNailsTypesRules,
+    createNewTypesNailsRules,
     customMessagesCreateNailsTypes,
   );
   const errors = validation.errors.all();
@@ -100,7 +100,7 @@ module.exports = {
   createNewuUserValidations,
   validateToken,
   loginUserValidations,
-  createNewNailsTypesValidations,
+  createNewTypesNailsValidations,
   createNewNailsDetailsValidations,
   getSchedulerByDateValidations,
   getUserByIdValidations,
