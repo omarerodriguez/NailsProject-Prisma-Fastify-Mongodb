@@ -4,7 +4,7 @@ const {
   createNewUserRules,
   loginUserRules,
   createNewTypesNailsRules,
-  createNewNailsDetailsRules,
+  createNewDetailsNailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,
@@ -61,10 +61,10 @@ const createNewTypesNailsValidations = (newNailsTypesPayload) => {
   return null;
 };
 
-const createNewNailsDetailsValidations = (newNailsDetailsPayload) => {
+const createNewDetailsNailsValidations = (newDetailsNailsPayload) => {
   const validation = new Validator(
-    newNailsDetailsPayload,
-    createNewNailsDetailsRules,
+    newDetailsNailsPayload,
+    createNewDetailsNailsRules,
     customMessagesCreateDetailsNails,
   );
   const errors = validation.errors.all();
@@ -101,7 +101,7 @@ module.exports = {
   validateToken,
   loginUserValidations,
   createNewTypesNailsValidations,
-  createNewNailsDetailsValidations,
+  createNewDetailsNailsValidations,
   getSchedulerByDateValidations,
   getUserByIdValidations,
   createNewAppointmentValidations,

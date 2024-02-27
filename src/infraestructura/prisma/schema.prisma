@@ -29,28 +29,27 @@ model User {
 model TypeNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String @unique
-  allowed_detalis NailsDetails[]
+  allowed_detalis DetailNail[]
   default_price Int
   duration Int
   appointment Appointment?
   deleted_at String?
   created_at DateTime @default(now())
 
-  @@map("nailstypes")
+  @@map("typesnails")
 }
 
-model NailsDetails {
+model DetailNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String
   price Int
   duration Int
   type TypeNail? @relation(fields: [type_id], references: [id])
-  //cambiar por typeId
   type_id String? @db.ObjectId
   deleted_at String?
   created_at DateTime @default(now())
 
-  @@map("nailsdetails")
+  @@map("detailsnails")
 }
 
 model Scheduler {

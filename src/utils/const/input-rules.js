@@ -21,7 +21,7 @@ const createNewTypesNailsRules = {
   duration: 'required|integer|max:6',
 };
 
-const createNewNailsDetailsRules = {
+const createNewDetailsNailsRules = {
   name: 'required|string|between:4,25',
   price: 'required|customPrice|required',
   duration: 'required|integer|max:6',
@@ -49,7 +49,7 @@ module.exports = {
   createNewUserRules,
   loginUserRules,
   createNewTypesNailsRules,
-  createNewNailsDetailsRules,
+  createNewDetailsNailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,

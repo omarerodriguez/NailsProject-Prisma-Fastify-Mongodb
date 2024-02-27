@@ -8,12 +8,12 @@ module.exports = class AppointmentUseCases {
     prismaRepository,
     userPrismaRepository,
     typesNailsPrismaRepository,
-    nailsDetailsPrismaRepository,
+    detailsNailsPrismaRepository,
     schedulerUseCases,
   ) {
     this.prismaRepository = prismaRepository;
     this.userPrismaRepository = userPrismaRepository;
-    this.nailsDetailsPrismaRepository = nailsDetailsPrismaRepository;
+    this.detailsNailsPrismaRepository = detailsNailsPrismaRepository;
     this.typesNailsPrismaRepository = typesNailsPrismaRepository;
     this.schedulerUseCases = schedulerUseCases;
   }
@@ -44,21 +44,21 @@ module.exports = class AppointmentUseCases {
       details_of_nails: detailsOfNails,
     } = appointmentPayload;
 
-    const [userData, typeOfNailsData, nailsDetailsData, AppointmentData] =
+    const [userData, typeOfNailsData, detailsNailsData, AppointmentData] =
       await Promise.all([
         this.userPrismaRepository.findUserById(userId),
         this.typesNailsPrismaRepository.findTypesNailsById(typesOfNailsId),
-        this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
+        this.detailsNailsPrismaRepository.findAllDetailsNails(detailsOfNails),
         this.prismaRepository.findAppointmentByUser(userId),
       ]);
     const [appointmentsRecord, appointmentErr] = AppointmentData;
     const [, userErr] = userData;
     const [, typeOfNailsErr] = typeOfNailsData;
-    const [, nailsDetailsErr] = nailsDetailsData;
+    const [, detailsNailsErr] = detailsNailsData;
 
     if (userErr) return [null, 404, userErr];
     if (typeOfNailsErr) return [null, 404, typeOfNailsErr];
-    if (nailsDetailsErr) return [null, 404, nailsDetailsErr];
+    if (detailsNailsErr) return [null, 404, detailsNailsErr];
 
     const [scheduler, status, schedulerError] =
       await this.schedulerUseCases.findSchedulerById(schedulerId);
