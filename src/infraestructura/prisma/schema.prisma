@@ -33,6 +33,7 @@ model NailType {
   default_price Int
   duration Int
   appointment Appointment?
+  deleted_at String?
   created_at DateTime @default(now())
 
   @@map("nailstypes")
@@ -46,6 +47,7 @@ model NailsDetails {
   details NailType? @relation(fields: [details_id], references: [id])
   //cambiar por typeId
   details_id String? @db.ObjectId
+  deleted_at String?
   created_at DateTime @default(now())
 
   @@map("nailsdetails")
