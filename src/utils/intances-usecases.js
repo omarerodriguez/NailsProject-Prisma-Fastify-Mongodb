@@ -13,7 +13,7 @@ const AppointmentPrismaRepository = require('../adapters/repositories/appointmen
 const UserUseCases = require('../application/usecases/user-usecases');
 const TokenUsesCases = require('../application/usecases/token-usecases');
 const TypesNailsUseCases = require('../application/usecases/types-nails-usecases.js');
-const DetailsNailsUseCases = require('../application/usecases/nails-details-usecases.js');
+const DetailsNailsUseCases = require('../application/usecases/details-nails-usecases.js');
 const SchedulerUseCases = require('../application/usecases/scheduler-usecases');
 const AppointmentUseCases = require('../application/usecases/appointment-usecases');
 
