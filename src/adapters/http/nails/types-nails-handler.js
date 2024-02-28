@@ -16,7 +16,7 @@ module.exports = class TypesNailsHandler {
           errors: err,
         });
       return res.status(status).send({
-        success: 'success',
+        message: 'success',
         data: typesNails,
       });
     } catch (error) {

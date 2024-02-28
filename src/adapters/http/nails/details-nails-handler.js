@@ -16,7 +16,7 @@ module.exports = class DetailsNailsHandler {
           errors: err,
         });
       return res.status(status).send({
-        success: 'success',
+        message: 'success',
         data: detailsNails,
       });
     } catch (error) {
