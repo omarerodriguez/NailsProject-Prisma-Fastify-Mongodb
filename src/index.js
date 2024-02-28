@@ -4,9 +4,10 @@ const typesNailsRoutes = require('./adapters/http/nails/types-nails-route');
 const detailsNailsRoutes = require('./adapters/http/nails/details-nails-route');
 const schedulerRoutes = require('./adapters/http/scheduler/scheduler-route');
 const appointmentsRoutes = require('./adapters/http/appointment/appointment-routes');
+const registerRoutes = require('./utils/functions/register-routes');
 
 fastify.get('/', (req, reply) => {
-  reply.send({ hello: 'world' });
+  reply.send('WELCOME TO NAILS SERVICES');
 });
 fastify.register(require('@fastify/cors'), {
   origin: '*',
@@ -20,22 +21,12 @@ fastify.register(require('@fastify/cors'), {
   methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
   credentials: true,
 });
-// create index in http folder and add all routes
-userRoutes.forEach((route) => {
-  fastify.route(route);
-});
-detailsNailsRoutes.forEach((route) => {
-  fastify.route(route);
-});
-typesNailsRoutes.forEach((route) => {
-  fastify.route(route);
-});
-schedulerRoutes.forEach((route) => {
-  fastify.route(route);
-});
-appointmentsRoutes.forEach((route) => {
-  fastify.route(route);
-});
+// register routes
+registerRoutes(fastify, userRoutes);
+registerRoutes(fastify, typesNailsRoutes);
+registerRoutes(fastify, detailsNailsRoutes);
+registerRoutes(fastify, schedulerRoutes);
+registerRoutes(fastify, appointmentsRoutes);
 
 const start = async () => {
   try {
