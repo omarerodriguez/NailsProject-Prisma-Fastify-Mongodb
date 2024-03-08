@@ -24,6 +24,9 @@ const DetailsNailsHandler = require('../adapters/http/nails/details-nails-handle
 const SchedulerHandler = require('../adapters/http/scheduler/scheduler-handler');
 const AppointmentHandler = require('../adapters/http/appointment/appointment-handler');
 
+//Builder
+const builder = require('../application/usecases/builder/appointment/index.js');
+
 // MiddleWares
 const TokenMiddleWare = require('../adapters/http/middleware/authentication');
 
@@ -46,6 +49,7 @@ const appointmentUseCases = new AppointmentUseCases(
   typesNailsPrismaRepository,
   detailsNailsPrismaRepository,
   schedulerUseCases,
+  builder,
 );
 const tokenUsescases = new TokenUsesCases(jwt);
 const userUseCases = new UserUseCases(userPrismaRepository, tokenUsescases);

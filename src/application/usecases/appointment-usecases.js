@@ -10,18 +10,28 @@ module.exports = class AppointmentUseCases {
     typesNailsPrismaRepository,
     detailsNailsPrismaRepository,
     schedulerUseCases,
+    builder,
   ) {
     this.prismaRepository = prismaRepository;
     this.userPrismaRepository = userPrismaRepository;
     this.detailsNailsPrismaRepository = detailsNailsPrismaRepository;
     this.typesNailsPrismaRepository = typesNailsPrismaRepository;
     this.schedulerUseCases = schedulerUseCases;
+    this.builder = builder;
   }
   findAllAppointments = async () => {
-    const [appointmets, err] =
-      await this.prismaRepository.findAllAppointments();
-    if (err) return [null, 404, err];
-    return [appointmets, 200, null];
+    const [appointmentsData, detailsNailsData] = await Promise.all([
+      this.prismaRepository.findAllAppointments(),
+      this.detailsNailsPrismaRepository.findAllDetailsNails(),
+    ]);
+    const [appointments, appointmentsErr] = appointmentsData;
+    const [detailsNails, detailsNailsErr] = detailsNailsData;
+    if (appointmentsErr) return [null, 404, appointmentsErr];
+    if (detailsNailsErr) return [null, 404, detailsNailsErr];
+    const buildedAppointments = appointments.map((appointment) => {
+      return this.builder.buildRecordAppointment(appointment, detailsNails);
+    });
+    return [buildedAppointments, 200, null];
   };
   findAppointmentById = async (appointmentId) => {
     const [appointment, err] = await this.prismaRepository.findAppointmentById(
