@@ -110,7 +110,7 @@ module.exports = class DetailsNailsHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: `deleted Nails Details with ID: ${deleteDetailNails.id}`,
+        data: `Details nails deleted with ID: ${deleteDetailNails.id}`,
       });
     } catch (error) {
       console.log(error);

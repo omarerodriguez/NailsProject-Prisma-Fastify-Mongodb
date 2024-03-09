@@ -53,11 +53,11 @@ module.exports = class DetailsNailsPrismaRepository {
     }
   }
 
-  async updateDetailsNails(DetailsNailsId, nailsDetail) {
+  async updateDetailsNails(DetailsNailsId, detailNails) {
     try {
       const detailsNails = await this.prismaClient.detailNail.update({
         where: { id: DetailsNailsId },
-        data: nailsDetail,
+        data: detailNails,
       });
       return [detailsNails, null];
     } catch (error) {
@@ -67,10 +67,11 @@ module.exports = class DetailsNailsPrismaRepository {
     }
   }
 
-  async deleteDetailsNails(DetailsNailsId) {
+  async deleteDetailsNails(DetailsNailsId, detailNails) {
     try {
-      const detailsNails = await this.prismaClient.detailNail.delete({
+      const detailsNails = await this.prismaClient.detailNail.update({
         where: { id: DetailsNailsId },
+        data: detailNails,
       });
       return [detailsNails, null];
     } catch (error) {

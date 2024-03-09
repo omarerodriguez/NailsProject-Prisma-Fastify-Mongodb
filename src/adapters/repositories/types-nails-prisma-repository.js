@@ -65,10 +65,11 @@ module.exports = class TypesNailsPrismaRepository {
     }
   }
 
-  async deleteTypesNails(typesNailsId) {
+  async deleteTypesNails(typesNailsId, typesNails) {
     try {
-      const typeNails = await this.prismaClient.TypeNail.delete({
+      const typeNails = await this.prismaClient.TypeNail.update({
         where: { id: typesNailsId },
+        data: typesNails,
       });
       return [typeNails, null];
     } catch (error) {
