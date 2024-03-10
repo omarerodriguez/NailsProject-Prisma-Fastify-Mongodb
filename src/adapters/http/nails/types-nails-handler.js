@@ -119,7 +119,7 @@ module.exports = class TypesNailsHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: `deleted Nails Types with ID: ${typesNails.id}`,
+        data: `Types nails deleted with ID: ${typesNails.id}`,
       });
     } catch (error) {
       console.log(error);

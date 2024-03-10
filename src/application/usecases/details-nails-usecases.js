@@ -5,15 +5,15 @@ module.exports = class DetailsNailsUseCases {
   }
 
   findAllDetailsNails = async () => {
-    const [DetailsNails, err] =
+    const [detailsNails, err] =
       await this.prismaRepository.findAllDetailsNails();
     if (err) return [null, 404, err];
-    return [DetailsNails, 200, null];
+    return [detailsNails, 200, null];
   };
 
-  findDetailsNailsById = async (DetailsNailsId) => {
+  findDetailsNailsById = async (detailsNailsId) => {
     const [detailNail, err] = await this.prismaRepository.findDetailsNailsById(
-      DetailsNailsId,
+      detailsNailsId,
     );
     if (err) return [null, 404, err];
     return [detailNail, 200, null];
@@ -29,19 +29,21 @@ module.exports = class DetailsNailsUseCases {
     return [newDetailsNails, 200, null];
   };
 
-  updateDetailsNails = async (DetailsNailsId, nailsDetailPayload) => {
+  updateDetailsNails = async (detailsNailsId, nailsDetailPayload) => {
     const [updateNailsDetail, err] =
       await this.prismaRepository.updateDetailsNails(
-        DetailsNailsId,
+        detailsNailsId,
         nailsDetailPayload,
       );
     if (err) return [null, 404, err];
     return [updateNailsDetail, 200, null];
   };
 
-  deleteDetailsNails = async (DetailsNailsId) => {
+  deleteDetailsNails = async (detailsNailsId) => {
     const [deleteDetailNails, err] =
-      await this.prismaRepository.deleteDetailsNails(DetailsNailsId);
+      await this.prismaRepository.deleteDetailsNails(detailsNailsId, {
+        deleted_at: getFormatDate(),
+      });
     if (err) return [null, 404, err];
     return [deleteDetailNails, 200, null];
   };

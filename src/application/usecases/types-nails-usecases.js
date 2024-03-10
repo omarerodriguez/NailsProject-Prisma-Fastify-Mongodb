@@ -39,9 +39,13 @@ module.exports = class TypesNailsUseCases {
   };
 
   deleteTypesNails = async (typesNailsId) => {
-    const [deletetypesNails, err] =
-      await this.prismaRepository.deleteTypesNails(typesNailsId);
+    const [softDelete, err] = await this.prismaRepository.deleteTypesNails(
+      typesNailsId,
+      {
+        deleted_at: getFormatDate(),
+      },
+    );
     if (err) return [null, 400, err];
-    return [deletetypesNails, 202, null];
+    return [softDelete, 202, null];
   };
 };
