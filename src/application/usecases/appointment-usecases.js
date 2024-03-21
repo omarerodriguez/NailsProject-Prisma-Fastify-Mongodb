@@ -1,24 +1,37 @@
 const { getFormatDate } = require('../../utils/functions/date');
+const {
+  validateAppointmentsByUser,
+} = require('./../../utils/functions/appointment-validation');
 
 module.exports = class AppointmentUseCases {
   constructor(
     prismaRepository,
     userPrismaRepository,
-    nailsTypesPrismaRepository,
-    nailsDetailsPrismaRepository,
+    typesNailsPrismaRepository,
+    detailsNailsPrismaRepository,
     schedulerUseCases,
+    builder,
   ) {
     this.prismaRepository = prismaRepository;
     this.userPrismaRepository = userPrismaRepository;
-    this.nailsDetailsPrismaRepository = nailsDetailsPrismaRepository;
-    this.nailsTypesPrismaRepository = nailsTypesPrismaRepository;
+    this.detailsNailsPrismaRepository = detailsNailsPrismaRepository;
+    this.typesNailsPrismaRepository = typesNailsPrismaRepository;
     this.schedulerUseCases = schedulerUseCases;
+    this.builder = builder;
   }
   findAllAppointments = async () => {
-    const [appointmets, err] =
-      await this.prismaRepository.findAllAppointments();
-    if (err) return [null, 404, err];
-    return [appointmets, 200, null];
+    const [appointmentsData, detailsNailsData] = await Promise.all([
+      this.prismaRepository.findAllAppointments(),
+      this.detailsNailsPrismaRepository.findAllDetailsNails(),
+    ]);
+    const [appointments, appointmentsErr] = appointmentsData;
+    const [detailsNails, detailsNailsErr] = detailsNailsData;
+    if (appointmentsErr) return [null, 404, appointmentsErr];
+    if (detailsNailsErr) return [null, 404, detailsNailsErr];
+    const buildedAppointments = appointments.map((appointment) => {
+      return this.builder.buildRecordAppointment(appointment, detailsNails);
+    });
+    return [buildedAppointments, 200, null];
   };
   findAppointmentById = async (appointmentId) => {
     const [appointment, err] = await this.prismaRepository.findAppointmentById(
@@ -41,30 +54,42 @@ module.exports = class AppointmentUseCases {
       details_of_nails: detailsOfNails,
     } = appointmentPayload;
 
-    // Realiza las operaciones asincrónicas simultáneamente utilizando Promise.all
-    const [userData, typeOfNailsData, nailsDetailsData, userAppointmentData] =
+    const [userData, typeOfNailsData, detailsNailsData, AppointmentData] =
       await Promise.all([
-        this.prismaRepository.findAppointmentByUser(userId),
         this.userPrismaRepository.findUserById(userId),
-        this.nailsTypesPrismaRepository.findNailsTypesById(typesOfNailsId),
-        this.nailsDetailsPrismaRepository.findAllNailsDetails(detailsOfNails),
+        this.typesNailsPrismaRepository.findTypesNailsById(typesOfNailsId),
+        this.detailsNailsPrismaRepository.findAllDetailsNails(detailsOfNails),
+        this.prismaRepository.findAppointmentByUser(userId),
       ]);
-    // Extrae los resultados y errores específicos
-    const [, userAppoinmentErr] = userAppointmentData;
+    const [appointmentsRecord, appointmentErr] = AppointmentData;
     const [, userErr] = userData;
     const [, typeOfNailsErr] = typeOfNailsData;
-    const [, nailsDetailsErr] = nailsDetailsData;
+    const [, detailsNailsErr] = detailsNailsData;
 
-    // Verifica los errores y devuelve una respuesta adecuada
-    if (!userAppoinmentErr)
-      return [
-        null,
-        404,
-        'Este usuario ya tiene un cita reservada, puede agendar de nuevo cuando termine su cita',
-      ];
     if (userErr) return [null, 404, userErr];
     if (typeOfNailsErr) return [null, 404, typeOfNailsErr];
-    if (nailsDetailsErr) return [null, 404, nailsDetailsErr];
+    if (detailsNailsErr) return [null, 404, detailsNailsErr];
+
+    const [scheduler, status, schedulerError] =
+      await this.schedulerUseCases.findSchedulerById(schedulerId);
+    if (schedulerError) return [null, status, schedulerError];
+
+    /**
+     * valida si un usuario tiene dos citas el mismo dia
+     */
+    if (!appointmentErr) {
+      const appointmentExist = validateAppointmentsByUser(
+        scheduler.appointments,
+        appointmentsRecord,
+      );
+
+      if (appointmentExist)
+        return [
+          null,
+          400,
+          'Ya tiene una cita agendada para el dia de hoy, solo puede tener una cita por dia',
+        ];
+    }
 
     const newAppointment = {
       ...appointmentPayload,
@@ -72,6 +97,9 @@ module.exports = class AppointmentUseCases {
       created_at: getFormatDate(),
       status: 'RESERVED',
     };
+    /**
+     * scheduler id solo se usa para validar citas existentes, no para la creacion
+     */
     delete newAppointment.scheduler_id;
 
     const status_logs = [

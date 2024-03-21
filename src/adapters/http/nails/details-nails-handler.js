@@ -1,23 +1,23 @@
 const {
-  createNewNailsDetailsValidations,
+  createNewDetailsNailsValidations,
 } = require('../../../utils/functions/input-validations');
-module.exports = class NailsDetailsHandler {
-  constructor(nailsDetailsUseCases) {
-    this.usecases = nailsDetailsUseCases;
+module.exports = class DetailsNailsHandler {
+  constructor(detailsNailsUseCases) {
+    this.usecases = detailsNailsUseCases;
   }
 
-  findAllNailsDetails = async (req, res) => {
+  findAllDetailsNails = async (req, res) => {
     try {
-      const [nailsDetails, status, err] =
-        await this.usecases.findAllNailsDetails();
+      const [detailsNails, status, err] =
+        await this.usecases.findAllDetailsNails();
       if (err)
         return res.status(status).send({
           message: 'fail',
           errors: err,
         });
       return res.status(status).send({
-        success: 'success',
-        data: nailsDetails,
+        message: 'success',
+        data: detailsNails,
       });
     } catch (error) {
       console.log(error);
@@ -28,10 +28,10 @@ module.exports = class NailsDetailsHandler {
     }
   };
 
-  findNailsDetailsById = async (req, res) => {
+  findDetailsNailsById = async (req, res) => {
     try {
-      const [nailsDetail, status, err] =
-        await this.usecases.findNailsDetailsById(req.params.id);
+      const [detailNails, status, err] =
+        await this.usecases.findDetailsNailsById(req.params.id);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -39,7 +39,7 @@ module.exports = class NailsDetailsHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: nailsDetail,
+        data: detailNails,
       });
     } catch (error) {
       console.log(error);
@@ -52,13 +52,13 @@ module.exports = class NailsDetailsHandler {
 
   createNewNailsDetalis = async (req, res) => {
     try {
-      const errors = createNewNailsDetailsValidations(req.body);
+      const errors = createNewDetailsNailsValidations(req.body);
       if (errors)
         return res.status(400).send({
           message: 'fail',
           errors,
         });
-      const [newNailsDetails, status, err] =
+      const [newDetailsNails, status, err] =
         await this.usecases.createNewNailsDetalis(req.body);
       if (err)
         return res.status(status).send({
@@ -67,7 +67,7 @@ module.exports = class NailsDetailsHandler {
         });
       return res.status(status).send({
         message: 'succes',
-        data: newNailsDetails,
+        data: newDetailsNails,
       });
     } catch (error) {
       console.log(error);
@@ -77,10 +77,10 @@ module.exports = class NailsDetailsHandler {
     }
   };
 
-  updateNailsDetails = async (req, res) => {
+  updateDetailsNails = async (req, res) => {
     try {
-      const [updateNailsDetail, status, err] =
-        await this.usecases.updateNailsDetails(req.params.id, req.body);
+      const [updateDetailNails, status, err] =
+        await this.usecases.updateDetailsNails(req.params.id, req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -88,7 +88,7 @@ module.exports = class NailsDetailsHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: updateNailsDetail,
+        data: updateDetailNails,
       });
     } catch (error) {
       console.log(error);
@@ -99,10 +99,10 @@ module.exports = class NailsDetailsHandler {
     }
   };
 
-  deleteNailsDetails = async (req, res) => {
+  deleteDetailsNails = async (req, res) => {
     try {
-      const [deleteNailsDetail, status, err] =
-        await this.usecases.deleteNailsDetails(req.params.id);
+      const [deleteDetailNails, status, err] =
+        await this.usecases.deleteDetailsNails(req.params.id);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -110,7 +110,7 @@ module.exports = class NailsDetailsHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: `deleted Nails Details with ID: ${deleteNailsDetail.id}`,
+        data: `Details nails deleted with ID: ${deleteDetailNails.id}`,
       });
     } catch (error) {
       console.log(error);

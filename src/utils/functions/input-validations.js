@@ -3,20 +3,37 @@ const jwt = require('jsonwebtoken');
 const {
   createNewUserRules,
   loginUserRules,
-  createNewNailsTypesRules,
-  createNewNailsDetailsRules,
+  createNewTypesNailsRules,
+  createNewDetailsNailsRules,
   getSchedulerByDateRules,
+  getUserByIdRules,
+  createNewAppointmentRules,
 } = require('../const/input-rules');
+const {
+  customMessagesCreateUser,
+  customMessagesCreateNailsTypes,
+  customMessagesCreateDetailsNails,
+  customMessagesLoginUser,
+  customMessagesCreateNewAppointment,
+} = require('./../const/custom-messages');
 
 const createNewuUserValidations = (newUserPayload) => {
-  const validation = new Validator(newUserPayload, createNewUserRules);
+  const validation = new Validator(
+    newUserPayload,
+    createNewUserRules,
+    customMessagesCreateUser,
+  );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
 };
 
 const loginUserValidations = (userPayload) => {
-  const validation = new Validator(userPayload, loginUserRules);
+  const validation = new Validator(
+    userPayload,
+    loginUserRules,
+    customMessagesLoginUser,
+  );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
@@ -33,20 +50,22 @@ const validateToken = (req, res, done) => {
   });
 };
 
-const createNewNailsTypesValidations = (newNailsTypesPayload) => {
+const createNewTypesNailsValidations = (newNailsTypesPayload) => {
   const validation = new Validator(
     newNailsTypesPayload,
-    createNewNailsTypesRules,
+    createNewTypesNailsRules,
+    customMessagesCreateNailsTypes,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
 };
 
-const createNewNailsDetailsValidations = (newNailsDetailsPayload) => {
+const createNewDetailsNailsValidations = (newDetailsNailsPayload) => {
   const validation = new Validator(
-    newNailsDetailsPayload,
-    createNewNailsDetailsRules,
+    newDetailsNailsPayload,
+    createNewDetailsNailsRules,
+    customMessagesCreateDetailsNails,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
@@ -66,12 +85,24 @@ const getUserByIdValidations = (filters) => {
   if (validation.fails()) return errors;
   return null;
 };
+
+const createNewAppointmentValidations = (appointmentPayload) => {
+  const validation = new Validator(
+    appointmentPayload,
+    createNewAppointmentRules,
+    customMessagesCreateNewAppointment,
+  );
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
 module.exports = {
   createNewuUserValidations,
   validateToken,
   loginUserValidations,
-  createNewNailsTypesValidations,
-  createNewNailsDetailsValidations,
+  createNewTypesNailsValidations,
+  createNewDetailsNailsValidations,
   getSchedulerByDateValidations,
   getUserByIdValidations,
+  createNewAppointmentValidations,
 };

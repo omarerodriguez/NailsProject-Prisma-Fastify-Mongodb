@@ -19,34 +19,37 @@ model User {
   district     String?
   gender       String?
   email     String  @unique
+  role Roles? @default(USER)
   appointment Appointment?
   created_at String
 
   @@map("user")
 }
 
-model NailType {
+model TypeNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String @unique
-  allowed_detalis NailsDetails[]
+  allowed_detalis DetailNail[]
   default_price Int
+  duration Int
   appointment Appointment?
-  deleted_at DateTime @updatedAt
-  created_at DateTime @default(now())
+  deleted_at String?
+  created_at String
 
-  @@map("nailstypes")
+  @@map("typesnails")
 }
 
-model NailsDetails {
+model DetailNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String
   price Int
-  details NailType? @relation(fields: [details_id], references: [id])
-  details_id String? @db.ObjectId
-  deleted_at DateTime @updatedAt
-  created_at DateTime @default(now())
+  duration Int
+  type TypeNail? @relation(fields: [type_id], references: [id])
+  type_id String? @db.ObjectId
+  deleted_at String?
+  created_at String
 
-  @@map("nailsdetails")
+  @@map("detailsnails")
 }
 
 model Scheduler {
@@ -63,10 +66,10 @@ model Appointment {
   user User @relation(fields: [user_id],references: [id])
   user_id String @unique @db.ObjectId
   //..........types_of_details............
-  types_of_nails NailType @relation(fields: [types_of_nails_id],references: [id])
+  types_of_nails TypeNail @relation(fields: [types_of_nails_id],references: [id])
   types_of_nails_id String @unique @db.ObjectId
   //..........details_of_nails...........
-  details_of_nails String[]
+  details_of_nails_id String[]
   status Status @default(RESERVED)
   status_date String
   status_logs Json
@@ -83,4 +86,8 @@ enum Status {
   CONFIRMED
   CANCELED
   DELETED
+}
+enum Roles {
+  ADMIN
+  USER
 }

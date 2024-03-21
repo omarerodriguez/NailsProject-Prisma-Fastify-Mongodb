@@ -5,10 +5,16 @@ module.exports = class AppointmentPrismaRepository {
 
   async findAllAppointments() {
     try {
-      const appointmets = await this.prismaClient.appointment.findMany({});
-      if (appointmets.length === 0 || !appointmets)
+      const appointments = await this.prismaClient.appointment.findMany({
+        include: {
+          user: true,
+          types_of_nails: true,
+        },
+      });
+
+      if (appointments.length === 0 || !appointments)
         return [null, `there are not appointment fetched`];
-      return [appointmets, null];
+      return [appointments, null];
     } catch (error) {
       throw new Error(
         `there was a error in appointment-prisma-repository.findAllAppointments err: ${error.message}`,
@@ -30,14 +36,8 @@ module.exports = class AppointmentPrismaRepository {
   }
   async findAppointmentByUser(userId) {
     try {
-      const userInAppointment = await this.prismaClient.user.findFirst({
-        where: {
-          appointment: {
-            is: {
-              user_id: userId,
-            },
-          },
-        },
+      const userInAppointment = await this.prismaClient.appointment.findMany({
+        where: { user_id: userId },
       });
       if (!userInAppointment) return [null, `User into appointment not found`];
       return [userInAppointment, null];
