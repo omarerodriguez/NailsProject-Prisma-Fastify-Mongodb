@@ -13,6 +13,7 @@ module.exports = class TokenMiddleware {
     const [decodedToken, status, errToken] = this.tokenUsecases.verifyToken(this.token, [
       'ADMIN',
     ]);
+    res.locals = {decodedToken};
     if (errToken) {
       return res.status(status).send({
         message: 'fail',
