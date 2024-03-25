@@ -67,7 +67,7 @@ module.exports = class UserUseCases {
     if (user.phone_number !== logUser.phone_number)
       return [null, 400, 'El numero no pertenece al email'];
 
-    const [token, error] = await this.tokenUsescases.generateToken(user.id);
+    const [token, error] = await this.tokenUsescases.generateToken(user.id,user.role);
     if (error) return [null, error];
 
     return [token, user, 200, null];
