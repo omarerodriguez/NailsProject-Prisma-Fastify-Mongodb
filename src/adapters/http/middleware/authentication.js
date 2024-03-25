@@ -10,7 +10,7 @@ module.exports = class TokenMiddleware {
   verifyAdminToken = (req, res, next) => {
     const errorSetToken = this.setToken(req, res);
     if (errorSetToken) return errorSetToken;
-    const [, status, errToken] = this.tokenUsecases.verifyToken(this.token, [
+    const [decodedToken, status, errToken] = this.tokenUsecases.verifyToken(this.token, [
       'ADMIN',
     ]);
     if (errToken) {
@@ -25,10 +25,11 @@ module.exports = class TokenMiddleware {
   verifyUserToken = (req, res, next) => {
     const errorSetToken = this.setToken(req, res);
     if (errorSetToken) return errorSetToken;
-    const [, status, errToken] = this.tokenUsecases.verifyToken(this.token, [
+    const [decodedToken, status, errToken] = this.tokenUsecases.verifyToken(this.token, [
       'ADMIN',
       'USER',
     ]);
+    res.locals = {decodedToken};
     if (errToken)
       return res.status(status).send({
         message: 'fail',
@@ -38,7 +39,7 @@ module.exports = class TokenMiddleware {
   };
 
   setToken = (req, res) => {
-    const token = req.headers['Authorization'];
+    const token = req.headers.authorization;
     if (!token) {
       res.status(401).send({
         message: 'fail',
