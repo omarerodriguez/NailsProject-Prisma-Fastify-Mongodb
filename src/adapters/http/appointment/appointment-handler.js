@@ -73,6 +73,7 @@ module.exports = class AppointmentrHandler {
   };
   createNewAppointment = async (req, res) => {
     try {
+      const {decodedToken} = res.locals;
       const errors = createNewAppointmentValidations(req.body);
       if (errors)
         return res.status(400).send({
@@ -80,7 +81,7 @@ module.exports = class AppointmentrHandler {
           errors,
         });
       const [appointmentPayload, status, err] =
-        await this.usecases.createNewAppointment(req.body);
+        await this.usecases.createNewAppointment(req.body,decodedToken);
       if (err)
         return res.status(status).send({
           message: 'fail',
