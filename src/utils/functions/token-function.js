@@ -1,5 +1,5 @@
 const extractTokenToHeader = (reqObject) => {
-  return reqObject.headers?.authorization?.split(' ')[1];
+  return reqObject.split(' ')[1];
 };
 
 const verifyScopesByRole = (tokenRole, scopes) => {
