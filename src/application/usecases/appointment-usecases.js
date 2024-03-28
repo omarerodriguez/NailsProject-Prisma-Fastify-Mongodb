@@ -97,6 +97,7 @@ module.exports = class AppointmentUseCases {
       created_at: getFormatDate(),
       status: 'RESERVED',
     };
+
     /**
      * scheduler id solo se usa para validar citas existentes, no para la creacion
      */
@@ -124,7 +125,7 @@ module.exports = class AppointmentUseCases {
     return [appointment, 200, null];
   };
 
-  updateAppointment = async (appointmentPayload, appointmentId) => {
+  updateAppointment = async (appointmentId, appointmentPayload) => {
     const [appointment, errAppoinment] =
       await this.prismaRepository.updateAppointment(
         appointmentId,
@@ -133,6 +134,7 @@ module.exports = class AppointmentUseCases {
     if (errAppoinment) return [null, 404, err];
     return [appointment, 200, null];
   };
+
   deleteAppointment = async (appointmentId) => {
     const [deleteAppointment, err] =
       await this.prismaRepository.deleteAppointment(appointmentId);
