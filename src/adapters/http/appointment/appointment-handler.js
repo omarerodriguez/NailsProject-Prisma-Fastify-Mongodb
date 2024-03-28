@@ -73,7 +73,12 @@ module.exports = class AppointmentrHandler {
   };
   createNewAppointment = async (req, res) => {
     try {
-      const {decodedToken} = res.locals;
+      if(!res.locals?.decodedToken)  return res.status(400).send({
+        message: 'fail',
+        errors: 'TokenBody is required'
+      });
+
+      const {decodedToken} = res.locals ?? null;
       const errors = createNewAppointmentValidations(req.body);
       if (errors)
         return res.status(400).send({
