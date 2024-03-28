@@ -6,7 +6,6 @@ class FindAllAppointmentBuilder {
   }
   build = () => {
     this.setId();
-    this.setUserId();
     this.setName();
     this.setLastName();
     this.setTypesOfnails();
@@ -22,7 +21,6 @@ class FindAllAppointmentBuilder {
 
     return this.appointment;
   };
-  setUserId = () => (this.appointment.user_id = this.recordAppointment.user_id);
   setName = () =>
     (this.appointment.user_name = this.recordAppointment.user.name);
   setLastName = () =>

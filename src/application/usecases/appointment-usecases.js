@@ -46,10 +46,10 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
     return [appointment, 200, null];
   };
-  createNewAppointment = async (appointmentPayload) => {
+  createNewAppointment = async (appointmentPayload,decodedToken) => {
+    const userId =  decodedToken.user_id;
     const {
       scheduler_id: schedulerId,
-      user_id: userId,
       types_of_nails_id: typesOfNailsId,
       details_of_nails: detailsOfNails,
     } = appointmentPayload;
@@ -93,6 +93,7 @@ module.exports = class AppointmentUseCases {
 
     const newAppointment = {
       ...appointmentPayload,
+      user_id : userId,
       status_date: getFormatDate(),
       created_at: getFormatDate(),
       status: 'RESERVED',
@@ -124,7 +125,7 @@ module.exports = class AppointmentUseCases {
     return [appointment, 200, null];
   };
 
-  updateAppointment = async (appointmentPayload, appointmentId) => {
+  updateAppointment = async (appointmentId,appointmentPayload) => {
     const [appointment, errAppoinment] =
       await this.prismaRepository.updateAppointment(
         appointmentId,
