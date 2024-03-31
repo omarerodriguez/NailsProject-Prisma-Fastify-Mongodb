@@ -114,15 +114,16 @@ module.exports = class Userhandler {
           errors,
         });
 
-      const [token, status, err] = await this.usecases.createNewUser(req.body);
+      const [user, token, status, err] = await this.usecases.createNewUser(req.body);
       if (err)
         return res.status(status).send({
           message: 'fail',
           errors: err,
         });
 
-      res.header('Set-Cookie', `token=${token}`);
       return res.status(status).send({
+        data: user,
+        token,
         message: 'success',
       });
     } catch (error) {
@@ -152,8 +153,8 @@ module.exports = class Userhandler {
           errors: err,
         });
 
-      res.header('Set-Cookie', `token=${token}`);
       return res.status(status).send({
+        token,
         message: 'success',
         data: user,
       });
