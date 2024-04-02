@@ -47,7 +47,7 @@ module.exports = class AppointmentUseCases {
     return [appointment, 200, null];
   };
   createNewAppointment = async (appointmentPayload,decodedToken) => {
-    const userId =  decodedToken.user_id;
+    const {userId} =  decodedToken;
     const {
       scheduler_id: schedulerId,
       types_of_nails_id: typesOfNailsId,

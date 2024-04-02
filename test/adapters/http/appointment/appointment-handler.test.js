@@ -40,7 +40,7 @@ describe('test in appointmet handler', () => {
           id: '659c0e0ac745996ba6b9b84e',
           user_id: '659936dc6a1d92adb561073e',
           types_of_nails_id: '659930b940333038004d25ec',
-          details_of_nails: [
+          details_of_nails_id: [
             '6599a50d9f1803f665b2e087',
             '6599a654ce5a352bbf25a816',
           ],
@@ -63,7 +63,7 @@ describe('test in appointmet handler', () => {
     );
     request.body = {
       types_of_nails_id: '659930a740333038004d25eb',
-      details_of_nails: [
+      details_of_nails_id: [
         '6599a50d9f1803f665b2e087',
         '6599a50d9f1803f665b2e187',
       ],
