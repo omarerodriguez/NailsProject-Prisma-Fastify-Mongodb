@@ -8,7 +8,8 @@
     "start": "node src/index.js",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix",
-    "test": "jest"
+    "test": "jest",
+    "prisma:generate:user":"prisma generate --schema=./prisma/"
   },
   "repository": {
     "type": "git",

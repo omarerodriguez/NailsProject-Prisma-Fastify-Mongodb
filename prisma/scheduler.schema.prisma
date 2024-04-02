@@ -1,0 +1,24 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../node_modules/@dbuser"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Scheduler {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  appointments Json
+  created_at String
+
+  @@map("scheduler")
+}
+
+
+
+
