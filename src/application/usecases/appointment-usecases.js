@@ -126,11 +126,32 @@ module.exports = class AppointmentUseCases {
   };
 
   updateAppointment = async (appointmentId, appointmentPayload) => {
+    const [recordAppointment, err] =
+      await this.prismaRepository.findAppointmentById(appointmentId);
+
+    if (err) return [null, 404, err];
+
+    if (appointmentPayload.status === recordAppointment.status) {
+      return [null, 400, 'the status must be different to allow update'];
+    }
+
+    if (appointmentPayload.status) {
+      const newStatusLog = {
+        code: appointmentPayload.status,
+        date: getFormatDate(),
+      };
+      appointmentPayload.status_logs = [
+        ...recordAppointment.status_logs,
+        newStatusLog,
+      ];
+    }
+
     const [appointment, errAppoinment] =
       await this.prismaRepository.updateAppointment(
         appointmentId,
         appointmentPayload,
       );
+
     if (errAppoinment) return [null, 404, err];
     return [appointment, 200, null];
   };
