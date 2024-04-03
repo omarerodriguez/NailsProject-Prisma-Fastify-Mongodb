@@ -68,10 +68,10 @@ describe('test in appointment usecases', () => {
   let appoinmentPayload;
   let appointmentUseCases;
   let updateAppoinmentPayload;
+  let decodedToken;
 
   beforeAll(() => {
     appoinmentPayload = {
-      user_id: '659936dc6a1d92adb561073ex',
       types_of_nails_id: '659930a740333038004d25eb',
       details_of_nails: [
         '6599a50d9f1803f665b2e087',
@@ -82,6 +82,9 @@ describe('test in appointment usecases', () => {
     updateAppoinmentPayload = {
       status: 'CONFIRMED',
     };
+    decodedToken ={
+      user_id: '659936dc6a1d92adb561073ex',
+    }
 
     /** Intances Repository */
     const userPrismaRepository = new UserPrismaRepository();
@@ -236,7 +239,7 @@ describe('test in appointment usecases', () => {
     mockFindUserById.mockResolvedValue([null, 'user not found or not exist']);
 
     const [user, status, error] =
-      await appointmentUseCases.createNewAppointment(appoinmentPayload);
+      await appointmentUseCases.createNewAppointment(appoinmentPayload,decodedToken);
     expect(status).toEqual(404);
     expect(user).toBeNull();
     expect(error).toBe('user not found or not exist');
@@ -246,7 +249,7 @@ describe('test in appointment usecases', () => {
     mockFindTypeNailsById.mockResolvedValue([null, 'NailsTypes not found']);
 
     const [TypeNail, status, error] =
-      await appointmentUseCases.createNewAppointment(appoinmentPayload);
+      await appointmentUseCases.createNewAppointment(appoinmentPayload,decodedToken);
     expect(status).toEqual(404);
     expect(TypeNail).toBeNull();
     expect(error).toBe('NailsTypes not found');
@@ -259,7 +262,7 @@ describe('test in appointment usecases', () => {
     ]);
 
     const [detailOfNails, status, error] =
-      await appointmentUseCases.createNewAppointment(appoinmentPayload);
+      await appointmentUseCases.createNewAppointment(appoinmentPayload,decodedToken);
     expect(status).toEqual(404);
     expect(detailOfNails).toBeNull();
     expect(error).toBe(`there are not nails details fetched`);
@@ -268,7 +271,7 @@ describe('test in appointment usecases', () => {
   test('scheduler of neils dont exist or not found', async () => {
     mockFindSchedulerById.mockResolvedValue([null, `Scheduler not found`]);
     const [user, status, error] =
-      await appointmentUseCases.createNewAppointment(appoinmentPayload);
+      await appointmentUseCases.createNewAppointment(appoinmentPayload,decodedToken);
 
     expect(status).toEqual(404);
     expect(user).toBeNull();
@@ -278,7 +281,7 @@ describe('test in appointment usecases', () => {
   test('Appointment exist in the same day ', async () => {
     appoinmentPayload.scheduler_id = '9659936dc6a1d92adb561074';
     const [, status, error] = await appointmentUseCases.createNewAppointment(
-      appoinmentPayload,
+      appoinmentPayload,decodedToken
     );
 
     expect(status).toEqual(400);

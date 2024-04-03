@@ -17,6 +17,7 @@ jest.mock('../../../../src/application/usecases/appointment-usecases', () =>
 );
 describe('test in appointmet handler', () => {
   let request = {};
+
   let appointmentUseCases;
   let appointmentHandler;
   const mockRes = {
@@ -39,7 +40,7 @@ describe('test in appointmet handler', () => {
           id: '659c0e0ac745996ba6b9b84e',
           user_id: '659936dc6a1d92adb561073e',
           types_of_nails_id: '659930b940333038004d25ec',
-          details_of_nails: [
+          details_of_nails_id: [
             '6599a50d9f1803f665b2e087',
             '6599a654ce5a352bbf25a816',
           ],
@@ -61,15 +62,22 @@ describe('test in appointmet handler', () => {
       null,
     );
     request.body = {
-      user_id: '659936dc6a1d92adb561073e',
       types_of_nails_id: '659930a740333038004d25eb',
-      details_of_nails: [
+      details_of_nails_id: [
         '6599a50d9f1803f665b2e087',
         '6599a50d9f1803f665b2e187',
       ],
       duration: 2,
       reserved_at: '7/1/2024 14:00:00',
     };
+    mockRes.locals = {
+      decodedToken:{
+        "userId": "659936dc6a1d92adb561073e",
+        "role": "ADMIN",
+        "iat": 1711401689,
+        "exp": 1711402589
+      }
+    }
   });
   test('input validation error, bad format reserved_at', async () => {
     request.body.reserved_at = '71202140000';

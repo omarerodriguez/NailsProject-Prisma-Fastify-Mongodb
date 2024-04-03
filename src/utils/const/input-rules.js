@@ -38,9 +38,8 @@ const getUserByIdRules = {
 };
 
 const createNewAppointmentRules = {
-  user_id: 'string|hex|size:24|required',
   types_of_nails_id: 'string|hex|size:24|required',
-  details_of_nails: 'array|required',
+  details_of_nails_id: 'array|required',
   duration: 'required|integer|max:10',
   reserved_at: 'date',
 };
