@@ -67,8 +67,6 @@ jest.mock(
 describe('test in appointment usecases', () => {
   let appoinmentPayload;
   let appointmentUseCases;
-  let updateAppoinmentPayload;
-  let decodedToken;
 
   beforeAll(() => {
     appoinmentPayload = {
