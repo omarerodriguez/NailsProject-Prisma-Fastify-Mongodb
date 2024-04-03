@@ -32,15 +32,15 @@ module.exports = class UserUseCases {
   };
 
   createNewUser = async (userPayload) => {
-    const [, userError] = await this.prismaRepository.findUserByEmail(
+    const [userByEmail] = await this.prismaRepository.findUserByEmail(
       userPayload.email,
     );
-    const [, userPhoneError] =
+    const [userByPhone] =
       await this.prismaRepository.findUserByPhoneNumber(
         userPayload.phone_number,
       );
-    if (!userError) return [null, 400, 'Email already exist'];
-    if (!userPhoneError) return [null, 400, 'Phone number already exist'];
+    if (userByEmail) return [null, 400, 'Email already exist'];
+    if (userByPhone) return [null, 400, 'Phone number already exist'];
     const newUserBody = { ...userPayload };
     newUserBody.created_at = getFormatDate();
 
