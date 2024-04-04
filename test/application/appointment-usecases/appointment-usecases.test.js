@@ -14,6 +14,8 @@ const SchedulerUseCases = require('../../../src/application/usecases/scheduler-u
 const mockFindAppointmentByUserId = jest.fn();
 const mockFindAllAppointments = jest.fn();
 const mockDeleteAppointment = jest.fn();
+const mockFindAppointmentById = jest.fn();
+
 jest.mock(
   '../../../src/adapters/repositories/appointment-prisma-repository',
   () =>
@@ -21,6 +23,7 @@ jest.mock(
       findAppointmentByUser: mockFindAppointmentByUserId,
       findAllAppointments: mockFindAllAppointments,
       deleteAppointment: mockDeleteAppointment,
+      findAppointmentById: mockFindAppointmentById,
     })),
 );
 
@@ -64,7 +67,6 @@ jest.mock(
 describe('test in appointment usecases', () => {
   let appoinmentPayload;
   let appointmentUseCases;
-  let decodedToken;
 
   beforeAll(() => {
     appoinmentPayload = {
@@ -73,6 +75,10 @@ describe('test in appointment usecases', () => {
         '6599a50d9f1803f665b2e087',
         '6599a50d9f1803f665b2e187',
       ],
+    };
+
+    updateAppoinmentPayload = {
+      status: 'CONFIRMED',
     };
     decodedToken ={
       user_id: '659936dc6a1d92adb561073ex',
@@ -147,6 +153,17 @@ describe('test in appointment usecases', () => {
     );
 
     mockFindAppointmentByUserId.mockResolvedValue(
+      [
+        [
+          {
+            id: '6599a50d9f1803f665b3e087',
+          },
+        ],
+      ],
+      null,
+    );
+
+    mockFindAppointmentById.mockResolvedValue(
       [
         [
           {
@@ -317,5 +334,33 @@ describe('test in appointment usecases', () => {
     expect(status).toEqual(404);
     expect(userId).toBeNull();
     expect(error).toBe(`User into appointment not found`);
+  });
+
+  // Updating test
+
+  test('error if user cannot get by Id', async () => {
+    mockFindAppointmentById.mockResolvedValue([null, `Appointment not found`]);
+    const [userId, status, error] = await appointmentUseCases.updateAppointment(
+      '659936dc6a1d92adb561073e',
+      updateAppoinmentPayload,
+    );
+
+    expect(status).toEqual(404);
+    expect(userId).toBeNull();
+    expect(error).toBe(`Appointment not found`);
+  });
+
+  // Updating status
+
+  test('error if the status is the same', async () => {
+    mockFindAppointmentById.mockResolvedValue([null, `Appointment not found`]);
+    const [userId, status, error] = await appointmentUseCases.updateAppointment(
+      '659936dc6a1d92adb561073e',
+      updateAppoinmentPayload,
+    );
+
+    expect(status).toEqual(404);
+    expect(userId).toBeNull();
+    expect(error).toBe(`Appointment not found`);
   });
 });

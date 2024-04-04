@@ -125,6 +125,7 @@ module.exports = class AppointmentrHandler {
       });
     }
   };
+  
   deleteAppointment = async (req, res) => {
     try {
       const [deleteAppointment, status, err] =
