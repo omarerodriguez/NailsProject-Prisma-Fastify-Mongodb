@@ -7,15 +7,13 @@ module.exports = class TokenUsesCases {
 
   generateToken = async (userId, role) => {
     try {
-      const expiresIn = 60 * 60 * 24 * 60;
-
       if (!userId) return [null, 'empty data not allow'];
       const token = await this.jwt.sign(
         { userId, role },
         process.env.JWT_SECRET_KEY,
         {
           algorithm: 'HS256',
-          expiresIn,
+          expiresIn: '60d',
         },
       );
       return [token, null];
