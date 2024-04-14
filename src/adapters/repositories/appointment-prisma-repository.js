@@ -25,6 +25,11 @@ module.exports = class AppointmentPrismaRepository {
     try {
       const appointment = await this.prismaClient.appointment.findFirst({
         where: { id: appointmentId },
+        include: {
+          user: true,
+          types_of_nails: true,
+        },
+        
       });
       if (!appointment) return [null, `Appointment not found`];
       return [appointment, null];
@@ -38,8 +43,12 @@ module.exports = class AppointmentPrismaRepository {
     try {
       const userInAppointment = await this.prismaClient.appointment.findMany({
         where: { user_id: userId },
+        include: {
+          user: true,
+          types_of_nails: true,
+        },
       });
-      if (!userInAppointment) return [null, `User into appointment not found`];
+      if (!userInAppointment || userInAppointment.length === 0) return [null, `User into appointment not found`];
       return [userInAppointment, null];
     } catch (error) {
       throw new Error(
