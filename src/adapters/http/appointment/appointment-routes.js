@@ -17,7 +17,7 @@ const routes = [
     handler: appointmentHandler.findAppointmentById,
   },
   {
-    url: '/appointments/userid/:id',
+    url: '/appointments/user',
     method: 'GET',
     preHandler: [tokenMiddleWare.verifyUserToken],
     handler: appointmentHandler.findAppointmentByUser,
