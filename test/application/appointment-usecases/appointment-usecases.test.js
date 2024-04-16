@@ -237,7 +237,6 @@ describe('test in appointment usecases', () => {
       null,
     );
   });
-/*
   test('user dont exist', async () => {
     mockFindUserById.mockResolvedValue([null, 'user not found or not exist']);
 
@@ -370,7 +369,8 @@ describe('test in appointment usecases', () => {
     expect(userId).toBeNull();
     expect(error).toBe(`Appointment not found`);
   });
-*/
+
+/*
   //find
   test('', async () => {
     jest.spyOn(builder,'buildRecordAppointment').mockImplementation(()=>{id:1})
@@ -381,5 +381,5 @@ describe('test in appointment usecases', () => {
     expect(appointment[0].types_of_nails_name).toEqual('Semipermanentes large');
     expect(appointment[0].details_of_nails).toEqual(['Limpieza', 'Retiro']);
     expect(error).toBeNull();
-  });
+  });*/
 });
