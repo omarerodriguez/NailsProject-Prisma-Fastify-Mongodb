@@ -68,7 +68,7 @@ module.exports = class UserUseCases {
       return [null,null, 400, 'El numero no pertenece al email'];
 
     const [token, error] = await this.tokenUsescases.generateToken(user.id,user.role);
-    if (error) return [null, error];
+    if (error) return [null,null,400, error];
 
     return [token, user, 200, null];
   };
