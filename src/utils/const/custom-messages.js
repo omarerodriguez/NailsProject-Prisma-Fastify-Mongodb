@@ -54,15 +54,15 @@ const customMessagesCreateNewAppointment = {
   'required.types_of_nails_id': 'El campo es obligatorio.',
   'string.types_of_nails_id': 'El campo deben ser letras',
   'size.types_of_nails_id': 'El campo debe ser de máximo de 24 caracteres',
-  'required.details_of_nails': 'El campo es obligatorio.',
-  'string.details_of_nails': 'El campo deben ser letras',
-  'size.details_of_nails': 'El campo debe ser de máximo de 24 caracteres',
-  'array.details_of_nails': 'El campo debe ser un arreglo',
+  'required.details_of_nails_id': 'El campo es obligatorio.',
+  'string.details_of_nails_id': 'El campo deben ser letras',
+  'size.details_of_nails_id': 'El campo debe ser de máximo de 24 caracteres',
+  'array.details_of_nails_id': 'El campo debe ser un arreglo',
   'required.duration': 'El campo es obligatorio',
   'integer.duration': 'El campo debe un numero',
   'max.duration': 'El campo debe ser maximo 10',
   'date.reserved_at':
-    'El campo debe ser en formato fecha y hora "dd/mm/aa hh:mm:ss"',
+    'El campo debe ser en formato fecha y hora "mm/dd/aa hh:mm:ss"',
 };
 
 module.exports = {

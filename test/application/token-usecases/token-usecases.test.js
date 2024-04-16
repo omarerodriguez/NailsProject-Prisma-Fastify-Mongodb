@@ -39,7 +39,7 @@ describe('generateToken function', () => {
       process.env.JWT_SECRET_KEY,
       {
         algorithm: 'HS256',
-        expiresIn: 60 * 15,
+        expiresIn: '60d',
       },
     );
   });

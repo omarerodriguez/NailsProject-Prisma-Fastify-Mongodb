@@ -51,8 +51,14 @@ module.exports = class AppointmentrHandler {
   };
   findAppointmentByUser = async (req, res) => {
     try {
-      const [userId, status, err] = await this.usecases.findAppointmentByUser(
-        req.params.id,
+      if(!res.locals?.decodedToken)  return res.status(400).send({
+        message: 'fail',
+        errors: 'TokenBody is required'
+      });
+      const {decodedToken} = res.locals ?? null;
+      const userId = decodedToken.userId;
+      const [appointments, status, err] = await this.usecases.findAppointmentByUser(
+        userId
       );
       if (err)
         return res.status(status).send({
@@ -61,7 +67,7 @@ module.exports = class AppointmentrHandler {
         });
       return res.status(status).send({
         message: 'success',
-        data: userId,
+        data: appointments,
       });
     } catch (error) {
       console.log(error);
@@ -125,6 +131,7 @@ module.exports = class AppointmentrHandler {
       });
     }
   };
+  
   deleteAppointment = async (req, res) => {
     try {
       const [deleteAppointment, status, err] =

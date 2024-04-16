@@ -13,14 +13,14 @@ datasource db {
 model User {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  last_name   String
+  last_name   String?
   age       Int?
   phone_number    String  @unique
   district     String?
   gender       String?
   email     String  @unique
   role Roles? @default(USER)
-  appointment Appointment?
+  appointment Appointment[]
   created_at String
 
   @@map("user")
@@ -32,7 +32,7 @@ model TypeNail {
   allowed_detalis DetailNail[]
   default_price Int
   duration Int
-  appointment Appointment?
+  appointment Appointment[]
   deleted_at String?
   created_at String
 
@@ -64,10 +64,10 @@ model Appointment {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   //...........user_id...........
   user User @relation(fields: [user_id],references: [id])
-  user_id String @unique @db.ObjectId
+  user_id String @db.ObjectId
   //..........types_of_details............
   types_of_nails TypeNail @relation(fields: [types_of_nails_id],references: [id])
-  types_of_nails_id String @unique @db.ObjectId
+  types_of_nails_id String @db.ObjectId
   //..........details_of_nails...........
   details_of_nails_id String[]
   status Status @default(RESERVED)
