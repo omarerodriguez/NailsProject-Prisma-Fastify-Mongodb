@@ -63,4 +63,4 @@ const buildRecordAppointment = (recordAppointment, allDetailsNails) => {
   );
   return recordAppointmentBuilder.build();
 };
-module.exports = { buildRecordAppointment };
+module.exports = { buildRecordAppointment,FindAllAppointmentBuilder };

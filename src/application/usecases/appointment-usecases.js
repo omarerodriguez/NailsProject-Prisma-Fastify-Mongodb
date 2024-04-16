@@ -37,15 +37,31 @@ module.exports = class AppointmentUseCases {
     const [appointment, err] = await this.prismaRepository.findAppointmentById(
       appointmentId,
     );
+    if(err)return[null,404,err]
+
+    const [detailsNails, detailsNailsErr] = await this.detailsNailsPrismaRepository.findAllDetailsNails();
+    if (detailsNailsErr) return [null, 404, detailsNailsErr];
+
+    const buildedAppointment = this.builder.buildRecordAppointment(appointment, detailsNails);
     if (err) return [null, 404, err];
-    return [appointment, 200, null];
+
+    return [buildedAppointment, 200, null];
   };
   findAppointmentByUser = async (decodedToken) => {
     const userId = decodedToken;
     const [appointment, err] =
       await this.prismaRepository.findAppointmentByUser(userId);
+      if(err)return[null,404,err]
+
+    const [detailsNails, detailsNailsErr] = await this.detailsNailsPrismaRepository.findAllDetailsNails();
+    if (detailsNailsErr) return [null, 404, detailsNailsErr];
+    
+    const buildedAppointmentByUser = appointmentByUser.map((appointment) => {
+      return this.builder.buildRecordAppointment(appointment, detailsNails);
+    });
+
     if (err) return [null, 404, err];
-    return [appointment, 200, null];  
+    return [buildedAppointmentByUser, 200, null];
   };
   createNewAppointment = async (appointmentPayload,decodedToken) => {
     const {userId} =  decodedToken;
