@@ -62,7 +62,7 @@ const customMessagesCreateNewAppointment = {
   'integer.duration': 'El campo debe un numero',
   'max.duration': 'El campo debe ser maximo 10',
   'date.reserved_at':
-    'El campo debe ser en formato fecha y hora "dd/mm/aa hh:mm:ss"',
+    'El campo debe ser en formato fecha y hora "mm/dd/aa hh:mm:ss"',
 };
 
 module.exports = {
