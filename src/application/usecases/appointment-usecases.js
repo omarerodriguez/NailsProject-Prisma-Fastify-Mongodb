@@ -56,7 +56,7 @@ module.exports = class AppointmentUseCases {
     const [detailsNails, detailsNailsErr] = await this.detailsNailsPrismaRepository.findAllDetailsNails();
     if (detailsNailsErr) return [null, 404, detailsNailsErr];
     
-    const buildedAppointmentByUser = appointmentByUser.map((appointment) => {
+    const buildedAppointmentByUser = appointment.map((appointment) => {
       return this.builder.buildRecordAppointment(appointment, detailsNails);
     });
 
