@@ -47,8 +47,9 @@ module.exports = class AppointmentUseCases {
 
     return [buildedAppointment, 200, null];
   };
-  findAppointmentByUser = async (userId) => {
-    const [appointmentByUser, err] =
+  findAppointmentByUser = async (decodedToken) => {
+    const userId = decodedToken;
+    const [appointment, err] =
       await this.prismaRepository.findAppointmentByUser(userId);
       if(err)return[null,404,err]
 
