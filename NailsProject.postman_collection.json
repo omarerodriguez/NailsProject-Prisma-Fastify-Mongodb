@@ -1,0 +1,1057 @@
+{
+	"info": {
+		"_postman_id": "1343e43d-5fcf-4830-b890-92a9b6e2fe54",
+		"name": "NailsProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22288744"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyNjNhMGFkMTRiZmRlNTZjMDYyYzMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDcyMzgzMDUsImV4cCI6MTcwNzIzOTIwNX0.HXWoR2G1IShHqU6_JWicqNrwuTGOFTDHoYy0rcTCXyQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/65bf883876e16c781ec9646b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"65bf883876e16c781ec9646b"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "duvandavidsr@gmail.com",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/65bfcbe23ab60e6a4e386e16",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"65bfcbe23ab60e6a4e386e16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"duvi\",\r\n    \"last_name\": \"rodri\",\r\n    \"age\": 21,\r\n    \"phone_number\": \"3002691410\",\r\n    \"district\": \"Portal de san antonio\",\r\n    \"gender\": \"masculino\",\r\n    \"email\": \"duvandavidrodr@gmail.com\",\r\n    \"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/65bd4687f3e0eb8ef8fe6ae4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"65bd4687f3e0eb8ef8fe6ae4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TypesNails",
+			"item": [
+				{
+					"name": "all types nails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/typesnails",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"typesnails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create types nails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"PoliGel\",\r\n    \"default_price\":420.000,\r\n    \"duration\": 2\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/typesnails",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"typesnails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update types nails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"acrilicas\",\r\n    \"default_price\":2500\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/typesnails/658d9733875a8dd3b2aa29d5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"typesnails",
+								"658d9733875a8dd3b2aa29d5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete types nails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/typesnails/65de17ea0c80bcd85dedf91c",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"typesnails",
+								"65de17ea0c80bcd85dedf91c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all types nails by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/typesnails/65de1710b4051885c602aa4a",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"typesnails",
+								"65de1710b4051885c602aa4a"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "DetailsNails",
+			"item": [
+				{
+					"name": "all nails details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyNjNhMGFkMTRiZmRlNTZjMDYyYzMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDcyMzgzMDUsImV4cCI6MTcwNzIzOTIwNX0.HXWoR2G1IShHqU6_JWicqNrwuTGOFTDHoYy0rcTCXyQ",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/detailsnails",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"detailsnails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all nails details by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyNjNhMGFkMTRiZmRlNTZjMDYyYzMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDcyMzgzMDUsImV4cCI6MTcwNzIzOTIwNX0.HXWoR2G1IShHqU6_JWicqNrwuTGOFTDHoYy0rcTCXyQ",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/detailsnails/65e4fee42fa9d8298d9c7535",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"detailsnails",
+								"65e4fee42fa9d8298d9c7535"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create nails details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Retiro\",\r\n    \"price\":75.000,\r\n    \"type_id\":\"65de17900c80bcd85dedf91b\",\r\n    \"duration\":4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/detailsnails",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"detailsnails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update nails details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Retiro\",\r\n    \"price\":30000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/detailsnails/6599a6d2ce5a352bbf25a819",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"detailsnails",
+								"6599a6d2ce5a352bbf25a819"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete nails details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/detailsnails/65e6619ab4492f573d41e45c",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"detailsnails",
+								"65e6619ab4492f573d41e45c"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Scheduler",
+			"item": [
+				{
+					"name": "get all schedulers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scheduler",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scheduler"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all schedulers date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scheduler-date?date_type=week",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scheduler-date"
+							],
+							"query": [
+								{
+									"key": "date_type",
+									"value": "week"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create scheduler",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scheduler",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scheduler"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get scheduler by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scheduler/661e937ebe894b84787322b5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scheduler",
+								"661e937ebe894b84787322b5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete scheduler",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scheduler/661e937ebe894b84787322b5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scheduler",
+								"661e937ebe894b84787322b5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update scheduler",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"appointments\": {\r\n                \"7\": 1,\r\n                \"8\": null,\r\n                \"9\": null,\r\n                \"10\": null,\r\n                \"11\": null,\r\n                \"14\": null,\r\n                \"15\": null,\r\n                \"16\": null,\r\n                \"7.5\": 1,\r\n                \"8.5\": null,\r\n                \"9.5\": null,\r\n                \"10.5\": null,\r\n                \"11.5\": null,\r\n                \"14.5\": null,\r\n                \"15.5\": null\r\n            }}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/scheduler/65991e32bd775ee74588925a",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scheduler",
+								"65991e32bd775ee74588925a"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "get all appointments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWNiOGFiYTMxMDgyNWVjYmQzODMyZWYiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcwNzgzODEzOSwiZXhwIjoxNzA3ODM5MDM5fQ.LSgmbsO-ikdPhpbbLv1vVR1-8MAEi0Qax5wZPp_34EY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/appointments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create appointments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWJkNDY4N2YzZTBlYjhlZjhmZTZhZTQiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTIwMzAyMjMsImV4cCI6MTcxMjAzMTEyM30.w4uvZy7WDTGcLGLxOo9j8i9NwsVitgTVnK5hy9wuEYM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scheduler_id\":\"661c9658f4a20c68b6fe0cdf\",\r\n    \"types_of_nails_id\":\"65de1710b4051885c602aa4a\",\r\n    \"details_of_nails_id\":[\"65e4fee42fa9d8298d9c7535\",\"65de189d7a27364c199d031d\"],\r\n    \"duration\":2,\r\n    \"reserved_at\":\"04/14/2024 14:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/appointments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update appointments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"CONFIRMED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/appointments/65e662e003a8080ef58081f6",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"appointments",
+								"65e662e003a8080ef58081f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get appointment by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/appointments/65e662e003a8080ef58081f7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"appointments",
+								"65e662e003a8080ef58081f7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get appointment by user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/appointments/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"appointments",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/appointments/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"appointments",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"santiago\",\r\n    \"last_name\": \"carvajal\",\r\n    \"age\": 20,\r\n    \"phone_number\": \"3044585632\",\r\n    \"district\": \"Boston\",\r\n    \"gender\": \"masculino\",\r\n    \"role\": \"ADMIN\",\r\n    \"email\": \"carvajalsantiago668@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"carvajalsantiago668@gmail.com\",\r\n    \"phone_number\": \"3044585632\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
