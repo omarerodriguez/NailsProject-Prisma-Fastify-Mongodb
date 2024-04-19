@@ -47,7 +47,7 @@ const customMessagesLoginUser = {
   'email.email': 'El campo no es una dirección de correo electrónico válida.',
 };
 
-const customMessagesCreateNewAppointment = {
+const customMessagesCreateUpdateAppointment = {
   'required.user_id': 'El campo es obligatorio.',
   'string.user_id': 'El campo deben ser letras',
   'size.user_id': 'El campo debe ser de máximo de 24 caracteres',
@@ -70,5 +70,5 @@ module.exports = {
   customMessagesCreateNailsTypes,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
-  customMessagesCreateNewAppointment,
+  customMessagesCreateUpdateAppointment,
 };

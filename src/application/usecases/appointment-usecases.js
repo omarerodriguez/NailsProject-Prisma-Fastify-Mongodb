@@ -46,8 +46,8 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
     return [appointment, 200, null];
   };
-  createNewAppointment = async (appointmentPayload,decodedToken) => {
-    const {userId} =  decodedToken;
+  createNewAppointment = async (appointmentPayload, decodedToken) => {
+    const { userId } = decodedToken;
     const {
       scheduler_id: schedulerId,
       types_of_nails_id: typesOfNailsId,
@@ -93,7 +93,7 @@ module.exports = class AppointmentUseCases {
 
     const newAppointment = {
       ...appointmentPayload,
-      user_id : userId,
+      user_id: userId,
       status_date: getFormatDate(),
       created_at: getFormatDate(),
       status: 'RESERVED',
