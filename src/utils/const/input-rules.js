@@ -44,6 +44,13 @@ const createNewAppointmentRules = {
   reserved_at: 'date',
 };
 
+const updateAppointmentRules = {
+  status: 'string|in:RESERVED,CONFIRMED,CANCELED,DELETED',
+  types_of_nails_id: 'string|hex|size:24',
+  details_of_nails_id: 'array',
+  duration: 'integer|max:10',
+};
+
 module.exports = {
   createNewUserRules,
   loginUserRules,
@@ -52,4 +59,5 @@ module.exports = {
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,
+  updateAppointmentRules,
 };

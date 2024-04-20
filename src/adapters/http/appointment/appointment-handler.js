@@ -1,5 +1,6 @@
 const {
   createNewAppointmentValidations,
+  updateAppointmentValidations,
 } = require('../../../utils/functions/input-validations');
 
 module.exports = class AppointmentrHandler {
@@ -79,12 +80,13 @@ module.exports = class AppointmentrHandler {
   };
   createNewAppointment = async (req, res) => {
     try {
-      if(!res.locals?.decodedToken)  return res.status(400).send({
-        message: 'fail',
-        errors: 'TokenBody is required'
-      });
+      if (!res.locals?.decodedToken)
+        return res.status(400).send({
+          message: 'fail',
+          errors: 'TokenBody is required',
+        });
 
-      const {decodedToken} = res.locals ?? null;
+      const { decodedToken } = res.locals ?? null;
       const errors = createNewAppointmentValidations(req.body);
       if (errors)
         return res.status(400).send({
@@ -92,7 +94,7 @@ module.exports = class AppointmentrHandler {
           errors,
         });
       const [appointmentPayload, status, err] =
-        await this.usecases.createNewAppointment(req.body,decodedToken);
+        await this.usecases.createNewAppointment(req.body, decodedToken);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -112,6 +114,12 @@ module.exports = class AppointmentrHandler {
 
   updateAppointment = async (req, res) => {
     try {
+      const errors = updateAppointmentValidations(req.body);
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const [updateAppointment, status, err] =
         await this.usecases.updateAppointment(req.params.id, req.body);
       if (err)
@@ -131,7 +139,7 @@ module.exports = class AppointmentrHandler {
       });
     }
   };
-  
+
   deleteAppointment = async (req, res) => {
     try {
       const [deleteAppointment, status, err] =
