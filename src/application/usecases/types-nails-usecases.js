@@ -1,8 +1,10 @@
 const { getFormatDate } = require('../../utils/functions/date');
 
 module.exports = class TypesNailsUseCases {
-  constructor(prismaRepository) {
+  constructor(prismaRepository, detailsNailsPrismaRepository, builder) {
     this.prismaRepository = prismaRepository;
+    this.detailsNailsPrismaRepository = detailsNailsPrismaRepository;
+    this.builder = builder;
   }
 
   findTypesNailsById = async (typesNailsId) => {
@@ -10,13 +12,28 @@ module.exports = class TypesNailsUseCases {
       typesNailsId,
     );
     if (err) return [null, 404, err];
-    return [findTpNails, 200, null];
+
+    const[detailsNails,detailsNailsErr] = await this.detailsNailsPrismaRepository.findAllDetailsNails();
+    if(detailsNailsErr)return[null,404,detailsNailsErr];
+
+    const buildedTypesNails = this.builder.buildRecordTypesNails(findTpNails,detailsNails);
+    return [buildedTypesNails, 200, null];
   };
 
   findAllTypesNails = async () => {
-    const [typesNails, err] = await this.prismaRepository.findAllTypesNails();
-    if (err) return [null, 404, err];
-    return [typesNails, 200, null];
+    const [typesNailsData,detailsNailsData] = await Promise.all([
+      this.prismaRepository.findAllTypesNails(),
+      this.detailsNailsPrismaRepository.findAllDetailsNails(),
+    ]);
+    const[typesNails,typesNailsErr] = typesNailsData;
+    const[detailNails,detailNailsErr] = detailsNailsData;
+    if(typesNailsErr)return [null,404,typesNailsErr];
+    if(detailNailsErr)return[null,404,detailNailsErr];
+    
+    const buildedTypesNail = typesNails.map((typesNail)=>{
+      return this.builder.buildRecordTypesNails(typesNail,detailNails)
+    });
+    return [buildedTypesNail,200,null];
   };
 
   createNewTypesNails = async (typesNailsPayload) => {

@@ -38,7 +38,11 @@ const schedulerPrismaRepository = new SchedulerPrismaRepository(prisma);
 const appointmentPrismaRepository = new AppointmentPrismaRepository(prisma);
 
 // Intance- usecases
-const typesNailsUseCases = new TypesNailsUseCases(typesNailsPrismaRepository);
+const typesNailsUseCases = new TypesNailsUseCases(
+  typesNailsPrismaRepository,
+  detailsNailsPrismaRepository,
+  builder,
+);
 const detailsNailsUseCases = new DetailsNailsUseCases(
   detailsNailsPrismaRepository,
 );

@@ -8,13 +8,15 @@ const {
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,
+  updateAppointmentRules,
 } = require('../const/input-rules');
+
 const {
   customMessagesCreateUser,
   customMessagesCreateNailsTypes,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
-  customMessagesCreateNewAppointment,
+  customMessagesCreateUpdateAppointment,
 } = require('./../const/custom-messages');
 
 const createNewuUserValidations = (newUserPayload) => {
@@ -90,12 +92,24 @@ const createNewAppointmentValidations = (appointmentPayload) => {
   const validation = new Validator(
     appointmentPayload,
     createNewAppointmentRules,
-    customMessagesCreateNewAppointment,
+    customMessagesCreateUpdateAppointment,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
 };
+
+const updateAppointmentValidations = (appointmentPayload) => {
+  const validation = new Validator(
+    appointmentPayload,
+    updateAppointmentRules,
+    customMessagesCreateUpdateAppointment,
+  );
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
+
 module.exports = {
   createNewuUserValidations,
   validateToken,
@@ -105,4 +119,5 @@ module.exports = {
   getSchedulerByDateValidations,
   getUserByIdValidations,
   createNewAppointmentValidations,
+  updateAppointmentValidations,
 };
