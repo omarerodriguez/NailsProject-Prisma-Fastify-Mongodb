@@ -6,15 +6,6 @@ module.exports = class TypesNailsPrismaRepository {
   async findAllTypesNails() {
     try {
       const typesNails = await this.prismaClient.TypeNail.findMany({
-        include: {
-          allowed_detalis: {
-            select: {
-              name: true,
-              price: true,
-              duration: true,
-            },
-          },
-        },
       });
       if (typesNails.length === 0 || !typesNails)
         return [null, 'there are not nails types fetched'];
@@ -29,16 +20,7 @@ module.exports = class TypesNailsPrismaRepository {
   async findTypesNailsById(typesNailsId) {
     try {
       const typeNails = await this.prismaClient.TypeNail.findFirst({
-        where: { id: typesNailsId },
-        include: {
-          allowed_detalis: {
-            select: {
-              name: true,
-              price: true,
-              duration: true,
-            },
-          },
-        },
+        where: { id: typesNailsId }
       });
       if (!typeNails) return [null, 'NailsTypes not found'];
       return [typeNails, null];
