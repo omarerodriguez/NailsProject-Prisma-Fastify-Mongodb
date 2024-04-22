@@ -29,7 +29,7 @@ model User {
 model TypeNail {
   id String  @id @default(auto())  @map("_id") @db.ObjectId
   name String @unique
-  allowed_detalis DetailNail[]
+  allowed_details_ids String[]
   default_price Int
   duration Int
   appointment Appointment[]
@@ -44,10 +44,8 @@ model DetailNail {
   name String
   price Int
   duration Int
-  type TypeNail? @relation(fields: [type_id], references: [id])
-  type_id String? @db.ObjectId
   deleted_at String?
-  created_at String
+  created_at String 
 
   @@map("detailsnails")
 }
