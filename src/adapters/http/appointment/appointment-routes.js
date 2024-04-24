@@ -30,7 +30,7 @@ const routes = [
   },
   {
     url: '/appointments/:id',
-    method: 'PUT',
+    method: 'PATCH',
     preHandler: [tokenMiddleWare.verifyUserToken],
     handler: appointmentHandler.updateAppointment,
   },
