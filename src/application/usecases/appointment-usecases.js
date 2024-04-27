@@ -10,6 +10,7 @@ module.exports = class AppointmentUseCases {
     typesNailsPrismaRepository,
     detailsNailsPrismaRepository,
     schedulerUseCases,
+    schedulerPrismaRepository,
     builder,
   ) {
     this.prismaRepository = prismaRepository;
@@ -17,6 +18,7 @@ module.exports = class AppointmentUseCases {
     this.detailsNailsPrismaRepository = detailsNailsPrismaRepository;
     this.typesNailsPrismaRepository = typesNailsPrismaRepository;
     this.schedulerUseCases = schedulerUseCases;
+    this.schedulerPrismaRepository = schedulerPrismaRepository;
     this.builder = builder;
   }
   findAllAppointments = async () => {
@@ -37,12 +39,16 @@ module.exports = class AppointmentUseCases {
     const [appointment, err] = await this.prismaRepository.findAppointmentById(
       appointmentId,
     );
-    if(err)return[null,404,err]
+    if (err) return [null, 404, err];
 
-    const [detailsNails, detailsNailsErr] = await this.detailsNailsPrismaRepository.findAllDetailsNails();
+    const [detailsNails, detailsNailsErr] =
+      await this.detailsNailsPrismaRepository.findAllDetailsNails();
     if (detailsNailsErr) return [null, 404, detailsNailsErr];
 
-    const buildedAppointment = this.builder.buildRecordAppointment(appointment, detailsNails);
+    const buildedAppointment = this.builder.buildRecordAppointment(
+      appointment,
+      detailsNails,
+    );
     if (err) return [null, 404, err];
 
     return [buildedAppointment, 200, null];
@@ -51,11 +57,12 @@ module.exports = class AppointmentUseCases {
     const userId = decodedToken;
     const [appointment, err] =
       await this.prismaRepository.findAppointmentByUser(userId);
-      if(err)return[null,404,err]
+    if (err) return [null, 404, err];
 
-    const [detailsNails, detailsNailsErr] = await this.detailsNailsPrismaRepository.findAllDetailsNails();
+    const [detailsNails, detailsNailsErr] =
+      await this.detailsNailsPrismaRepository.findAllDetailsNails();
     if (detailsNailsErr) return [null, 404, detailsNailsErr];
-    
+
     const buildedAppointmentByUser = appointment.map((appointment) => {
       return this.builder.buildRecordAppointment(appointment, detailsNails);
     });
@@ -175,9 +182,26 @@ module.exports = class AppointmentUseCases {
   };
 
   deleteAppointment = async (appointmentId) => {
-    const [deleteAppointment, err] =
-      await this.prismaRepository.deleteAppointment(appointmentId);
+    const [schedulers, schedulersErr] =
+      await this.schedulerPrismaRepository.findAllSchedulers();
+    if (schedulersErr) return [null, 404, schedulersErr];
+
+    schedulers.forEach((scheduler) => {
+      Object.entries(scheduler.appointments).forEach(([hour, value]) => {
+        if (value === appointmentId) {
+          scheduler.appointments[hour] = null;
+          this.schedulerPrismaRepository.updateScheduler(scheduler.id, {
+            appointments: scheduler.appointments,
+          });
+        }
+      });
+    });
+
+    const [softDeleteAppointment, err] =
+      await this.prismaRepository.deleteAppointment(appointmentId, {
+        deleted_at: getFormatDate(),
+      });
     if (err) return [null, 404, err];
-    return [deleteAppointment, 200, null];
+    return [softDeleteAppointment, 200, null];
   };
 };
