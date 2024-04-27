@@ -53,6 +53,7 @@ const appointmentUseCases = new AppointmentUseCases(
   typesNailsPrismaRepository,
   detailsNailsPrismaRepository,
   schedulerUseCases,
+  schedulerPrismaRepository,
   builder,
 );
 const tokenUsescases = new TokenUsesCases(jwt);
