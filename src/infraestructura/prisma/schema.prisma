@@ -71,6 +71,7 @@ model Appointment {
   status Status @default(RESERVED)
   status_date String
   status_logs Json
+  total_price Int
   duration Int
   reserved_at String
   deleted_at String?
