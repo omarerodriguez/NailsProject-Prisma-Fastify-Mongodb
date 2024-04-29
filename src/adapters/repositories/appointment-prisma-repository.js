@@ -81,10 +81,11 @@ module.exports = class AppointmentPrismaRepository {
       );
     }
   }
-  async deleteAppointment(appointmentId) {
+  async deleteAppointment(appointmentId,payloadAppointment) {
     try {
-      const deleteAppointment = await this.prismaClient.appointment.delete({
+      const deleteAppointment = await this.prismaClient.appointment.update({
         where: { id: appointmentId },
+        data:payloadAppointment,
       });
       return [deleteAppointment, null];
     } catch (error) {
