@@ -186,22 +186,42 @@ module.exports = class AppointmentUseCases {
       await this.schedulerPrismaRepository.findAllSchedulers();
     if (schedulersErr) return [null, 404, schedulersErr];
 
+    const [newScheduler, ifSchedulerFinded] = deletedAppointmentInScheduler(
+      schedulers,
+      appointmentId,
+    );
+
+    if (!ifSchedulerFinded || !newScheduler)
+      return [null, 400, 'scheduler dont exist'];
+
+    const [, softDeleteAppointmentData] = await Promise.all([
+      this.schedulerPrismaRepository.updateScheduler(newScheduler.id, {
+        appointments: newScheduler.appointments,
+      }),
+      this.prismaRepository.deleteAppointment(appointmentId, {
+        deleted_at: getFormatDate(),
+      }),
+    ]);
+    const [softDeleteAppointment, softDeleteErr] = softDeleteAppointmentData;
+    if (softDeleteErr) return [null, 404, softDeleteErr];
+    
+    return [softDeleteAppointment, 200, null];
+  };
+
+  deletedAppointmentInScheduler = (schedulers, appointmentId) => {
+    let newScheduler;
+    let ifSchedulerFinded = false;
     schedulers.forEach((scheduler) => {
+      if (ifSchedulerFinded) return;
       Object.entries(scheduler.appointments).forEach(([hour, value]) => {
         if (value === appointmentId) {
           scheduler.appointments[hour] = null;
-          this.schedulerPrismaRepository.updateScheduler(scheduler.id, {
-            appointments: scheduler.appointments,
-          });
+          newScheduler = { ...scheduler };
+          ifSchedulerFinded = true;
+          return;
         }
       });
     });
-
-    const [softDeleteAppointment, err] =
-      await this.prismaRepository.deleteAppointment(appointmentId, {
-        deleted_at: getFormatDate(),
-      });
-    if (err) return [null, 404, err];
-    return [softDeleteAppointment, 200, null];
+    return [newScheduler, ifSchedulerFinded];
   };
 };
