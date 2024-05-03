@@ -1,18 +1,19 @@
 const { getFormatDate } = require('../../utils/functions/date');
 module.exports = class DetailsNailsUseCases {
-  constructor(prismaRepository) {
+  constructor(prismaRepository,redisRepository) {
     this.prismaRepository = prismaRepository;
+    this.redisRepository = redisRepository
   }
 
   findAllDetailsNails = async () => {
     const [detailsNails, err] =
-      await this.prismaRepository.findAllDetailsNails();
+      await this.redisRepository.redisFindAllDetailsNails();
     if (err) return [null, 404, err];
     return [detailsNails, 200, null];
   };
 
   findDetailsNailsById = async (detailsNailsId) => {
-    const [detailNail, err] = await this.prismaRepository.findDetailsNailsById(
+    const [detailNail, err] = await this.redisRepository.redisFindAllDetailsNailsById(
       detailsNailsId,
     );
     if (err) return [null, 404, err];
