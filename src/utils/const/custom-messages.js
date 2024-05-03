@@ -51,6 +51,8 @@ const customMessagesCreateUpdateAppointment = {
   'required.user_id': 'El campo es obligatorio.',
   'string.user_id': 'El campo deben ser letras',
   'size.user_id': 'El campo debe ser de máximo de 24 caracteres',
+  'in.status':
+    'el estado debe ser: RESERVADO, CONFIRMADO, CANCELADO, ELIMINADO',
   'required.types_of_nails_id': 'El campo es obligatorio.',
   'string.types_of_nails_id': 'El campo deben ser letras',
   'size.types_of_nails_id': 'El campo debe ser de máximo de 24 caracteres',
