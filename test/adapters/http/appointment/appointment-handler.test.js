@@ -79,7 +79,7 @@ describe('test in appointmet handler', () => {
       },
     };
   });
-  
+
   test('input validation error, bad format reserved_at', async () => {
     request.body.reserved_at = '71202140000';
     await appointmentHandler.createNewAppointment(request, mockRes);
@@ -118,5 +118,18 @@ describe('test in appointmet handler', () => {
     });
   });
 
-  
+
+  test('input validation error, status is different to enum Status', async () => {
+    request.body.status = 'DONE';
+    await appointmentHandler.updateAppointment(request, mockRes);
+    expect(mockRes.status).toHaveBeenCalledWith(400);
+    expect(mockRes.send).toHaveBeenCalledWith({
+      message: 'fail',
+      errors: {
+        status: [
+          'el estado debe ser: RESERVADO, CONFIRMADO, CANCELADO, ELIMINADO',
+        ],
+      },
+    });
+  });
 });
