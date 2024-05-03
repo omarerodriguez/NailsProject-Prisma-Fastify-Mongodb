@@ -12,13 +12,13 @@ const SchedulerUseCases = require('../../../src/application/usecases/scheduler-u
 //Builder
 const builder = require('../../../src/application/usecases/builder/appointment/index');
 
-
 /** MOCKS */
 /** Appointments*/
 const mockFindAppointmentByUserId = jest.fn();
 const mockFindAllAppointments = jest.fn();
 const mockDeleteAppointment = jest.fn();
 const mockFindAppointmentById = jest.fn();
+const mockUpdateAppointment = jest.fn();
 
 jest.mock(
   '../../../src/adapters/repositories/appointment-prisma-repository',
@@ -28,6 +28,7 @@ jest.mock(
       findAllAppointments: mockFindAllAppointments,
       deleteAppointment: mockDeleteAppointment,
       findAppointmentById: mockFindAppointmentById,
+      updateAppointment: mockUpdateAppointment,
     })),
 );
 
@@ -213,16 +214,22 @@ describe('test in appointment usecases', () => {
       null,
     );
 
-    mockFindAppointmentById.mockResolvedValue(
-      [
-        [
-          {
-            id: '6599a50d9f1803f665b3e087',
-          },
-        ],
-      ],
+    mockFindAppointmentById.mockResolvedValue([
+      {
+        id: '6599a50d9f1803f665b3e087',
+        status: 'CONFIRMED',
+      },
       null,
-    );
+    ]);
+
+    mockUpdateAppointment.mockResolvedValue([
+      {
+        id: '65b436c3e13fb5beaafabe2b',
+        types_of_nails: { name: 'Semipermanentes large' },
+        details_of_nails_id: [{ name: 'Limpieza' }, { name: 'Retiro' }],
+      },
+      null,
+    ]);
 
     mockFindAllAppointments.mockResolvedValue([appointmentExpect], null);
     //mockFindAppointmentByUserId.mockResolvedValue([appointmentExpect],null)
@@ -359,18 +366,40 @@ describe('test in appointment usecases', () => {
   // Updating status
 
   test('error if the status is the same', async () => {
-    mockFindAppointmentById.mockResolvedValue([null, `Appointment not found`]);
     const [userId, status, error] = await appointmentUseCases.updateAppointment(
       '659936dc6a1d92adb561073e',
       updateAppoinmentPayload,
     );
 
-    expect(status).toEqual(404);
+    expect(status).toEqual(400);
     expect(userId).toBeNull();
-    expect(error).toBe(`Appointment not found`);
+    expect(error).toBe(`the status must be different to allow update`);
   });
 
-/*
+  test('update success', async () => {
+    mockFindAppointmentById.mockReturnValue([
+      {
+        id: '6599a50d9f1803f665b3e087',
+        status: 'CONFIRMED',
+        status_logs: [
+          {
+            status: 'CONFIRMED',
+          },
+        ],
+      },
+      null,
+    ]);
+    updateAppoinmentPayload.status = 'RESERVED';
+    const [, status, error] = await appointmentUseCases.updateAppointment(
+      '659936dc6a1d92adb561073e',
+      updateAppoinmentPayload,
+    );
+
+    expect(status).toEqual(200);
+    expect(error).toBeNull();
+  });
+
+  /*
   //find
   test('', async () => {
     jest.spyOn(builder,'buildRecordAppointment').mockImplementation(()=>{id:1})

@@ -118,6 +118,7 @@ describe('test in appointmet handler', () => {
     });
   });
 
+
   test('input validation error, status is different to enum Status', async () => {
     request.body.status = 'DONE';
     await appointmentHandler.updateAppointment(request, mockRes);
