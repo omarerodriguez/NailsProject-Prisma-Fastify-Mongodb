@@ -15,7 +15,7 @@ module.exports = class RedisRepository {
           'detailsnails',
           JSON.stringify(detailsNails),
           'EX',
-          60,
+          1800,
         );
         return [detailsNails, null];
       } else {
@@ -37,7 +37,7 @@ module.exports = class RedisRepository {
         });
         if (!detailNails) return [null, 404, 'There are not users fetched'];
         await this.redisClient.set(detailsNailsId, JSON.stringify(detailNails));
-        await this.redisClient.expire(detailsNailsId,60);
+        await this.redisClient.expire(detailsNailsId,1800);
         return [detailNails, null];
       } else {
         return [JSON.parse(redisDetailsNailsById), null];
@@ -62,7 +62,7 @@ module.exports = class RedisRepository {
           'typesnails',
           JSON.stringify(typesNails),
           'EX',
-          60,
+          1800,
         );
         return [typesNails, null];
       } else {
@@ -87,7 +87,7 @@ module.exports = class RedisRepository {
           typesNailsId,
           JSON.stringify(typeNails),
           'EX',
-          60,
+          1800,
         );
         return [typeNails, null];
       } else {
