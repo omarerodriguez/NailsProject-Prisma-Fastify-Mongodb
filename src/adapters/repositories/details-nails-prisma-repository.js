@@ -1,6 +1,7 @@
 module.exports = class DetailsNailsPrismaRepository {
-  constructor(prismaClient) {
+  constructor(prismaClient,redisClient) {
     this.prismaClient = prismaClient;
+    this.redisClient = redisClient;
   }
   async findAllDetailsNails(ids) {
     try {
