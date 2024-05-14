@@ -1,19 +1,19 @@
 const { getFormatDate } = require('../../utils/functions/date');
 
 module.exports = class TypesNailsUseCases {
-  constructor(prismaRepository, detailsNailsPrismaRepository, builder,redisRepository) {
+  constructor(prismaRepository,detailsNailsRedisUseCases,typesNailsRedisUseCases,builder) {
     this.prismaRepository = prismaRepository;
-    this.detailsNailsPrismaRepository = detailsNailsPrismaRepository;
+    this.detailsNailsRedisUseCases = detailsNailsRedisUseCases;
+    this.typesNailsRedisUseCases = typesNailsRedisUseCases
     this.builder = builder;
-    this.redisRepository = redisRepository
   }
 
   findTypesNailsById = async (typesNailsId) => {
     const [findTypeNailsData, detailsNailsData] = await Promise.all([
-      this.redisRepository.redisFindAllTypesNailsById(
+      this.typesNailsRedisUseCases.redisFindAllTypesNailsById(
         typesNailsId,
       ),
-      this.redisRepository.redisFindAllDetailsNails(),
+      this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
     ]);
     const [typesNailsById,typesNailsErr] = findTypeNailsData;
     const [detailsNails,detailsNailsErr] = detailsNailsData;
@@ -27,8 +27,8 @@ module.exports = class TypesNailsUseCases {
 
   findAllTypesNails = async () => {
     const [typesNailsData,detailsNailsData] = await Promise.all([
-      this.redisRepository.redisFindAllTypesNails(),
-      this.redisRepository.redisFindAllDetailsNails(),
+      this.typesNailsRedisUseCases.redisFindAllTypesNails(),
+      this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
     ]);
     const[typesNails,typesNailsErr] = typesNailsData;
     const[detailNails,detailNailsErr] = detailsNailsData;
@@ -48,6 +48,8 @@ module.exports = class TypesNailsUseCases {
     const [newTpNails, nailsError] =
       await this.prismaRepository.createNewTypesNails(newTypeNailsBody);
     if (nailsError) return [null, 500, nailsError];
+    const [isDeleted,deleteError] = await this.typesNailsRedisUseCases.redisDeleteTypesNails();
+    if(deleteError)return[null,400,deleteError];
     return [newTpNails, 200, null];
   };
 

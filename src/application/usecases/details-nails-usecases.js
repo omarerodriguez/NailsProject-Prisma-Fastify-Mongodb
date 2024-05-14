@@ -1,19 +1,19 @@
 const { getFormatDate } = require('../../utils/functions/date');
 module.exports = class DetailsNailsUseCases {
-  constructor(prismaRepository,redisRepository) {
+  constructor(prismaRepository,detailsNailsRedisUseCases) {
     this.prismaRepository = prismaRepository;
-    this.redisRepository = redisRepository
+    this.detailsNailsRedisUseCases = detailsNailsRedisUseCases
   }
 
   findAllDetailsNails = async () => {
     const [detailsNails, err] =
-      await this.redisRepository.redisFindAllDetailsNails();
+      await this.detailsNailsRedisUseCases.redisFindAllDetailsNails();
     if (err) return [null, 404, err];
     return [detailsNails, 200, null];
   };
 
   findDetailsNailsById = async (detailsNailsId) => {
-    const [detailNail, err] = await this.redisRepository.redisFindAllDetailsNailsById(
+    const [detailNail, err] = await this.detailsNailsRedisUseCases.redisFindAllDetailsNailsById(
       detailsNailsId,
     );
     if (err) return [null, 404, err];
@@ -27,6 +27,8 @@ module.exports = class DetailsNailsUseCases {
     const [newDetailsNails, err] =
       await this.prismaRepository.createNewNailsDetalis(newDetailsNailsBody);
     if (err) return [null, 404, err];
+    const [isDeleted,deleteError] = await this.detailsNailsRedisUseCases.redisDeleteDetailNails();
+    if(deleteError)return[null,400,deleteError];
     return [newDetailsNails, 200, null];
   };
 
