@@ -12,6 +12,8 @@ module.exports = class AppointmentUseCases {
     schedulerUseCases,
     schedulerPrismaRepository,
     builder,
+    detailsNailsRedisUseCases,
+    typesNailsRedisUseCases,
   ) {
     this.prismaRepository = prismaRepository;
     this.userPrismaRepository = userPrismaRepository;
@@ -20,11 +22,13 @@ module.exports = class AppointmentUseCases {
     this.schedulerUseCases = schedulerUseCases;
     this.schedulerPrismaRepository = schedulerPrismaRepository;
     this.builder = builder;
+    this.detailsNailsRedisUseCases = detailsNailsRedisUseCases;
+    this.typesNailsRedisUseCases = typesNailsRedisUseCases;
   }
   findAllAppointments = async () => {
     const [appointmentsData, detailsNailsData] = await Promise.all([
       this.prismaRepository.findAllAppointments(),
-      this.detailsNailsPrismaRepository.findAllDetailsNails(),
+      this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
     ]);
     const [appointments, appointmentsErr] = appointmentsData;
     const [detailsNails, detailsNailsErr] = detailsNailsData;
@@ -42,7 +46,7 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
 
     const [detailsNails, detailsNailsErr] =
-      await this.detailsNailsPrismaRepository.findAllDetailsNails();
+      await this.detailsNailsRedisUseCases.redisFindAllDetailsNails();
     if (detailsNailsErr) return [null, 404, detailsNailsErr];
 
     const buildedAppointment = this.builder.buildRecordAppointment(
@@ -60,7 +64,7 @@ module.exports = class AppointmentUseCases {
     if (err) return [null, 404, err];
 
     const [detailsNails, detailsNailsErr] =
-      await this.detailsNailsPrismaRepository.findAllDetailsNails();
+      await this.detailsNailsRedisUseCases.redisFindAllDetailsNails();
     if (detailsNailsErr) return [null, 404, detailsNailsErr];
 
     const buildedAppointmentByUser = appointment.map((appointment) => {
@@ -81,8 +85,8 @@ module.exports = class AppointmentUseCases {
     const [userData, typeOfNailsData, detailsNailsData, AppointmentData] =
       await Promise.all([
         this.userPrismaRepository.findUserById(userId),
-        this.typesNailsPrismaRepository.findTypesNailsById(typesOfNailsId),
-        this.detailsNailsPrismaRepository.findAllDetailsNails(detailsOfNails),
+        this.typesNailsRedisUseCases.redisFindAllTypesNailsById(typesOfNailsId),
+        this.detailsNailsRedisUseCases.redisFindAllDetailsNails(detailsOfNails),
         this.prismaRepository.findAppointmentByUser(userId),
       ]);
     const [appointmentsRecord, appointmentErr] = AppointmentData;
