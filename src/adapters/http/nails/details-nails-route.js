@@ -24,7 +24,7 @@ const routes = [
   },
   {
     url: '/detailsnails/:id',
-    method: 'PUT',
+    method: 'PATCH',
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: detailsNailsHandler.updateDetailsNails,
   },
