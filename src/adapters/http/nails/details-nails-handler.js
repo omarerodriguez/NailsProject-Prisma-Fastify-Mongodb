@@ -1,5 +1,6 @@
 const {
   createNewDetailsNailsValidations,
+  updateDetailsNailsValidations
 } = require('../../../utils/functions/input-validations');
 module.exports = class DetailsNailsHandler {
   constructor(detailsNailsUseCases) {
@@ -79,6 +80,12 @@ module.exports = class DetailsNailsHandler {
 
   updateDetailsNails = async (req, res) => {
     try {
+      const errors = updateDetailsNailsValidations(req.body);
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        }); 
       const [updateDetailNails, status, err] =
         await this.usecases.updateDetailsNails(req.params.id, req.body);
       if (err)
