@@ -32,12 +32,24 @@ module.exports = class DetailsNailsUseCases {
     return [newDetailsNails, 200, null];
   };
 
-  updateDetailsNails = async (detailsNailsId, nailsDetailPayload) => {
+  updateDetailsNails = async (detailsNailsId, detailNailsPayload) => {
+    const [currentDetailNails,findErr] = await this.prismaRepository.findDetailsNailsById(detailsNailsId)
+    if(findErr)return[null, 404, 'Details Nails not found'];
+
+    const { id, ...currentDetailWithoutId } = currentDetailNails;
+    const updatedDetailNailsData = {
+      ...currentDetailWithoutId,
+      ...detailNailsPayload,
+    };
+
     const [updateNailsDetail, err] =
       await this.prismaRepository.updateDetailsNails(
         detailsNailsId,
-        nailsDetailPayload,
+        updatedDetailNailsData,
       );
+    const [isDeleted,deleteError] = await this.detailsNailsRedisUseCases.redisDeleteDetailNails();
+    if(deleteError)return[null,400,deleteError];
+
     if (err) return [null, 404, err];
     return [updateNailsDetail, 200, null];
   };
