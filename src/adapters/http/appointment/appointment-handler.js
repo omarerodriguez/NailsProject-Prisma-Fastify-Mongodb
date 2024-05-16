@@ -29,6 +29,7 @@ module.exports = class AppointmentrHandler {
       });
     }
   };
+
   findAppointmentById = async (req, res) => {
     try {
       const [appointmentId, status, err] =
@@ -50,17 +51,18 @@ module.exports = class AppointmentrHandler {
       });
     }
   };
+
   findAppointmentByUser = async (req, res) => {
     try {
-      if(!res.locals?.decodedToken)  return res.status(400).send({
-        message: 'fail',
-        errors: 'TokenBody is required'
-      });
-      const {decodedToken} = res.locals ?? null;
+      if (!res.locals?.decodedToken)
+        return res.status(400).send({
+          message: 'fail',
+          errors: 'TokenBody is required',
+        });
+      const { decodedToken } = res.locals ?? null;
       const userId = decodedToken.userId;
-      const [appointments, status, err] = await this.usecases.findAppointmentByUser(
-        userId
-      );
+      const [appointments, status, err] =
+        await this.usecases.findAppointmentByUser(userId);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -78,6 +80,7 @@ module.exports = class AppointmentrHandler {
       });
     }
   };
+
   createNewAppointment = async (req, res) => {
     try {
       if (!res.locals?.decodedToken)

@@ -24,7 +24,7 @@ const routes = [
   },
   {
     url: '/typesnails/:id',
-    method: 'PUT',
+    method: 'PATCH',
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: typesNailsHandler.updateTypesNails,
   },

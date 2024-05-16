@@ -1,4 +1,3 @@
-const { customPriceRule } = require('./custom-rules');
 
 const createNewUserRules = {
   name: 'string|between:3,15|required',
@@ -16,15 +15,27 @@ const loginUserRules = {
 };
 
 const createNewTypesNailsRules = {
-  name: 'required|string|between:4,25|required',
-  default_price: 'required|customPrice|required',
+  name: 'required|string|between:4,25',
+  default_price: 'required|min:20000|max:500000',
   duration: 'required|integer|max:6',
+};
+
+const updateTypesNailsRules = {
+  name: 'string|between:4,25',
+  default_price: 'integer|min:20000|max:500000',
+  duration: 'integer|max:6',
 };
 
 const createNewDetailsNailsRules = {
   name: 'required|string|between:4,25',
-  price: 'required|customPrice|required',
+  price: 'required|integer|min:20000|max:500000',
   duration: 'required|integer|max:6',
+};
+
+const updateDetailsNailsRules = {
+  name: 'string|between:4,25',
+  price: 'integer|min:20000|max:500000',
+  duration: 'integer|max:6',
 };
 
 const getSchedulerByDateRules = {
@@ -55,9 +66,11 @@ module.exports = {
   createNewUserRules,
   loginUserRules,
   createNewTypesNailsRules,
+  updateTypesNailsRules,
   createNewDetailsNailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,
   updateAppointmentRules,
+  updateDetailsNailsRules
 };

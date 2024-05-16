@@ -1,39 +1,49 @@
 const { getFormatDate } = require('../../utils/functions/date');
 
 module.exports = class TypesNailsUseCases {
-  constructor(prismaRepository, detailsNailsPrismaRepository, builder) {
+  constructor(
+    prismaRepository,
+    detailsNailsRedisUseCases,
+    typesNailsRedisUseCases,
+    builder,
+  ) {
     this.prismaRepository = prismaRepository;
-    this.detailsNailsPrismaRepository = detailsNailsPrismaRepository;
+    this.detailsNailsRedisUseCases = detailsNailsRedisUseCases;
+    this.typesNailsRedisUseCases = typesNailsRedisUseCases;
     this.builder = builder;
   }
 
   findTypesNailsById = async (typesNailsId) => {
-    const [findTpNails, err] = await this.prismaRepository.findTypesNailsById(
-      typesNailsId,
+    const [findTypeNailsData, detailsNailsData] = await Promise.all([
+      this.typesNailsRedisUseCases.redisFindAllTypesNailsById(typesNailsId),
+      this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
+    ]);
+    const [typesNailsById, typesNailsErr] = findTypeNailsData;
+    const [detailsNails, detailsNailsErr] = detailsNailsData;
+    if (typesNailsErr) return [null, 404, typesNailsErr];
+    if (detailsNailsErr) return [null, 404, detailsNailsErr];
+
+    const buildedTypesNails = this.builder.buildRecordTypesNails(
+      typesNailsById,
+      detailsNails,
     );
-    if (err) return [null, 404, err];
-
-    const[detailsNails,detailsNailsErr] = await this.detailsNailsPrismaRepository.findAllDetailsNails();
-    if(detailsNailsErr)return[null,404,detailsNailsErr];
-
-    const buildedTypesNails = this.builder.buildRecordTypesNails(findTpNails,detailsNails);
     return [buildedTypesNails, 200, null];
   };
 
   findAllTypesNails = async () => {
-    const [typesNailsData,detailsNailsData] = await Promise.all([
-      this.prismaRepository.findAllTypesNails(),
-      this.detailsNailsPrismaRepository.findAllDetailsNails(),
+    const [typesNailsData, detailsNailsData] = await Promise.all([
+      this.typesNailsRedisUseCases.redisFindAllTypesNails(),
+      this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
     ]);
-    const[typesNails,typesNailsErr] = typesNailsData;
-    const[detailNails,detailNailsErr] = detailsNailsData;
-    if(typesNailsErr)return [null,404,typesNailsErr];
-    if(detailNailsErr)return[null,404,detailNailsErr];
-    
-    const buildedTypesNail = typesNails.map((typesNail)=>{
-      return this.builder.buildRecordTypesNails(typesNail,detailNails)
+    const [typesNails, typesNailsErr] = typesNailsData;
+    const [detailNails, detailNailsErr] = detailsNailsData;
+    if (typesNailsErr) return [null, 404, typesNailsErr];
+    if (detailNailsErr) return [null, 404, detailNailsErr];
+
+    const buildedTypesNail = typesNails.map((typesNail) => {
+      return this.builder.buildRecordTypesNails(typesNail, detailNails);
     });
-    return [buildedTypesNail,200,null];
+    return [buildedTypesNail, 200, null];
   };
 
   createNewTypesNails = async (typesNailsPayload) => {
@@ -43,14 +53,31 @@ module.exports = class TypesNailsUseCases {
     const [newTpNails, nailsError] =
       await this.prismaRepository.createNewTypesNails(newTypeNailsBody);
     if (nailsError) return [null, 500, nailsError];
+    const [isDeleted, deleteError] =
+      await this.typesNailsRedisUseCases.redisDeleteTypesNails();
+    if (deleteError) return [null, 400, deleteError];
     return [newTpNails, 200, null];
   };
 
   updateTypesNails = async (typesNailsId, typesNailsPayload) => {
+    const [currentTypeNails, findErr] =
+      await this.prismaRepository.findTypesNailsById(typesNailsId);
+    if (findErr) return [null, 404, 'TypesNails not found'];
+
+    const { id, ...currentTypeWithoutId } = currentTypeNails;
+    const updatedTypeNailsData = {
+      ...currentTypeWithoutId,
+      ...typesNailsPayload,
+    };
+
     const [typesNails, err] = await this.prismaRepository.updateTypesNails(
       typesNailsId,
-      typesNailsPayload,
+      updatedTypeNailsData,
     );
+    const [isDeleted, deleteError] =
+      await this.typesNailsRedisUseCases.redisDeleteTypesNails();
+    if (deleteError) return [null, 400, deleteError];
+
     if (err) return [null, 400, err];
     return [typesNails, 200, null];
   };

@@ -1,5 +1,6 @@
 const {
   createNewTypesNailsValidations,
+  updateTypesNailsValidations
 } = require('../../../utils/functions/input-validations');
 
 module.exports = class TypesNailsHandler {
@@ -81,7 +82,7 @@ module.exports = class TypesNailsHandler {
 
   updateTypesNails = async (req, res) => {
     try {
-      const errors = createNewTypesNailsValidations(req.body);
+      const errors = updateTypesNailsValidations(req.body);
       if (errors)
         return res.status(400).send({
           message: 'fail',

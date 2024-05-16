@@ -71,14 +71,15 @@ describe('test in appointmet handler', () => {
       reserved_at: '7/1/2024 14:00:00',
     };
     mockRes.locals = {
-      decodedToken:{
-        "userId": "659936dc6a1d92adb561073e",
-        "role": "ADMIN",
-        "iat": 1711401689,
-        "exp": 1711402589
-      }
-    }
+      decodedToken: {
+        userId: '659936dc6a1d92adb561073e',
+        role: 'ADMIN',
+        iat: 1711401689,
+        exp: 1711402589,
+      },
+    };
   });
+
   test('input validation error, bad format reserved_at', async () => {
     request.body.reserved_at = '71202140000';
     await appointmentHandler.createNewAppointment(request, mockRes);
@@ -87,7 +88,7 @@ describe('test in appointmet handler', () => {
       message: 'fail',
       errors: {
         reserved_at: [
-          'El campo debe ser en formato fecha y hora "dd/mm/aa hh:mm:ss"',
+          'El campo debe ser en formato fecha y hora "mm/dd/aa hh:mm:ss"',
         ],
       },
     });
@@ -104,6 +105,7 @@ describe('test in appointmet handler', () => {
       },
     });
   });
+
   test('input validation error, nails types empty', async () => {
     request.body.types_of_nails_id = '';
     await appointmentHandler.createNewAppointment(request, mockRes);
@@ -112,6 +114,21 @@ describe('test in appointmet handler', () => {
       message: 'fail',
       errors: {
         types_of_nails_id: ['El campo es obligatorio.'],
+      },
+    });
+  });
+
+
+  test('input validation error, status is different to enum Status', async () => {
+    request.body.status = 'DONE';
+    await appointmentHandler.updateAppointment(request, mockRes);
+    expect(mockRes.status).toHaveBeenCalledWith(400);
+    expect(mockRes.send).toHaveBeenCalledWith({
+      message: 'fail',
+      errors: {
+        status: [
+          'el estado debe ser: RESERVADO, CONFIRMADO, CANCELADO, ELIMINADO',
+        ],
       },
     });
   });

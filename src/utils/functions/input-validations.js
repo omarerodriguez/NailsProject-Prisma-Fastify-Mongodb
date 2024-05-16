@@ -4,19 +4,23 @@ const {
   createNewUserRules,
   loginUserRules,
   createNewTypesNailsRules,
+  updateTypesNailsRules,
   createNewDetailsNailsRules,
   getSchedulerByDateRules,
   getUserByIdRules,
   createNewAppointmentRules,
   updateAppointmentRules,
+  updateDetailsNailsRules
 } = require('../const/input-rules');
 
 const {
   customMessagesCreateUser,
-  customMessagesCreateNailsTypes,
+  customMessagesCreateTypesNails,
+  customMessagesUpdateTypesNails,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
   customMessagesCreateUpdateAppointment,
+  customMessagesUpdateDetailsNails
 } = require('./../const/custom-messages');
 
 const createNewuUserValidations = (newUserPayload) => {
@@ -56,7 +60,18 @@ const createNewTypesNailsValidations = (newNailsTypesPayload) => {
   const validation = new Validator(
     newNailsTypesPayload,
     createNewTypesNailsRules,
-    customMessagesCreateNailsTypes,
+    customMessagesCreateTypesNails,
+  );
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
+
+const updateTypesNailsValidations = (updateNailsTypesPayload) => {
+  const validation = new Validator(
+    updateNailsTypesPayload,
+    updateTypesNailsRules,
+    customMessagesUpdateTypesNails,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
@@ -68,6 +83,17 @@ const createNewDetailsNailsValidations = (newDetailsNailsPayload) => {
     newDetailsNailsPayload,
     createNewDetailsNailsRules,
     customMessagesCreateDetailsNails,
+  );
+  const errors = validation.errors.all();
+  if (validation.fails()) return errors;
+  return null;
+};
+
+const updateDetailsNailsValidations = (updateDetailsNailsPayload) => {
+  const validation = new Validator(
+    updateDetailsNailsPayload,
+    updateDetailsNailsRules,
+    customMessagesUpdateDetailsNails,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
@@ -120,4 +146,6 @@ module.exports = {
   getUserByIdValidations,
   createNewAppointmentValidations,
   updateAppointmentValidations,
+  updateTypesNailsValidations,
+  updateDetailsNailsValidations
 };

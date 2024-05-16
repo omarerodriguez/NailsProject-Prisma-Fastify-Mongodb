@@ -16,14 +16,25 @@ const customMessagesCreateUser = {
   'email.email': 'El campo no es una dirección de correo electrónico válida.',
 };
 
-const customMessagesCreateNailsTypes = {
+const customMessagesCreateTypesNails = {
   'required.name': 'El campo es obligatorio.',
   'string.name': 'El campo deben ser letras.',
   'between.name': 'El campo tener mínimo 4 y máximo 25 caracteres',
   'required.default_price': 'El campo es obligatorio',
   'customPrice.default_price':
-    'El campo debe tener un monto mínimo de $5.000,00 y máximo de $1.000.000,00M (COP)',
+    'El campo debe tener un monto mínimo de $20000 y máximo de $500000 (COP)',
   'required.duration': 'El campo es obligatorio',
+  'integer.duration': 'El campo debe ser un numero entero',
+  'max.duration': 'La duracion debe ser entre 1-6',
+};
+
+const customMessagesUpdateTypesNails = {
+  'string.name': 'El campo deben ser letras.',
+  'between.name': 'El campo tener mínimo 4 y máximo 25 caracteres',
+  'min.default_price':
+  'El campo debe tener un monto mínimo de $20000 y máximo de $500000 (COP)',
+  'max.default_price':
+  'El campo debe tener un monto mínimo de $20000 y máximo de $500000 (COP)',
   'integer.duration': 'El campo debe ser un numero entero',
   'max.duration': 'La duracion debe ser entre 1-6',
 };
@@ -33,9 +44,22 @@ const customMessagesCreateDetailsNails = {
   'string.name': 'El campo deben ser letras',
   'between.name': 'El campo tener mínimo 3 y  máximo 25 caracteres',
   'required.price': 'El campo es obligatorio',
-  'customPrice.price':
-    'El campo debe tener un monto mínimo de $5.000,00 y máximo de $1.000.000,00M (COP)',
+  'min.price':
+  'El campo debe tener un monto mínimo de $2000 y máximo de $500000 (COP)',
+  'max.price':
+  'El campo debe tener un monto mínimo de $2000 y máximo de $500000 (COP)',
   'required.duration': 'El campo es obligatorio',
+  'integer.duration': 'El campo debe ser un numero entero',
+  'max.duration': 'La duracion debe ser entre 1-6',
+};
+
+const customMessagesUpdateDetailsNails = {
+  'string.name': 'El campo deben ser letras',
+  'between.name': 'El campo tener mínimo 3 y  máximo 25 caracteres',
+  'min.price':
+  'El campo debe tener un monto mínimo de $2000 y máximo de $500000 (COP)',
+  'max.price':
+  'El campo debe tener un monto mínimo de $2000 y máximo de $500000 (COP)',
   'integer.duration': 'El campo debe ser un numero entero',
   'max.duration': 'La duracion debe ser entre 1-6',
 };
@@ -51,6 +75,8 @@ const customMessagesCreateUpdateAppointment = {
   'required.user_id': 'El campo es obligatorio.',
   'string.user_id': 'El campo deben ser letras',
   'size.user_id': 'El campo debe ser de máximo de 24 caracteres',
+  'in.status':
+    'el estado debe ser: RESERVADO, CONFIRMADO, CANCELADO, ELIMINADO',
   'required.types_of_nails_id': 'El campo es obligatorio.',
   'string.types_of_nails_id': 'El campo deben ser letras',
   'size.types_of_nails_id': 'El campo debe ser de máximo de 24 caracteres',
@@ -67,8 +93,10 @@ const customMessagesCreateUpdateAppointment = {
 
 module.exports = {
   customMessagesCreateUser,
-  customMessagesCreateNailsTypes,
+  customMessagesCreateTypesNails,
+  customMessagesUpdateTypesNails,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
   customMessagesCreateUpdateAppointment,
+  customMessagesUpdateDetailsNails,
 };

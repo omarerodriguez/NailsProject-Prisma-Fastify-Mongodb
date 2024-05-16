@@ -30,7 +30,7 @@ const routes = [
   },
   {
     url: '/scheduler/:id',
-    method: 'PUT',
+    method: 'PATCH',
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: schedulerHandler.updateScheduler,
   },
