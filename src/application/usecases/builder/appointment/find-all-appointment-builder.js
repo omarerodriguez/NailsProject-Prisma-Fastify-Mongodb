@@ -14,6 +14,7 @@ class FindAllAppointmentBuilder {
     this.setStatus();
     this.setStatusDate();
     this.setStatusLog();
+    this.setTotalPrice();
     this.setDuration();
     this.setReservedAt();
     this.setDeleteAt();
@@ -46,6 +47,8 @@ class FindAllAppointmentBuilder {
     (this.appointment.status_date = this.recordAppointment.status_date);
   setStatusLog = () =>
     (this.appointment.status_logs = this.recordAppointment.status_logs);
+  setTotalPrice = () =>
+    (this.appointment.total_price = this.recordAppointment.total_price);
   setDuration = () =>
     (this.appointment.duration = this.recordAppointment.duration);
   setReservedAt = () =>
@@ -63,4 +66,4 @@ const buildRecordAppointment = (recordAppointment, allDetailsNails) => {
   );
   return recordAppointmentBuilder.build();
 };
-module.exports = { buildRecordAppointment,FindAllAppointmentBuilder };
+module.exports = { buildRecordAppointment, FindAllAppointmentBuilder };
