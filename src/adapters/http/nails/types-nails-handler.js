@@ -10,7 +10,8 @@ module.exports = class TypesNailsHandler {
 
   findAllTypesNails = async (req, res) => {
     try {
-      const [typesNails, status, err] = await this.usecases.findAllTypesNails();
+      const { decodedToken } = res.locals ?? null;
+      const [typesNails, status, err] = await this.usecases.findAllTypesNails(decodedToken.role);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -31,8 +32,10 @@ module.exports = class TypesNailsHandler {
 
   findTypesNailsById = async (req, res) => {
     try {
+      const { decodedToken } = res.locals ?? null;
       const [typeNails, status, err] = await this.usecases.findTypesNailsById(
         req.params.id,
+        decodedToken.role
       );
       if (err)
         return res.status(status).send({
