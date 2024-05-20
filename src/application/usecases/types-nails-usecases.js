@@ -13,7 +13,7 @@ module.exports = class TypesNailsUseCases {
     this.builder = builder;
   }
 
-  findTypesNailsById = async (typesNailsId) => {
+  findTypesNailsById = async (typesNailsId,role) => {
     const [findTypeNailsData, detailsNailsData] = await Promise.all([
       this.typesNailsRedisUseCases.redisFindAllTypesNailsById(typesNailsId),
       this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
@@ -23,6 +23,8 @@ module.exports = class TypesNailsUseCases {
     if (typesNailsErr) return [null, 404, typesNailsErr];
     if (detailsNailsErr) return [null, 404, detailsNailsErr];
 
+    if(role !='ADMIN' && typesNailsById.deleted_at)return [null,404,'el tipo de uñas esta desactivado']
+
     const buildedTypesNails = this.builder.buildRecordTypesNails(
       typesNailsById,
       detailsNails,
@@ -30,7 +32,7 @@ module.exports = class TypesNailsUseCases {
     return [buildedTypesNails, 200, null];
   };
 
-  findAllTypesNails = async () => {
+  findAllTypesNails = async (role) => {
     const [typesNailsData, detailsNailsData] = await Promise.all([
       this.typesNailsRedisUseCases.redisFindAllTypesNails(),
       this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
@@ -40,7 +42,9 @@ module.exports = class TypesNailsUseCases {
     if (typesNailsErr) return [null, 404, typesNailsErr];
     if (detailNailsErr) return [null, 404, detailNailsErr];
 
-    const buildedTypesNail = typesNails.map((typesNail) => {
+    const filterTypesNails = (role === "USER") ? typesNails.filter((typesNails)=>!typesNails.deleted_at) :  typesNails;
+    if(filterTypesNails.length === 0)return [[],200,null];
+    const buildedTypesNail = filterTypesNails.map((typesNail) => {
       return this.builder.buildRecordTypesNails(typesNail, detailNails);
     });
     return [buildedTypesNail, 200, null];
