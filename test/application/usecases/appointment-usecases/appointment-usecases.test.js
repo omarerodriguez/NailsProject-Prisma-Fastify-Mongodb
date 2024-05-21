@@ -1,16 +1,16 @@
 /** Repositories */
-const UserPrismaRepository = require('../../../src/adapters/repositories/user-prisma-repository');
-const TypesNailsPrismaRepository = require('../../../src/adapters/repositories/types-nails-prisma-repository');
-const DetailsNailsPrismaRepository = require('../../../src/adapters/repositories/details-nails-prisma-repository');
-const AppointmentPrismaRepository = require('../../../src/adapters/repositories/appointment-prisma-repository');
-const SchedulerPrismaRepository = require('../../../src/adapters/repositories/scheduler-prisma-repository');
+const UserPrismaRepository = require('../../../../src/adapters/repositories/user-prisma-repository');
+const TypesNailsPrismaRepository = require('../../../../src/adapters/repositories/types-nails-prisma-repository');
+const DetailsNailsPrismaRepository = require('../../../../src/adapters/repositories/details-nails-prisma-repository');
+const AppointmentPrismaRepository = require('../../../../src/adapters/repositories/appointment-prisma-repository');
+const SchedulerPrismaRepository = require('../../../../src/adapters/repositories/scheduler-prisma-repository');
 
 /** Usecases */
-const AppointmentUseCases = require('../../../src/application/usecases/appointment-usecases');
-const SchedulerUseCases = require('../../../src/application/usecases/scheduler-usecases');
+const AppointmentUseCases = require('../../../../src/application/usecases/appointment-usecases');
+const SchedulerUseCases = require('../../../../src/application/usecases/scheduler-usecases');
 
 //Builder
-const builder = require('../../../src/application/usecases/builder/appointment/index');
+const builder = require('../../../../src/application/usecases/builder/appointment/index');
 
 /** MOCKS */
 /** Appointments*/

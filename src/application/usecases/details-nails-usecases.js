@@ -5,18 +5,21 @@ module.exports = class DetailsNailsUseCases {
     this.detailsNailsRedisUseCases = detailsNailsRedisUseCases
   }
 
-  findAllDetailsNails = async () => {
-    const [detailsNails, err] =
+  findAllDetailsNails = async (role) => {
+    const [allDetailsNails, err] =
       await this.detailsNailsRedisUseCases.redisFindAllDetailsNails();
     if (err) return [null, 404, err];
-    return [detailsNails, 200, null];
+    const filterDetailsNails = (role === "USER") ? allDetailsNails.filter((detailsNails)=>!detailsNails.deleted_at) :  allDetailsNails;
+    if(filterDetailsNails.length === 0)return [[],200,null];
+    return [filterDetailsNails, 200, null];
   };
 
-  findDetailsNailsById = async (detailsNailsId) => {
+  findDetailsNailsById = async (detailsNailsId,role) => {
     const [detailNail, err] = await this.detailsNailsRedisUseCases.redisFindAllDetailsNailsById(
       detailsNailsId,
     );
     if (err) return [null, 404, err];
+    if(role !='ADMIN' && detailNail.deleted_at)return [null,404,'el detalle o servicio de uñas esta desactivado']
     return [detailNail, 200, null];
   };
 

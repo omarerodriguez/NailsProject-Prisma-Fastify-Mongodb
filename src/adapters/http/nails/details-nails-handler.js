@@ -1,6 +1,6 @@
 const {
   createNewDetailsNailsValidations,
-  updateDetailsNailsValidations
+  updateDetailsNailsValidations,
 } = require('../../../utils/functions/input-validations');
 module.exports = class DetailsNailsHandler {
   constructor(detailsNailsUseCases) {
@@ -9,8 +9,9 @@ module.exports = class DetailsNailsHandler {
 
   findAllDetailsNails = async (req, res) => {
     try {
+      const { decodedToken } = res.locals ?? null;
       const [detailsNails, status, err] =
-        await this.usecases.findAllDetailsNails();
+        await this.usecases.findAllDetailsNails(decodedToken.role);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -31,8 +32,12 @@ module.exports = class DetailsNailsHandler {
 
   findDetailsNailsById = async (req, res) => {
     try {
+      const { decodedToken } = res.locals ?? null;
       const [detailNails, status, err] =
-        await this.usecases.findDetailsNailsById(req.params.id);
+        await this.usecases.findDetailsNailsById(
+          req.params.id,
+          decodedToken.role,
+        );
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -85,7 +90,7 @@ module.exports = class DetailsNailsHandler {
         return res.status(400).send({
           message: 'fail',
           errors,
-        }); 
+        });
       const [updateDetailNails, status, err] =
         await this.usecases.updateDetailsNails(req.params.id, req.body);
       if (err)
