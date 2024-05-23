@@ -1,4 +1,3 @@
-
 const createNewUserRules = {
   name: 'string|between:3,15|required',
   last_name: 'string|between:3,15',
@@ -7,6 +6,18 @@ const createNewUserRules = {
   district: 'string|max:40',
   gender: 'string|min:5|max:9',
   email: 'required|email',
+};
+
+const updateUserRules = {
+  name: 'string|between:3,15',
+  last_name: 'string|between:3,15',
+  age: 'integer',
+  phone_number: 'string|size:10',
+  district: 'string|max:40',
+  gender: 'string|min:5|max:9',
+  email: 'email',
+  user_img: 'string|max:255',
+  id: 'string|hex|size:24|required',
 };
 
 const loginUserRules = {
@@ -72,5 +83,6 @@ module.exports = {
   getUserByIdRules,
   createNewAppointmentRules,
   updateAppointmentRules,
-  updateDetailsNailsRules
+  updateDetailsNailsRules,
+  updateUserRules,
 };
