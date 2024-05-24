@@ -16,6 +16,7 @@ model User {
   last_name   String?
   age       Int?
   phone_number    String  @unique
+  user_img String?
   district     String?
   gender       String?
   email     String  @unique

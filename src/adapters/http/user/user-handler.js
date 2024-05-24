@@ -2,6 +2,7 @@ const {
   createNewuUserValidations,
   loginUserValidations,
   getUserByIdValidations,
+  updateUserValidations,
 } = require('../../../utils/functions/input-validations');
 
 module.exports = class Userhandler {
@@ -114,7 +115,9 @@ module.exports = class Userhandler {
           errors,
         });
 
-      const [user, token, status, err] = await this.usecases.createNewUser(req.body);
+      const [user, token, status, err] = await this.usecases.createNewUser(
+        req.body,
+      );
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -169,13 +172,8 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
-      const userIdErrors = getUserByIdValidations(req.params); //
-      if (userIdErrors)
-        return res.status(400).send({
-          message: 'fail',
-          errors,
-        });
-      const errors = createNewuUserValidations(req.body);
+      req.body.id = req.params?.id;
+      const errors = updateUserValidations(req.body);
       if (errors)
         return res.status(400).send({
           message: 'fail',

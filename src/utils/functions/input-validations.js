@@ -10,28 +10,46 @@ const {
   getUserByIdRules,
   createNewAppointmentRules,
   updateAppointmentRules,
-  updateDetailsNailsRules
+  updateDetailsNailsRules,
+  updateUserRules,
 } = require('../const/input-rules');
 
 const {
-  customMessagesCreateUser,
+  customMessagesUser,
   customMessagesCreateTypesNails,
   customMessagesUpdateTypesNails,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
-  customMessagesCreateUpdateAppointment,
-  customMessagesUpdateDetailsNails
+  customMessagesAppointment,
+  customMessagesUpdateDetailsNails,
 } = require('./../const/custom-messages');
 
 const createNewuUserValidations = (newUserPayload) => {
   const validation = new Validator(
     newUserPayload,
     createNewUserRules,
-    customMessagesCreateUser,
+    customMessagesUser,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
   return null;
+};
+
+const updateUserValidations = (updateUserPayload) => {
+  const validation = new Validator(
+    updateUserPayload,
+    updateUserRules,
+    customMessagesUser,
+  );
+  const errors = validation.errors.all();
+  if (!validation.fails()) {
+    const cloudinaryUrlPattern =
+      /^https?:\/\/(?:res|cloudinary)\.cloudinary\.com\/.*$/;
+    if (!cloudinaryUrlPattern.test(updateUserPayload.user_img)) {
+      errors.user_img = ['el URL debe proveenir de cloudinary.'];
+    }
+  }
+  if (Object.keys(errors).length) return errors;
 };
 
 const loginUserValidations = (userPayload) => {
@@ -118,7 +136,7 @@ const createNewAppointmentValidations = (appointmentPayload) => {
   const validation = new Validator(
     appointmentPayload,
     createNewAppointmentRules,
-    customMessagesCreateUpdateAppointment,
+    customMessagesAppointment,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
@@ -129,7 +147,7 @@ const updateAppointmentValidations = (appointmentPayload) => {
   const validation = new Validator(
     appointmentPayload,
     updateAppointmentRules,
-    customMessagesCreateUpdateAppointment,
+    customMessagesAppointment,
   );
   const errors = validation.errors.all();
   if (validation.fails()) return errors;
@@ -147,5 +165,6 @@ module.exports = {
   createNewAppointmentValidations,
   updateAppointmentValidations,
   updateTypesNailsValidations,
-  updateDetailsNailsValidations
+  updateDetailsNailsValidations,
+  updateUserValidations,
 };
