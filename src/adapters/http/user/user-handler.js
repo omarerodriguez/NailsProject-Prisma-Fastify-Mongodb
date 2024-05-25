@@ -172,13 +172,6 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
-      req.body.id = req.params?.id;
-      const errors = updateUserValidations(req.body);
-      if (errors)
-        return res.status(400).send({
-          message: 'fail',
-          errors,
-        });
       const [updatedUser, status, err] = await this.usecases.updateUser(
         req.params.id,
         req.body,
