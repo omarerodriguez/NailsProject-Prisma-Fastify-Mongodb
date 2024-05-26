@@ -26,7 +26,7 @@ module.exports = class TokenUsesCases {
     try {
       if (!token) return [null, 401, 'Token not provided'];
 
-      const decodedToken = this.jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const decodedToken = this.decodedToken(token);
 
       const isAuthorized = verifyScopesByRole(decodedToken.role, roles);
       if (!isAuthorized) return [null, 403, 'Unauthorized'];
@@ -40,4 +40,18 @@ module.exports = class TokenUsesCases {
     }
     return [null, 403, 'Invalid token.'];
   };
+
+  refreshToken = async (token) => {
+    try {
+      const decodedToken = this.decodedToken(token, true);
+      return this.generateToken(decodedToken.userId, decodedToken.role);
+    } catch (error) {
+      return [null, error.message];
+    }
+  };
+
+  decodedToken = (token, ignoreCheck = false) =>
+    this.jwt.verify(token, process.env.JWT_SECRET_KEY, {
+      ignoreExpiration: ignoreCheck,
+    });
 };

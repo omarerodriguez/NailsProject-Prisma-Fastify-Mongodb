@@ -226,4 +226,21 @@ module.exports = class Userhandler {
       });
     }
   };
+
+  refreshToken = async (req, res) => {
+    try {
+      const { token } = req.body;
+      const [newToken, error] = await this.usecases.refreshToken(token);
+      if (error) {
+        return res.status(400).send({ error });
+      }
+      return res.send({token: newToken})
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        message: 'There was an internal server error',
+        errors: error,
+      });
+    }
+  };
 };

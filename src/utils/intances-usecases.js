@@ -1,6 +1,6 @@
 // imports -clients
 const prisma = require('../infraestructura/prisma/prismaConfig');
-const {renderRedis} = require('../infraestructura/redis/redisConfig.js');
+const { renderRedis } = require('../infraestructura/redis/redisConfig.js');
 const jwt = require('jsonwebtoken');
 
 // Repositories
@@ -19,7 +19,7 @@ const DetailsNailsUseCases = require('../application/usecases/details-nails-usec
 const SchedulerUseCases = require('../application/usecases/scheduler-usecases');
 const AppointmentUseCases = require('../application/usecases/appointment-usecases');
 const DetailsNailsRedisUseCases = require('../application/usecases/redis/details-nails-redis-usecases.js');
-const TypesNailsRedisUseCases  = require('../application/usecases/redis/types-nails-redis-usecases');
+const TypesNailsRedisUseCases = require('../application/usecases/redis/types-nails-redis-usecases');
 
 // Handlers
 const Userhandler = require('../adapters/http/user/user-handler');
@@ -36,14 +36,26 @@ const TokenMiddleWare = require('../adapters/http/middleware/authentication');
 
 // Intance- repository
 const userPrismaRepository = new UserPrismaRepository(prisma);
-const typesNailsPrismaRepository = new TypesNailsPrismaRepository(prisma,renderRedis);
-const detailsNailsPrismaRepository = new DetailsNailsPrismaRepository(prisma,renderRedis);
+const typesNailsPrismaRepository = new TypesNailsPrismaRepository(
+  prisma,
+  renderRedis,
+);
+const detailsNailsPrismaRepository = new DetailsNailsPrismaRepository(
+  prisma,
+  renderRedis,
+);
 const schedulerPrismaRepository = new SchedulerPrismaRepository(prisma);
 const appointmentPrismaRepository = new AppointmentPrismaRepository(prisma);
 
 // Intance- usecases
-const detailsNailsRedisUseCases = new DetailsNailsRedisUseCases(renderRedis,prisma)
-const typesNailsRedisUseCases = new TypesNailsRedisUseCases(renderRedis,prisma)
+const detailsNailsRedisUseCases = new DetailsNailsRedisUseCases(
+  renderRedis,
+  prisma,
+);
+const typesNailsRedisUseCases = new TypesNailsRedisUseCases(
+  renderRedis,
+  prisma,
+);
 
 const typesNailsUseCases = new TypesNailsUseCases(
   typesNailsPrismaRepository,
@@ -53,7 +65,7 @@ const typesNailsUseCases = new TypesNailsUseCases(
 );
 const detailsNailsUseCases = new DetailsNailsUseCases(
   detailsNailsPrismaRepository,
-  detailsNailsRedisUseCases
+  detailsNailsRedisUseCases,
 );
 const schedulerUseCases = new SchedulerUseCases(schedulerPrismaRepository);
 const appointmentUseCases = new AppointmentUseCases(
