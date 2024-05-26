@@ -53,5 +53,5 @@ module.exports = class TokenUsesCases {
   decodedToken = (token, ignoreCheck = false) =>
     this.jwt.verify(token, process.env.JWT_SECRET_KEY, {
       ignoreExpiration: ignoreCheck,
-    });
+    }); 
 };
