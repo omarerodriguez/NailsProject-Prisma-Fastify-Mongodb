@@ -73,7 +73,8 @@ module.exports = class UserUseCases {
     return [token, user, 200, null];
   };
 
-  updateUser = async (userId, userPayload) => {
+  updateUser = async (decodedToken, userPayload) => {
+    const userId = decodedToken;
     const [user, err] = await this.prismaRepository.updateUser(
       userId,
       userPayload,
