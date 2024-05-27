@@ -1,7 +1,7 @@
 /**Repositories */
-const UserPrismaRepository = require('../../../src/adapters/repositories/user-prisma-repository');
+const UserPrismaRepository = require('../../../../src/adapters/repositories/user-prisma-repository');
 /**UseCases */
-const UserUseCases = require('../../../src/application/usecases/user-usecases');
+const UserUseCases = require('../../../../src/application/usecases/user-usecases');
 
 /**MOCKS */
 /**USER */
@@ -12,7 +12,7 @@ const mockDeleteUser = jest.fn();
 const mockFindUserByEmail = jest.fn();
 const mockFindUserByPhone = jest.fn();
 
-jest.mock('../../../src/adapters/repositories/user-prisma-repository', () =>
+jest.mock('../../../../src/adapters/repositories/user-prisma-repository', () =>
   jest.fn().mockImplementation(() => ({
     findAllUser: mockFindAllUser,
     findUserById: mockFindUserById,
