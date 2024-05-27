@@ -36,14 +36,8 @@ const TokenMiddleWare = require('../adapters/http/middleware/authentication');
 
 // Intance- repository
 const userPrismaRepository = new UserPrismaRepository(prisma);
-const typesNailsPrismaRepository = new TypesNailsPrismaRepository(
-  prisma,
-  renderRedis,
-);
-const detailsNailsPrismaRepository = new DetailsNailsPrismaRepository(
-  prisma,
-  renderRedis,
-);
+const typesNailsPrismaRepository = new TypesNailsPrismaRepository(prisma);
+const detailsNailsPrismaRepository = new DetailsNailsPrismaRepository(prisma);
 const schedulerPrismaRepository = new SchedulerPrismaRepository(prisma);
 const appointmentPrismaRepository = new AppointmentPrismaRepository(prisma);
 
