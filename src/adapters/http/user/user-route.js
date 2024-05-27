@@ -38,6 +38,12 @@ const routes = [
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.deleteUser,
   },
+  {
+    url: '/refresh-token',
+    method: 'POST',
+    preHandler: [tokenMiddleWare.verifyUserToken], 
+    handler: userHandler.refreshToken,
+  },
 ];
 
 module.exports = routes;

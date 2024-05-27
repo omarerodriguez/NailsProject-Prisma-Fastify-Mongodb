@@ -87,4 +87,8 @@ module.exports = class UserUseCases {
     if (err) return [null, 400, err];
     return [deleteUser, 202, null];
   };
+
+  refreshToken = async (token) => {
+    return this.tokenUsescases.refreshToken(token);
+  };
 };

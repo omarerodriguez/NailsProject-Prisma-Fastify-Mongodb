@@ -1,4 +1,4 @@
-const customMessagesCreateUser = {
+const customMessagesUser = {
   'required.name': 'El campo es obligatorio.',
   'string.name': 'El deben ser letras',
   'between.name': 'El campo debe tener mínimo 3 y máximo 15 caracteres',
@@ -71,7 +71,7 @@ const customMessagesLoginUser = {
   'email.email': 'El campo no es una dirección de correo electrónico válida.',
 };
 
-const customMessagesCreateUpdateAppointment = {
+const customMessagesAppointment = {
   'required.user_id': 'El campo es obligatorio.',
   'string.user_id': 'El campo deben ser letras',
   'size.user_id': 'El campo debe ser de máximo de 24 caracteres',
@@ -92,11 +92,11 @@ const customMessagesCreateUpdateAppointment = {
 };
 
 module.exports = {
-  customMessagesCreateUser,
+  customMessagesUser,
   customMessagesCreateTypesNails,
   customMessagesUpdateTypesNails,
   customMessagesCreateDetailsNails,
   customMessagesLoginUser,
-  customMessagesCreateUpdateAppointment,
+  customMessagesAppointment,
   customMessagesUpdateDetailsNails,
 };
