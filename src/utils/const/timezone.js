@@ -9,4 +9,4 @@ const opcionesFormato = {
   timeZone: 'America/Bogota'
 };
 
-module.export = { opcionesFormato };
+module.exports = { opcionesFormato };
