@@ -38,18 +38,23 @@ describe('test in user handler', () => {
     ]);
     request.body = {};
     request.params = {};
+    mockRes.locals = {
+      decodedToken: {
+        userId: '65bf883876e16c781ec9646b',
+        role: 'ADMIN',
+        iat: 1716246144,
+        exp: 1721430144,
+      },
+    };
   });
 
-  test('error if user image is invalid', async () => {
-    request.body.user_img = 'fakeurl/jkbqbsjbjad';
-    request.params.id = '6647708a7622abfb27ba078c';
-    await userhandler.updateUser(request, mockRes);
+  test('should return 400 if no decodedToken is present', async () => {
+    mockRes.locals.decodedToken = null;
+    await userhandler.updateUser(request,mockRes);
     expect(mockRes.status).toHaveBeenCalledWith(400);
-    expect(mockRes.send).toHaveBeenCalledWith({
+    expect(mockRes.send).toHaveBeenLastCalledWith({
       message: 'fail',
-      errors: {
-        user_img: ['el URL debe proveenir de cloudinary.'],
-      },
+      errors: 'TokenBody is required',
     });
   });
 });
