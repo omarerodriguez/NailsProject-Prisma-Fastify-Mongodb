@@ -60,6 +60,7 @@ const typesNailsUseCases = new TypesNailsUseCases(
 const detailsNailsUseCases = new DetailsNailsUseCases(
   detailsNailsPrismaRepository,
   detailsNailsRedisUseCases,
+  typesNailsRedisUseCases
 );
 const schedulerUseCases = new SchedulerUseCases(schedulerPrismaRepository);
 const appointmentUseCases = new AppointmentUseCases(
