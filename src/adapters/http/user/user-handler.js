@@ -172,8 +172,15 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
+      if (!res.locals?.decodedToken)
+        return res.status(400).send({
+          message: 'fail',
+          errors: 'TokenBody is required',
+        });
+      const { decodedToken } = res.locals ?? null;
+      const userId = decodedToken.userId;
       const [updatedUser, status, err] = await this.usecases.updateUser(
-        req.params.id,
+        userId,
         req.body,
       );
       if (err)

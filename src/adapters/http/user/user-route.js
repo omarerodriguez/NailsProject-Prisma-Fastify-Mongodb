@@ -27,7 +27,7 @@ const routes = [
     handler: userHandler.loginUser,
   },
   {
-    url: '/users/:id',
+    url: '/users/user',
     method: 'PATCH',
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.updateUser,
