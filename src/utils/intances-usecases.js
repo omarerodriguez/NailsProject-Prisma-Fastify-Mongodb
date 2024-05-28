@@ -9,7 +9,7 @@ const TypesNailsPrismaRepository = require('../adapters/repositories/types-nails
 const DetailsNailsPrismaRepository = require('../adapters/repositories/details-nails-prisma-repository.js');
 const SchedulerPrismaRepository = require('../adapters/repositories/scheduler-prisma-repository');
 const AppointmentPrismaRepository = require('../adapters/repositories/appointment-prisma-repository');
-//const RedisRepository = require("../adapters/repositories/redis-repository.js");
+
 
 // Usecases
 const UserUseCases = require('../application/usecases/user-usecases');
@@ -80,7 +80,7 @@ const userUseCases = new UserUseCases(userPrismaRepository, tokenUsescases);
 const tokenMiddleWare = new TokenMiddleWare(tokenUsescases);
 
 // Intance - Handler
-const userHandler = new Userhandler(userUseCases);
+const userHandler = new Userhandler(userUseCases,tokenUsescases);
 const typesNailsHandler = new TypesNailsHandler(typesNailsUseCases);
 const detailsNailsHandler = new DetailsNailsHandler(detailsNailsUseCases);
 const schedulerHandler = new SchedulerHandler(schedulerUseCases);
