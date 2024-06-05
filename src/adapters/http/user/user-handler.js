@@ -2,17 +2,17 @@ const {
   createNewuUserValidations,
   loginUserValidations,
   getUserByIdValidations,
-  updateUserValidations,
 } = require('../../../utils/functions/input-validations');
-
+const { getFormatDate } = require('../../../utils/functions/date');
 module.exports = class Userhandler {
-  constructor(userUsecases) {
-    this.usecases = userUsecases;
+  constructor(userUsecases, tokenUseCases) {
+    this.userUsercases = userUsecases;
+    this.tokenUseCases = tokenUseCases;
   }
 
   findAllUsers = async (req, res) => {
     try {
-      const [users, status, err] = await this.usecases.findAllUsers();
+      const [users, status, err] = await this.userUsercases.findAllUsers();
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -39,7 +39,7 @@ module.exports = class Userhandler {
           message: 'fail',
           errors,
         });
-      const [user, status, err] = await this.usecases.findUserById(
+      const [user, status, err] = await this.userUsercases.findUserById(
         req.params.id,
       );
       if (err)
@@ -63,7 +63,7 @@ module.exports = class Userhandler {
   findUserByEmail = async (req, res) => {
     try {
       const { email } = req.query;
-      const [user, status, err] = await this.usecases.findUserByEmail(email);
+      const [user, status, err] = await this.userUsercases.findUserByEmail(email);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -85,7 +85,7 @@ module.exports = class Userhandler {
   findUserByPhoneNumber = async (req, res) => {
     try {
       const { phone_number } = req.query;
-      const [user, status, err] = await this.usecases.findUserByPhoneNumber(
+      const [user, status, err] = await this.userUsercases.findUserByPhoneNumber(
         phone_number,
       );
       if (err)
@@ -115,7 +115,7 @@ module.exports = class Userhandler {
           errors,
         });
 
-      const [user, token, status, err] = await this.usecases.createNewUser(
+      const [user, token, status, err] = await this.userUsercases.createNewUser(
         req.body,
       );
       if (err)
@@ -123,10 +123,11 @@ module.exports = class Userhandler {
           message: 'fail',
           errors: err,
         });
-
+      const decodedToken = this.tokenUseCases.decodedToken(token);
       return res.status(status).send({
         data: user,
         token,
+        exp_date: getFormatDate(decodedToken.iat * 1000),
         message: 'success',
       });
     } catch (error) {
@@ -147,7 +148,7 @@ module.exports = class Userhandler {
           errors: validationErrors,
         });
 
-      const [token, user, status, err] = await this.usecases.loginUser(
+      const [token, user, status, err] = await this.userUsercases.loginUser(
         req.body,
       );
       if (err)
@@ -155,9 +156,10 @@ module.exports = class Userhandler {
           message: 'fail',
           errors: err,
         });
-
+      const decodedToken = this.tokenUseCases.decodedToken(token);
       return res.status(status).send({
         token,
+        exp_date: getFormatDate(decodedToken.iat * 1000),
         message: 'success',
         data: user,
       });
@@ -179,7 +181,7 @@ module.exports = class Userhandler {
         });
       const { decodedToken } = res.locals ?? null;
       const userId = decodedToken.userId;
-      const [updatedUser, status, err] = await this.usecases.updateUser(
+      const [updatedUser, status, err] = await this.userUsercases.updateUser(
         userId,
         req.body,
       );
@@ -204,7 +206,7 @@ module.exports = class Userhandler {
   deleteUser = async (req, res) => {
     try {
       const userToken = req.headers.authorization.split(' ')[1];
-      const [user, status, err] = await this.usecases.deleteUser(
+      const [user, status, err] = await this.userUsercases.deleteUser(
         req.params.id,
         userToken,
       );
@@ -230,11 +232,15 @@ module.exports = class Userhandler {
   refreshToken = async (req, res) => {
     try {
       const { token } = req.body;
-      const [newToken, error] = await this.usecases.refreshToken(token);
+      const [newToken, error] = await this.userUsercases.refreshToken(token);
       if (error) {
         return res.status(400).send({ error });
       }
-      return res.send({token: newToken})
+      const decodedToken = this.tokenUseCases.decodedToken(token);
+      return res.send({
+        token: newToken,
+        exp_date: getFormatDate(decodedToken.iat * 1000),
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).send({
