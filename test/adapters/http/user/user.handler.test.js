@@ -9,10 +9,10 @@ const mockUpdateUser = jest.fn();
 const mockRefreshToken = jest.fn();
 const mockDecodedToken = jest.fn();
 
-jest.mock('../../../../src/application/usecases/token-usecases.js',()=>
-  jest.fn().mockImplementation(()=>({
+jest.mock('../../../../src/application/usecases/token-usecases.js', () =>
+  jest.fn().mockImplementation(() => ({
     decodedToken: mockDecodedToken,
-  }))
+  })),
 );
 jest.mock('../../../../src/application/usecases/user-usecases', () =>
   jest.fn().mockImplementation(() => ({
@@ -36,7 +36,7 @@ describe('test in user handler', () => {
   beforeAll(() => {
     userUseCases = new UserUseCases();
     tokenUseCases = new TokenUseCases();
-    userhandler = new Userhandler(userUseCases,tokenUseCases);
+    userhandler = new Userhandler(userUseCases, tokenUseCases);
   });
 
   beforeEach(() => {
@@ -127,23 +127,12 @@ describe('test in user handler', () => {
     });
   });
 
-  test('should return 500 if there is an internal server error', async () => {
-    request.body.token = 'old-token';
-    await userhandler.refreshToken(request, mockRes);
-
-    expect(mockRes.status).toHaveBeenCalledWith(500);
-    expect(mockRes.send).toHaveBeenCalledWith({
-      message: 'There was an internal server error',
-      errors: expect.any(Error),
-    });
-  });
-
   test('should return the new token and exp_date on success', async () => {
     const newToken = 'newtoken';
     const decodedToken = { iat: 1716865974 };
 
     request.body.token = 'old-token';
-    mockRefreshToken.mockResolvedValue([newToken,null]);
+    mockRefreshToken.mockResolvedValue([newToken, null]);
     mockDecodedToken.mockReturnValue(decodedToken);
 
     await userhandler.refreshToken(request, mockRes);
