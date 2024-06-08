@@ -42,14 +42,8 @@ const updateUserValidations = (updateUserPayload) => {
     customMessagesUser,
   );
   const errors = validation.errors.all();
-  if (!validation.fails()) {
-    const cloudinaryUrlPattern =
-      /^https?:\/\/(?:res|cloudinary)\.cloudinary\.com\/.*$/;
-    if (!cloudinaryUrlPattern.test(updateUserPayload.user_img)) {
-      errors.user_img = ['el URL debe proveenir de cloudinary.'];
-    }
-  }
-  if (Object.keys(errors).length) return errors;
+  if (validation.fails()) return errors;
+  return null;
 };
 
 const loginUserValidations = (userPayload) => {

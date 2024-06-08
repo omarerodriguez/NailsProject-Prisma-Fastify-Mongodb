@@ -39,17 +39,4 @@ describe('test in user handler', () => {
     request.body = {};
     request.params = {};
   });
-
-  test('error if user image is invalid', async () => {
-    request.body.user_img = 'fakeurl/jkbqbsjbjad';
-    request.params.id = '6647708a7622abfb27ba078c';
-    await userhandler.updateUser(request, mockRes);
-    expect(mockRes.status).toHaveBeenCalledWith(400);
-    expect(mockRes.send).toHaveBeenCalledWith({
-      message: 'fail',
-      errors: {
-        user_img: ['el URL debe proveenir de cloudinary.'],
-      },
-    });
-  });
 });

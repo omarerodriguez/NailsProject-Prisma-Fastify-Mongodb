@@ -6,6 +6,8 @@ const schedulerRoutes = require('./adapters/http/scheduler/scheduler-route');
 const appointmentsRoutes = require('./adapters/http/appointment/appointment-routes');
 const registerRoutes = require('./utils/functions/register-routes');
 
+fastify.register(require('@fastify/multipart'));
+
 fastify.get('/', (req, reply) => {
   reply.send('WELCOME TO NAILS SERVICES');
 });

@@ -38,6 +38,12 @@ const routes = [
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.deleteUser,
   },
+  {
+    url: '/user/profile/:id',
+    method: 'PATCH',
+    preHandler: [tokenMiddleWare.verifyAdminToken],
+    handler: userHandler.updateUser,
+  }
 ];
 
 module.exports = routes;

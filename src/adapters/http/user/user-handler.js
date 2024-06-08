@@ -5,6 +5,8 @@ const {
   updateUserValidations,
 } = require('../../../utils/functions/input-validations');
 
+const cloudinary = require('../../../infraestructura/cloudinary/cloudinaryConfig');
+
 module.exports = class Userhandler {
   constructor(userUsecases) {
     this.usecases = userUsecases;
@@ -172,9 +174,20 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
+      const userId = req.params.id;
+      const data = await req.file();
+
+      const errors = updateUserValidations({ id: userId });
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
       const [updatedUser, status, err] = await this.usecases.updateUser(
         req.params.id,
-        req.body,
+        {},
+        data.file,
+        userId,
       );
       if (err)
         return res.status(status).send({

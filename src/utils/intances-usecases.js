@@ -1,5 +1,6 @@
 // imports -clients
 const prisma = require('../infraestructura/prisma/prismaConfig');
+const cloudinary = require('../infraestructura/cloudinary/cloudinaryConfig.js')
 const {renderRedis} = require('../infraestructura/redis/redisConfig.js');
 const jwt = require('jsonwebtoken');
 
@@ -9,6 +10,7 @@ const TypesNailsPrismaRepository = require('../adapters/repositories/types-nails
 const DetailsNailsPrismaRepository = require('../adapters/repositories/details-nails-prisma-repository.js');
 const SchedulerPrismaRepository = require('../adapters/repositories/scheduler-prisma-repository');
 const AppointmentPrismaRepository = require('../adapters/repositories/appointment-prisma-repository');
+const cloudinadryRepository = require('../adapters/repositories/cloudinary-prisma-repository.js')
 //const RedisRepository = require("../adapters/repositories/redis-repository.js");
 
 // Usecases
@@ -40,6 +42,7 @@ const typesNailsPrismaRepository = new TypesNailsPrismaRepository(prisma);
 const detailsNailsPrismaRepository = new DetailsNailsPrismaRepository(prisma);
 const schedulerPrismaRepository = new SchedulerPrismaRepository(prisma);
 const appointmentPrismaRepository = new AppointmentPrismaRepository(prisma);
+const cloudinaryRepository = new cloudinadryRepository(cloudinary)
 
 // Intance- usecases
 const detailsNailsRedisUseCases = new DetailsNailsRedisUseCases(renderRedis,prisma)
@@ -68,7 +71,7 @@ const appointmentUseCases = new AppointmentUseCases(
   typesNailsRedisUseCases,
 );
 const tokenUsescases = new TokenUsesCases(jwt);
-const userUseCases = new UserUseCases(userPrismaRepository, tokenUsescases);
+const userUseCases = new UserUseCases(userPrismaRepository, tokenUsescases, cloudinaryRepository);
 // Intance - Middlewares
 const tokenMiddleWare = new TokenMiddleWare(tokenUsescases);
 

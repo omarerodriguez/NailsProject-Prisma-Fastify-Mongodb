@@ -1,9 +1,11 @@
 const { getFormatDate } = require('../../utils/functions/date');
+const cloudinary = require('../../utils/functions/cloudinary');
 
 module.exports = class UserUseCases {
-  constructor(prismaRepository, tokenUsescases) {
+  constructor(prismaRepository, tokenUsescases, cloudinaryRepository) {
     this.prismaRepository = prismaRepository;
     this.tokenUsescases = tokenUsescases;
+    this.cloudinaryRepository = cloudinaryRepository;
   }
 
   findUserById = async (userId) => {
@@ -35,10 +37,9 @@ module.exports = class UserUseCases {
     const [userByEmail] = await this.prismaRepository.findUserByEmail(
       userPayload.email,
     );
-    const [userByPhone] =
-      await this.prismaRepository.findUserByPhoneNumber(
-        userPayload.phone_number,
-      );
+    const [userByPhone] = await this.prismaRepository.findUserByPhoneNumber(
+      userPayload.phone_number,
+    );
     if (userByEmail) return [null, 400, 'Email already exist'];
     if (userByPhone) return [null, 400, 'Phone number already exist'];
     const newUserBody = { ...userPayload };
@@ -62,18 +63,30 @@ module.exports = class UserUseCases {
     const [user, err] = await this.prismaRepository.findUserByEmail(
       logUser.email,
     );
-    if (err) return [null,null, 404, err];
+    if (err) return [null, null, 404, err];
 
     if (user.phone_number !== logUser.phone_number)
-      return [null,null, 400, 'El numero no pertenece al email'];
+      return [null, null, 400, 'El numero no pertenece al email'];
 
-    const [token, error] = await this.tokenUsescases.generateToken(user.id,user.role);
-    if (error) return [null,null,400, error];
+    const [token, error] = await this.tokenUsescases.generateToken(
+      user.id,
+      user.role,
+    );
+    if (error) return [null, null, 400, error];
 
     return [token, user, 200, null];
   };
 
-  updateUser = async (userId, userPayload) => {
+  updateUser = async (userId, userPayload, file, user_imgsNails) => {
+    if (file) {
+      const [imageUrl, err] = await this.cloudinaryRepository.uploadImage(
+        userId,
+        file,
+        user_imgsNails,
+      );
+      if (err) return [null, 400, err];
+      userPayload.user_img = imageUrl;
+    }
     const [user, err] = await this.prismaRepository.updateUser(
       userId,
       userPayload,
