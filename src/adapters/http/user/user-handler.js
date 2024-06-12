@@ -3,7 +3,9 @@ const {
   loginUserValidations,
   getUserByIdValidations,
 } = require('../../../utils/functions/input-validations');
+const cloudinary = require('../../../infraestructura/cloudinary/cloudinaryConfig');
 const { getFormatDate } = require('../../../utils/functions/date');
+
 module.exports = class Userhandler {
   constructor(userUsecases, tokenUseCases) {
     this.userUsercases = userUsecases;
@@ -174,16 +176,27 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
-      if (!res.locals?.decodedToken)
+      const userId = req.params.id;
+      const data = await req.file();
+
+      const errors = updateUserValidations({ id: userId });
+      if (errors)
+        return res.status(400).send({
+          message: 'fail',
+          errors,
+        });
+        if (!res.locals?.decodedToken)
         return res.status(400).send({
           message: 'fail',
           errors: 'TokenBody is required',
         });
       const { decodedToken } = res.locals ?? null;
       const userId = decodedToken.userId;
-      const [updatedUser, status, err] = await this.userUsercases.updateUser(
+      const [updatedUser, status, err] = await this.usecases.updateUser(
         userId,
-        req.body,
+        {},
+        data.file,
+        userId,
       );
       if (err)
         return res.status(status).send({

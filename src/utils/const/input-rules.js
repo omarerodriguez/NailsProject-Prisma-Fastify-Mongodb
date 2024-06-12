@@ -17,6 +17,8 @@ const updateUserRules = {
   gender: 'string|min:5|max:9',
   email: 'email',
   user_img: 'string|max:255',
+  img_weight: 'integer|max:500',
+  img_format: 'string|in:jpeg,png,jpg',
   id: 'string|hex|size:24|required',
 };
 
