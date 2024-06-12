@@ -77,8 +77,8 @@ module.exports = class UserUseCases {
     return [token, user, 200, null];
   };
 
-  updateUser = async (userId, userPayload, file, user_imgsNails) => {
-    if (file) {
+  updateUser = async (decodedToken, userPayload, userId, file, user_imgsNails) => {
+      if (file) {
       const [imageUrl, err] = await this.cloudinaryRepository.uploadImage(
         userId,
         file,
@@ -87,6 +87,7 @@ module.exports = class UserUseCases {
       if (err) return [null, 400, err];
       userPayload.user_img = imageUrl;
     }
+    const userId = decodedToken;
     const [user, err] = await this.prismaRepository.updateUser(
       userId,
       userPayload,
@@ -99,5 +100,9 @@ module.exports = class UserUseCases {
     const [deleteUser, err] = await this.prismaRepository.deleteUser(userId);
     if (err) return [null, 400, err];
     return [deleteUser, 202, null];
+  };
+
+  refreshToken = async (token) => {
+    return this.tokenUsescases.refreshToken(token);
   };
 };

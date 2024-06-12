@@ -1,7 +1,7 @@
 const timeZone = require('../const/timezone');
 
-const getFormatDate = () => {
-  const fechaActual = new Date();
+const getFormatDate = (date) => {
+  const fechaActual = date? new Date(date): new Date();
   const formatoFechaHora = fechaActual.toLocaleString('es-ES', timeZone);
   const fechaFormateadaConEspacios = formatoFechaHora.replace(',', '');
   return fechaFormateadaConEspacios;

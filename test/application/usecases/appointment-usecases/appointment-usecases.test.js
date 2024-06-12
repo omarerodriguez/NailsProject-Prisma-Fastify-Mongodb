@@ -21,7 +21,7 @@ const mockFindAppointmentById = jest.fn();
 const mockUpdateAppointment = jest.fn();
 
 jest.mock(
-  '../../../src/adapters/repositories/appointment-prisma-repository',
+  '../../../../src/adapters/repositories/appointment-prisma-repository.js',
   () =>
     jest.fn().mockImplementation(() => ({
       findAppointmentByUser: mockFindAppointmentByUserId,
@@ -34,7 +34,7 @@ jest.mock(
 
 /** User*/
 const mockFindUserById = jest.fn();
-jest.mock('../../../src/adapters/repositories/user-prisma-repository', () =>
+jest.mock('../../../../src/adapters/repositories/user-prisma-repository', () =>
   jest.fn().mockImplementation(() => ({
     findUserById: mockFindUserById,
   })),
@@ -43,7 +43,7 @@ jest.mock('../../../src/adapters/repositories/user-prisma-repository', () =>
 /** TypesNails*/
 const mockFindTypeNailsById = jest.fn();
 jest.mock(
-  '../../../src/adapters/repositories/types-nails-prisma-repository',
+  '../../../../src/adapters/repositories/types-nails-prisma-repository',
   () =>
     jest.fn().mockImplementation(() => ({
       findTypesNailsById: mockFindTypeNailsById,
@@ -53,7 +53,7 @@ jest.mock(
 /** DetailsNails*/
 const mockFindDetailsNailsByIds = jest.fn();
 jest.mock(
-  '../../../src/adapters/repositories/details-nails-prisma-repository',
+  '../../../../src/adapters/repositories/details-nails-prisma-repository',
   () =>
     jest.fn().mockImplementation(() => ({
       findAllDetailsNails: mockFindDetailsNailsByIds,
@@ -63,7 +63,7 @@ jest.mock(
 /** Scheduler*/
 const mockFindSchedulerById = jest.fn();
 jest.mock(
-  '../../../src/adapters/repositories/scheduler-prisma-repository',
+  '../../../../src/adapters/repositories/scheduler-prisma-repository',
   () =>
     jest.fn().mockImplementation(() => ({
       findSchedulerById: mockFindSchedulerById,

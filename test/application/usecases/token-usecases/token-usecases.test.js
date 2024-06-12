@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 /** TokenUseCases */
-const TokenUseCases = require('../../../src/application/usecases/token-usecases');
+const TokenUseCases = require('../../../../src/application/usecases/token-usecases');
 
 describe('generateToken function', () => {
   let tokenUseCases;

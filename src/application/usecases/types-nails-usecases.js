@@ -13,7 +13,7 @@ module.exports = class TypesNailsUseCases {
     this.builder = builder;
   }
 
-  findTypesNailsById = async (typesNailsId,role) => {
+  findTypesNailsById = async (typesNailsId, role) => {
     const [findTypeNailsData, detailsNailsData] = await Promise.all([
       this.typesNailsRedisUseCases.redisFindAllTypesNailsById(typesNailsId),
       this.detailsNailsRedisUseCases.redisFindAllDetailsNails(),
@@ -23,7 +23,8 @@ module.exports = class TypesNailsUseCases {
     if (typesNailsErr) return [null, 404, typesNailsErr];
     if (detailsNailsErr) return [null, 404, detailsNailsErr];
 
-    if(role !='ADMIN' && typesNailsById.deleted_at)return [null,404,'el tipo de uñas esta desactivado']
+    if (role != 'ADMIN' && typesNailsById.deleted_at)
+      return [null, 404, 'el tipo de uñas esta desactivado'];
 
     const buildedTypesNails = this.builder.buildRecordTypesNails(
       typesNailsById,
@@ -42,8 +43,11 @@ module.exports = class TypesNailsUseCases {
     if (typesNailsErr) return [null, 404, typesNailsErr];
     if (detailNailsErr) return [null, 404, detailNailsErr];
 
-    const filterTypesNails = (role === "USER") ? typesNails.filter((typesNails)=>!typesNails.deleted_at) :  typesNails;
-    if(filterTypesNails.length === 0)return [[],200,null];
+    const filterTypesNails =
+      role === 'USER'
+        ? typesNails.filter((typesNails) => !typesNails.deleted_at)
+        : typesNails;
+    if (filterTypesNails.length === 0) return [[], 200, null];
     const buildedTypesNail = filterTypesNails.map((typesNail) => {
       return this.builder.buildRecordTypesNails(typesNail, detailNails);
     });
@@ -87,6 +91,13 @@ module.exports = class TypesNailsUseCases {
   };
 
   deleteTypesNails = async (typesNailsId) => {
+    const [typesNail, typesErr] =
+      await this.typesNailsRedisUseCases.redisFindAllTypesNailsById(typesNailsId);
+    if (typesErr) return [null, 404, typesErr];
+
+    const isTypeActive = typesNail.allowed_details_ids.length > 0;
+    if (isTypeActive === true) return [null, 404, 'No puedes desactivar un tipo en uso'];
+
     const [softDelete, err] = await this.prismaRepository.deleteTypesNails(
       typesNailsId,
       {

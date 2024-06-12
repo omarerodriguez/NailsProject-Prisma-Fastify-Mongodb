@@ -27,7 +27,7 @@ const routes = [
     handler: userHandler.loginUser,
   },
   {
-    url: '/users/:id',
+    url: '/users/user',
     method: 'PATCH',
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.updateUser,
@@ -44,6 +44,11 @@ const routes = [
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.updateUser,
   }
+    url: '/refresh-token',
+    method: 'POST',
+    preHandler: [tokenMiddleWare.verifyUserToken], 
+    handler: userHandler.refreshToken,
+  },
 ];
 
 module.exports = routes;
