@@ -1,11 +1,11 @@
 const cloudinary = require('../../infraestructura/cloudinary/cloudinaryConfig');
 
 module.exports = class CloudinaryRepository {
-  async uploadImage(user_imgsNails, fileStream) {
+  async uploadImage(userFilePath, fileStream) {
     try {
       const result = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          { user_imgsNails },
+          { overwrite: true, public_id: userFilePath, folder: 'profile' },
           (error, uploadFile) => {
             if (error) {
               return reject(error);

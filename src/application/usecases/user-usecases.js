@@ -77,17 +77,16 @@ module.exports = class UserUseCases {
     return [token, user, 200, null];
   };
 
-  updateUser = async (decodedToken, userPayload, userId, file, user_imgsNails) => {
-      if (file) {
+  updateUser = async (userId, userPayload, file) => {
+    if (file) {
+      const userFilePath = `profile_${userId}`;
       const [imageUrl, err] = await this.cloudinaryRepository.uploadImage(
-        userId,
-        file,
-        user_imgsNails,
+        userFilePath,
+        file.file,
       );
       if (err) return [null, 400, err];
       userPayload.user_img = imageUrl;
     }
-    const userId = decodedToken;
     const [user, err] = await this.prismaRepository.updateUser(
       userId,
       userPayload,

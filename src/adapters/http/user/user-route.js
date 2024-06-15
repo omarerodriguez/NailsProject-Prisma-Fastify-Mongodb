@@ -43,7 +43,8 @@ const routes = [
     method: 'PATCH',
     preHandler: [tokenMiddleWare.verifyAdminToken],
     handler: userHandler.updateUser,
-  }
+  },
+  {
     url: '/refresh-token',
     method: 'POST',
     preHandler: [tokenMiddleWare.verifyUserToken], 

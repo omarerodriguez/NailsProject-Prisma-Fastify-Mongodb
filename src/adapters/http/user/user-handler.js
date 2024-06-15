@@ -2,6 +2,7 @@ const {
   createNewuUserValidations,
   loginUserValidations,
   getUserByIdValidations,
+  updateUserValidations,
 } = require('../../../utils/functions/input-validations');
 const cloudinary = require('../../../infraestructura/cloudinary/cloudinaryConfig');
 const { getFormatDate } = require('../../../utils/functions/date');
@@ -65,7 +66,9 @@ module.exports = class Userhandler {
   findUserByEmail = async (req, res) => {
     try {
       const { email } = req.query;
-      const [user, status, err] = await this.userUsercases.findUserByEmail(email);
+      const [user, status, err] = await this.userUsercases.findUserByEmail(
+        email,
+      );
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -87,9 +90,8 @@ module.exports = class Userhandler {
   findUserByPhoneNumber = async (req, res) => {
     try {
       const { phone_number } = req.query;
-      const [user, status, err] = await this.userUsercases.findUserByPhoneNumber(
-        phone_number,
-      );
+      const [user, status, err] =
+        await this.userUsercases.findUserByPhoneNumber(phone_number);
       if (err)
         return res.status(status).send({
           message: 'fail',
@@ -176,27 +178,28 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
-      const userId = req.params.id;
-      const data = await req.file();
+      const { decodedToken } = res.locals ?? null;
+      const userId = decodedToken.userId;
+      let data;
 
-      const errors = updateUserValidations({ id: userId });
+      const userPayload = { ...req.body };
+      if (Object.entries(userPayload).length === 0) data = await req.file();
+
+      const errors = updateUserValidations({ ...userPayload, id: userId });
       if (errors)
         return res.status(400).send({
           message: 'fail',
           errors,
         });
-        if (!res.locals?.decodedToken)
+      if (!res.locals?.decodedToken)
         return res.status(400).send({
           message: 'fail',
           errors: 'TokenBody is required',
         });
-      const { decodedToken } = res.locals ?? null;
-      const userId = decodedToken.userId;
-      const [updatedUser, status, err] = await this.usecases.updateUser(
+      const [updatedUser, status, err] = await this.userUsercases.updateUser(
         userId,
-        {},
-        data.file,
-        userId,
+        userPayload,
+        data,
       );
       if (err)
         return res.status(status).send({
@@ -211,7 +214,7 @@ module.exports = class Userhandler {
       console.log(error);
       return res.status(500).send({
         message: 'There was internal server error',
-        errors: error,
+        errors: error.message,
       });
     }
   };
