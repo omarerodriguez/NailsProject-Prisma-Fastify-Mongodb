@@ -61,7 +61,7 @@ describe('test in user handler', () => {
         exp: 1721430144,
       },
     };
-  })
+  });
 
   test('should return 400 if no decodedToken is present', async () => {
     mockRes.locals.decodedToken = null;

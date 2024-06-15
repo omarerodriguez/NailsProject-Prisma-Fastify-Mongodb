@@ -50,6 +50,16 @@ jest.mock(
     })),
 );
 
+/** Redis **/
+const mockRedisFindAllTypesNails = jest.fn();
+jest.mock(
+  '../../../../src/application/usecases/redis/types-nails-redis-usecases',
+  () =>
+    jest.fn().mockImplementation(() => ({
+      redisFindAllTypesNailsById: mockRedisFindAllTypesNails,
+    })),
+);
+
 /** DetailsNails*/
 const mockFindDetailsNailsByIds = jest.fn();
 jest.mock(

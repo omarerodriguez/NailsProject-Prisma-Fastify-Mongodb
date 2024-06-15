@@ -178,6 +178,12 @@ module.exports = class Userhandler {
 
   updateUser = async (req, res) => {
     try {
+      if (!res.locals?.decodedToken)
+        return res.status(400).send({
+          message: 'fail',
+          errors: 'TokenBody is required',
+        });
+        
       const { decodedToken } = res.locals ?? null;
       const userId = decodedToken.userId;
       let data;
@@ -190,11 +196,6 @@ module.exports = class Userhandler {
         return res.status(400).send({
           message: 'fail',
           errors,
-        });
-      if (!res.locals?.decodedToken)
-        return res.status(400).send({
-          message: 'fail',
-          errors: 'TokenBody is required',
         });
       const [updatedUser, status, err] = await this.userUsercases.updateUser(
         userId,

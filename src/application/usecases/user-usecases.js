@@ -1,5 +1,4 @@
 const { getFormatDate } = require('../../utils/functions/date');
-const cloudinary = require('../../utils/functions/cloudinary');
 
 module.exports = class UserUseCases {
   constructor(prismaRepository, tokenUsescases, cloudinaryRepository) {
