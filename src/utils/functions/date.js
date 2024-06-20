@@ -1,10 +1,12 @@
 const timeZone = require('../const/timezone');
+const moment = require('moment-timezone');
 
-const getFormatDate = (date) => {
-  const fechaActual = date? new Date(date): new Date();
-  const formatoFechaHora = fechaActual.toLocaleString('es-ES', timeZone);
-  const fechaFormateadaConEspacios = formatoFechaHora.replace(',', '');
-  return fechaFormateadaConEspacios;
+const getFormatDate = (date, timezone, format) => {
+  const currentDate = date ? moment(date) : moment();
+  if (timezone) {
+    currentDate.tz(timeZone);
+  }
+  return format ? currentDate.format(format) : currentDate.toISOString();
 };
 
 const addHour = (originalDate, hoursToAdd) => {
@@ -33,14 +35,39 @@ const addDays = (originalDate, daysToAdd) => {
 
   const newDate = new Date(originalDate.getTime());
   newDate.setDate(newDate.getDate() + daysToAdd);
-
-  return newDate;
+  newDate.setHours(0, 0, 0, 0);
+  return getFormatDate(newDate);
 };
 
 const setHourToDate = (date, hours) => {
   const newDate = new Date(date);
   newDate.setHours(hours, 0, 0, 0);
-  return newDate;
+  return getFormatDate(newDate);
 };
 
-module.exports = { getFormatDate, addHour, addDays, setHourToDate };
+function getTimezoneOfDate(dateString, timeZone) {
+  return moment.tz(dateString, timeZone).tz();
+}
+
+function isValidDateFormat(dateString) {
+  let parsedDate = dateString;
+  if (typeof dateString !== 'string') date = moment(dateString).toISOString();
+  const [year, month, day] = parsedDate.split('-');
+  return year.length === 4 && month.length === 2 && day.length === 2;
+}
+
+function isValidISO8601(dateString) {
+  let date = dateString;
+  if (typeof dateString !== 'string') date = moment(dateString).toISOString();
+  return moment(date, moment.ISO_8601, true).isValid();
+}
+
+module.exports = {
+  getFormatDate,
+  addHour,
+  addDays,
+  setHourToDate,
+  getTimezoneOfDate,
+  isValidDateFormat,
+  isValidISO8601,
+};

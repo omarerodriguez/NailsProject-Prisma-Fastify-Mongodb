@@ -1,5 +1,5 @@
 module.exports = {
-  week: 7,
-  half_month: 15,
-  month: 30,
+  week: 8,
+  half_month: 16,
+  month: 31,
 };
