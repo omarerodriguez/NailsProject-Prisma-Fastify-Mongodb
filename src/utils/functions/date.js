@@ -1,4 +1,4 @@
-const timeZone = require('../const/timezone');
+const { timeZone } = require('../const/timezone');
 const moment = require('moment-timezone');
 
 const getFormatDate = (date, timezone, format) => {
