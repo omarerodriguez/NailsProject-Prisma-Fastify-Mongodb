@@ -7,12 +7,15 @@ module.exports = class DetailsNailsRedisUseCases {
 
   redisFindAllDetailsNails = async () => {
     try {
-      const redisDetailsNails = await this.redisClient.get(this.detailsNailsKey);
+      const redisDetailsNails = await this.redisClient.get(
+        this.detailsNailsKey,
+      );
       if (!redisDetailsNails) {
         const detailsNails = await this.prismaRepository.detailNail.findMany(
           {},
         );
-        if (!detailsNails) return [null, 404, 'There are not details nails fetched'];
+        if (!detailsNails)
+          return [null, 404, 'There are not details nails fetched'];
         await this.redisClient.set(
           this.detailsNailsKey,
           JSON.stringify(detailsNails),
@@ -36,11 +39,10 @@ module.exports = class DetailsNailsRedisUseCases {
         detailNailsByIdKey,
       );
       if (!redisDetailsNailsById) {
-        const detailNails =
-          await this.prismaRepository.detailNail.findFirst({
-            where: { id: detailsNailsId },
-          });
-        if (!detailNails) return [null, 404, "error"];
+        const detailNails = await this.prismaRepository.detailNail.findFirst({
+          where: { id: detailsNailsId },
+        });
+        if (!detailNails) return [null, 404, 'error'];
         await this.redisClient.set(
           detailNailsByIdKey,
           JSON.stringify(detailNails),
@@ -54,16 +56,19 @@ module.exports = class DetailsNailsRedisUseCases {
       return [
         false,
         `there was a error in DetailsNailsRedisUseCases.redisFindAllDetailsNails err: ${error.message}`,
-      ]
-    
+      ];
     }
   };
-  redisDeleteDetailNails = async() =>{
+  redisDeleteDetailNails = async () => {
     try {
       const recordLength = await this.redisClient.del([this.detailsNailsKey]);
-    if(recordLength>0)return[true,null];
+      if (recordLength > 0) return [true, null];
+      return [false, null];
     } catch (error) {
-      return [false,`there was a error in DetailsNailsRedisUseCases.redisDeleteDetailsNails err: ${error.message}`]
+      return [
+        false,
+        `there was a error in DetailsNailsRedisUseCases.redisDeleteDetailsNails err: ${error.message}`,
+      ];
     }
-  }
+  };
 };

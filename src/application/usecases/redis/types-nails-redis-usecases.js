@@ -31,14 +31,11 @@ module.exports = class TypesNailsRedisUseCases {
   redisFindAllTypesNailsById = async (typesNailsId) => {
     try {
       const typesNailsByIdKey = `${this.typesNailsKey}_${typesNailsId}`;
-      const redisTypesNailsById = await this.redisClient.get(
-        typesNailsByIdKey
-      );
+      const redisTypesNailsById = await this.redisClient.get(typesNailsByIdKey);
       if (!redisTypesNailsById) {
-        const typeNails =
-          await this.prismaRepository.TypeNail.findFirst({
-            where: { id: typesNailsId },
-          });
+        const typeNails = await this.prismaRepository.TypeNail.findFirst({
+          where: { id: typesNailsId },
+        });
         if (!typeNails) return [null, 404, error];
         await this.redisClient.set(
           typesNailsByIdKey,
@@ -53,13 +50,14 @@ module.exports = class TypesNailsRedisUseCases {
       return [
         false,
         `there was a error in TypesNailsRedisUseCases.redisFindAllTypesNails err: ${error.message}`,
-      ]
+      ];
     }
   };
   redisDeleteTypesNails = async () => {
     try {
       const recordLength = await this.redisClient.del([this.typesNailsKey]);
       if (recordLength > 0) return [true, null];
+      return [false, null];
     } catch (error) {
       return [
         false,
