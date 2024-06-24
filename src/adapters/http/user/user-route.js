@@ -29,7 +29,7 @@ const routes = [
   {
     url: '/users/user',
     method: 'PATCH',
-    preHandler: [tokenMiddleWare.verifyAdminToken],
+    preHandler: [tokenMiddleWare.verifyUserToken],
     handler: userHandler.updateUser,
   },
   {
@@ -41,13 +41,13 @@ const routes = [
   {
     url: '/user/profile/:id',
     method: 'PATCH',
-    preHandler: [tokenMiddleWare.verifyAdminToken],
+    preHandler: [tokenMiddleWare.verifyUserToken],
     handler: userHandler.updateUser,
   },
   {
     url: '/refresh-token',
     method: 'POST',
-    preHandler: [tokenMiddleWare.verifyUserToken], 
+    preHandler: [tokenMiddleWare.verifyUserToken],
     handler: userHandler.refreshToken,
   },
 ];
