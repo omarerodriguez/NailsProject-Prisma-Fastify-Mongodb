@@ -6,7 +6,7 @@ const opcionesFormato = {
   minute: '2-digit',
   second: '2-digit',
   hour12: false,
-  timeZone: 'America/Bogota'
+  timeZone: 'America/Bogota',
 };
 
-module.exports = { opcionesFormato };
+module.exports = opcionesFormato;

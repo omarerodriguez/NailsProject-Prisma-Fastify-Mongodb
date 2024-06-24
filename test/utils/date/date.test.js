@@ -1,10 +1,9 @@
-const { getFormatDate } = require('../../../src/utils/functions/date');
-const { describe, expect, test } = require('@jest/globals');
 const {
+  getFormatDate,
   getTimezoneOfDate,
   isValidDateFormat,
   isValidISO8601,
-} = require('../../../test/utils/date/validateDate');
+} = require('../../../src/utils/functions/date');
 const timeZone = 'America/Santiago';
 
 describe('date functions', () => {
