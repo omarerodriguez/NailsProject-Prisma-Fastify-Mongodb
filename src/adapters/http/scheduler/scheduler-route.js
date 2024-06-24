@@ -13,7 +13,7 @@ const routes = [
   {
     url: '/scheduler',
     method: 'GET',
-    preHandler: [tokenMiddleWare.verifyAdminToken],
+    preHandler: [tokenMiddleWare.verifyUserToken],
     handler: schedulerHandler.findAllSchedulers,
   },
   {
