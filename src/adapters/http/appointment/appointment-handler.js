@@ -25,7 +25,7 @@ module.exports = class AppointmentrHandler {
       console.log(error);
       return res.status(500).send({
         message: 'There was internal server error',
-        errors: error,
+        errors: error.message,
       });
     }
   };
@@ -47,7 +47,7 @@ module.exports = class AppointmentrHandler {
       console.log(error);
       return res.status(500).send({
         message: 'There was internal server error',
-        errors: error,
+        errors: error.message,
       });
     }
   };
@@ -76,7 +76,7 @@ module.exports = class AppointmentrHandler {
       console.log(error);
       return res.status(500).send({
         message: 'There was internal server error',
-        errors: error,
+        errors: error.message,
       });
     }
   };
@@ -111,6 +111,7 @@ module.exports = class AppointmentrHandler {
       console.log(error);
       return res.status(500).send({
         message: 'There was internal server error',
+        errors: error.message,
       });
     }
   };
@@ -138,7 +139,7 @@ module.exports = class AppointmentrHandler {
       console.log(error);
       return res.status(500).send({
         message: 'There was internal server error',
-        errors: error,
+        errors: error.message,
       });
     }
   };
@@ -160,7 +161,7 @@ module.exports = class AppointmentrHandler {
       console.log(error);
       return res.status(500).send({
         message: 'There was internal server error',
-        errors: error,
+        errors: error.message,
       });
     }
   };
