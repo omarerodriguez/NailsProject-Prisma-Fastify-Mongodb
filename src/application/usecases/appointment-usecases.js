@@ -190,10 +190,8 @@ module.exports = class AppointmentUseCases {
       await this.schedulerPrismaRepository.findAllSchedulers();
     if (schedulersErr) return [null, 404, schedulersErr];
 
-    const [newScheduler, ifSchedulerFinded] = deletedAppointmentInScheduler(
-      schedulers,
-      appointmentId,
-    );
+    const [newScheduler, ifSchedulerFinded] =
+      this.deletedAppointmentInScheduler(schedulers, appointmentId);
 
     if (!ifSchedulerFinded || !newScheduler)
       return [null, 400, 'scheduler dont exist'];
@@ -208,7 +206,6 @@ module.exports = class AppointmentUseCases {
     ]);
     const [softDeleteAppointment, softDeleteErr] = softDeleteAppointmentData;
     if (softDeleteErr) return [null, 404, softDeleteErr];
-    
     return [softDeleteAppointment, 200, null];
   };
 
