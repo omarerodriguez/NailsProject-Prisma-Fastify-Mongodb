@@ -6,7 +6,7 @@ const getFormatDate = (date, timezone, format) => {
   if (timezone) {
     currentDate.tz(timeZone);
   }
-  return format ? currentDate.format(format) : currentDate.toISOString();
+  return format ? currentDate.format(format) : currentDate.toISOString(true);
 };
 
 const addHour = (originalDate, hoursToAdd) => {
