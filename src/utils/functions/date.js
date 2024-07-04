@@ -1,12 +1,14 @@
-const { timeZone } = require('../const/timezone');
+const timeZone = require('../const/timezone');
 const moment = require('moment-timezone');
 
 const getFormatDate = (date, timezone, format) => {
   const currentDate = date ? moment(date) : moment();
-  if (timezone) {
+  if (!timezone) {
     currentDate.tz(timeZone);
   }
-  return format ? currentDate.format(format) : currentDate.toISOString(true);
+  return format
+    ? currentDate.format(format)
+    : currentDate.format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z';
 };
 
 const addHour = (originalDate, hoursToAdd) => {
